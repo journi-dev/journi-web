@@ -32,7 +32,7 @@ const lightTheme = createTheme({
     customBackgroundColor: {
       main: "#e7e7e7",
     },
-    customBorderColor: {
+    placeholderColor: {
       main: "#ffebd2",
     },
   },
@@ -80,7 +80,7 @@ const darkTheme = createTheme({
     customBackgroundColor: {
       main: "#2a2a2a",
     },
-    customBorderColor: {
+    placeholderColor: {
       main: "#2a2a2a",
     },
   },
@@ -133,36 +133,28 @@ function App() {
             <Box className="App">
               <Switch>
                 <Route exact path="/">
-                  {" "}
-                  <Home />{" "}
+                  <Home />
                 </Route>
                 <Route exact path="/announcements">
-                  {" "}
-                  <Announcements />{" "}
+                  <Announcements />
                 </Route>
                 <Route exact path="/promotions">
-                  {" "}
-                  <Promotions />{" "}
+                  <Promotions isDark={isDark} />
                 </Route>
                 <Route exact path="/analytics">
-                  {" "}
-                  <Analytics />{" "}
+                  <Analytics />
                 </Route>
                 <Route exact path="/social">
-                  {" "}
-                  <Social />{" "}
+                  <Social />
                 </Route>
                 <Route exact path="/support">
-                  {" "}
-                  <Support />{" "}
+                  <Support />
                 </Route>
                 <Route exact path="/settings">
-                  {" "}
-                  <Settings />{" "}
+                  <Settings />
                 </Route>
                 <Route exact path="*">
-                  {" "}
-                  <NotFound />{" "}
+                  <NotFound />
                 </Route>
               </Switch>
             </Box>

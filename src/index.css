@@ -24,15 +24,6 @@ avenir_nextultra_light, avenir_nextultra_light_italic
   /* Gecko Browsers */
 }
 
-/* body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -41,22 +32,6 @@ code {
 html, body {
   height: 100%;
 }
-
-/* .flex-parent {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
-
-/* .flex-child {
-  background-color: red;
-  width: 80vw;
-} */
-
-/* .text-centered {
-  text-align: center;
-} */
 
 .navbar {
   padding: 20px;
@@ -135,4 +110,58 @@ html, body {
   background: grey;
   /* delete for transparent background */
   margin-bottom: 30px;
+}
+
+.placeholder-light {
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='%23FFEBD2FF' stroke-width='7' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+  border-radius: 20px;
+  margin: 1em 0px;
+  padding: 2em 0px;
+}
+
+.placeholder-dark {
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='%232A2A2AFF' stroke-width='7' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
+  border-radius: 20px;
+  margin: 1em 0px;
+  padding: 2em 0px;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.flex-col-start {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  /* margin-bottom: 15px; */
+}
+
+.flex-row-start {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.child-container {
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+}
+
+.margin-auto-container {
+  width: auto;
+  display: flex;
+}
+
+.margin-auto-item {
+  margin: auto;
 }

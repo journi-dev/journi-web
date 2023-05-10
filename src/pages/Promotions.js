@@ -1,10 +1,26 @@
 import React, { useState } from "react";
 import { TabTitle } from "../utils/TabTitle";
 import { Box, Container, Modal, Typography } from "@mui/material";
-import { Add, Discount, Lightbulb } from "@mui/icons-material";
+import { Add, Discount } from "@mui/icons-material";
 import NewPromo from "../components/NewPromo";
 import { CustomButton } from "../components/CustomComponents";
 import { useTranslation } from "react-i18next";
+import { makeStyles } from "tss-react/mui";
+
+const useStyles = makeStyles()((theme) => {
+  return {
+    root: {
+      display: "flex",
+    },
+    marginAutoContainer: {
+      width: "auto",
+      display: "flex",
+    },
+    marginAutoItem: {
+      margin: "auto",
+    },
+  };
+});
 
 const newPromoStyle = {
   position: "absolute",
@@ -14,50 +30,57 @@ const newPromoStyle = {
   boxShadow: 24,
 };
 
-export default function Promotions() {
+export default function Promotions({ isDark }) {
   TabTitle("promotions");
   const { t } = useTranslation();
   const [openNewPromo, setOpenNewPromo] = useState(false);
+  const { classes } = useStyles();
 
   return (
-    <Box>
-      <Typography>{t("promotions")}</Typography>
-      <CustomButton
-        variant="contained"
-        startIcon={<Add />}
-        onClick={() => setOpenNewPromo(true)}
-      >
-        New Promo
-      </CustomButton>
-      <Modal open={openNewPromo} onClose={() => setOpenNewPromo(false)}>
-        <Box sx={newPromoStyle}>
-          <NewPromo />
-        </Box>
-      </Modal>
-      <Typography>Active Promotions</Typography>
-      <Container
-        sx={{
-          minHeight: 150,
-          width: 500,
-          borderRadius: 5,
-          borderColor: "customBorderColor.main",
-          borderStyle: "dashed",
-          my: 2,
-          userSelect: "none",
-          // color: "customBorderColor.main", TODO: make customBorderColor.dark and color to that... maybe rename to placeholderColor. And also make icons secondary color. and turn this sx into a class called placeholder but add it to css so everyone can use it
-        }}
-      >
-        <Discount />
-        <Typography>
-          You currently don't have any active promotions. Promotions are a great
-          way to attract and increase business!
-        </Typography>
-        <Typography>
-          {<Lightbulb />} Learn more about how to create and manage your
-          promotions.
-        </Typography>
-      </Container>
-      <Typography>Past Promotions</Typography>
-    </Box>
+    <div className={classes.root}>
+      <div className="flex-col">
+        <Typography>{t("promotions")}</Typography>
+        <CustomButton
+          variant="contained"
+          startIcon={<Add />}
+          onClick={() => setOpenNewPromo(true)}
+        >
+          New Promo
+        </CustomButton>
+        <Modal open={openNewPromo} onClose={() => setOpenNewPromo(false)}>
+          <Box sx={newPromoStyle}>
+            <NewPromo />
+          </Box>
+        </Modal>
+        <Typography>Active Promotions</Typography>
+
+        <Container
+          className={`flex-col ${
+            isDark ? "placeholder-dark" : "placeholder-light"
+          }`}
+          sx={{
+            width: "40vw",
+          }}
+
+          //   /* color: "customBorderColor.main",
+          // TODO: make customBorderColor.dark and color to that...
+          // maybe rename to placeholderColor. ✅
+          // And also make icons action color. ✅
+          // and turn this sx into a class called placeholder ✅
+          // but add it to css so everyone can use it */ ✅
+        >
+          <div className="flex-row">
+            <Discount color="action" fontSize="large" sx={{ mb: 1 }} />
+          </div>
+          <div className="flex-row">
+            <Typography textAlign="center">
+              You currently don't have any active promotions. Promotions are a
+              great way to attract and increase business!
+            </Typography>
+          </div>
+        </Container>
+        <Typography>Past Promotions</Typography>
+      </div>
+    </div>
   );
 }

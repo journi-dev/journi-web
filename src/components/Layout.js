@@ -57,7 +57,7 @@ import {
 import { CustomButton } from "./CustomComponents";
 
 const drawerWidth = 240;
-const footerHeight = 125;
+const footerHeight = 100;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -100,12 +100,18 @@ const CustomDrawer = styled(Drawer, {
 const useStyles = makeStyles()((theme) => {
   return {
     pageContainer: {
+      display: "flex",
+      flexFlow: "column",
       width: "100%",
-      height: `calc(100% - ${footerHeight}px)`,
+      minHeight: "100vh",
     },
-    page: {
-      // background: "#212121",
+    pageInnerContainer: {
+      display: "contents",
+    },
+    pageContent: {
       padding: theme.spacing(3),
+      flex: "1 1 auto",
+      height: "auto",
     },
     drawerOpen: {
       width: drawerWidth,
@@ -119,21 +125,12 @@ const useStyles = makeStyles()((theme) => {
     drawerPaperClose: {
       width: 0,
     },
-    footerOpen: {
-      width: `calc(100vw - ${drawerWidth}px)`,
-      height: footerHeight,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      // margin: theme.spacing(3),
-    },
-    footerClose: {
+    footer: {
       width: "100%",
-      height: footerHeight,
       display: "flex",
+      flex: `0 1 ${footerHeight}px`,
       flexDirection: "column",
       justifyContent: "center",
-      // margin: theme.spacing(3),
     },
     root: {
       display: "flex",
@@ -153,10 +150,11 @@ const useStyles = makeStyles()((theme) => {
     },
     appBarOpen: {
       width: `calc(100% - ${drawerWidth}px)`,
+      // flex: "0 1 auto",
     },
     appBarClose: {
       width: `calc(100% - ${theme.spacing(7)})`,
-      // width: "100%",
+      // flex: "0 1 auto",
     },
     toolbar: theme.mixins.toolbar,
     date: {
@@ -702,24 +700,17 @@ export default function Layout({ children, appearance, newAppearance }) {
       </CustomDrawer>
 
       {/* Page Content */}
-      <Box className={classes.flexColWithStart}>
-        <div className={classes.pageContainer}>
-          {/* Page Content */}
-          <div className={classes.page}>
-            <div className={classes.toolbar}></div>
-            {children}
-          </div>
+      <div className={classes.pageContainer}>
+        {/* Page Content */}
+        <div className={classes.pageContent}>
+          <div className={classes.toolbar}></div>
+          {children}
         </div>
 
         {/* Footer */}
-        <Paper
-          className={
-            isDrawerExpanded ? classes.footerOpen : classes.footerClose
-          }
-          elevation={0}
-        >
+        <Paper className={classes.footer} elevation={0} sx={{ mt: 1 }}>
           {/* Footer Menu */}
-          <Container className={classes.flexRow}>
+          <Box className={classes.flexRow}>
             <CustomButton size="small">
               <Typography variant="caption" color="text.primary">
                 {t("termsOfService")}
@@ -757,22 +748,22 @@ export default function Layout({ children, appearance, newAppearance }) {
                 {t("appearance")}: {t(appearance)}
               </Typography>
             </CustomButton>
-          </Container>
+          </Box>
 
           {/* Company Details */}
-          <Container className={classes.flexRow} sx={{ userSelect: "none" }}>
-            <Typography variant="caption">
+          <Box className={classes.flexRow} sx={{ userSelect: "none" }}>
+            <Typography variant="caption" sx={{ mr: 2 }}>
               &#169; {format(time, "yyyy")} Journi R&D
             </Typography>
-            <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-            <Code fontSize="small" />
+            {/* <Divider orientation="vertical" flexItem sx={{ mx: 1 }} /> */}
+            <Code fontSize="small" sx={{ ml: 2 }} />
             <Typography variant="caption" sx={{ mx: 1 }}>
               {t("with")}
             </Typography>
             <Favorite fontSize="small" />
-          </Container>
+          </Box>
         </Paper>
-      </Box>
+      </div>
     </div>
   );
 }

@@ -81,7 +81,7 @@ const useStyles = makeStyles()((theme) => {
       display: "flex",
       flexDirection: "row",
       justifyContent: "center",
-      margin: "0px 0px 15px 0px",
+      marginBottom: "15px",
     },
     flexRowWithStart: {
       display: "flex",
