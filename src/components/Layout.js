@@ -24,8 +24,6 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import format from "date-fns/format";
 import {
   Home,
-  Announcement,
-  Discount,
   BarChart,
   Share,
   Help,
@@ -44,6 +42,7 @@ import {
   // MenuRounded,
   ChevronLeft,
   ChevronRight,
+  Campaign,
 } from "@mui/icons-material";
 import { Box, IconButton } from "@mui/material";
 import { useState, useEffect } from "react";
@@ -308,14 +307,9 @@ export default function Layout({ children, appearance, newAppearance }) {
       path: "/",
     },
     {
-      text: "announcements",
-      icon: <Announcement color="primary" />,
-      path: "/announcements",
-    },
-    {
-      text: "promotions",
-      icon: <Discount color="primary" />,
-      path: "/promotions",
+      text: "updates",
+      icon: <Campaign color="primary" />,
+      path: "/updates",
     },
     {
       text: "analytics",

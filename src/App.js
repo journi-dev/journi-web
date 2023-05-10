@@ -2,8 +2,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ThemeProvider, createTheme, CssBaseline, Box } from "@mui/material";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
-import Announcements from "./pages/Announcements";
-import Promotions from "./pages/Promotions";
+import Updates from "./pages/Updates";
 import Analytics from "./pages/Analytics";
 import Social from "./pages/Social";
 import Support from "./pages/Support";
@@ -135,11 +134,8 @@ function App() {
                 <Route exact path="/">
                   <Home />
                 </Route>
-                <Route exact path="/announcements">
-                  <Announcements />
-                </Route>
-                <Route exact path="/promotions">
-                  <Promotions isDark={isDark} />
+                <Route exact path="/updates">
+                  <Updates isDark={isDark} />
                 </Route>
                 <Route exact path="/analytics">
                   <Analytics />

@@ -17,6 +17,7 @@ i18next
           // AppBar
           home: "Home",
           announcements: "Announcements",
+          updates: "Updates",
           promotions: "Promotions",
           analytics: "Analytics",
           social: "Social",
@@ -53,6 +54,7 @@ i18next
           // AppBar
           home: "Panel",
           announcements: "Anuncios",
+          updates: "Actualizaciones",
           promotions: "Promociones",
           analytics: "Analítica",
           social: "Social",

@@ -30,8 +30,8 @@ const newPromoStyle = {
   boxShadow: 24,
 };
 
-export default function Promotions({ isDark }) {
-  TabTitle("promotions");
+export default function Updates({ isDark }) {
+  TabTitle("updates");
   const { t } = useTranslation();
   const [openNewPromo, setOpenNewPromo] = useState(false);
   const { classes } = useStyles();
@@ -39,7 +39,9 @@ export default function Promotions({ isDark }) {
   return (
     <div className={classes.root}>
       <div className="flex-col">
+        <Typography>{t("updates")}</Typography>
         <Typography>{t("promotions")}</Typography>
+        <Typography>{t("announcements")}</Typography>
         <CustomButton
           variant="contained"
           startIcon={<Add />}
