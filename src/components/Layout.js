@@ -104,9 +104,6 @@ const useStyles = makeStyles()((theme) => {
       width: "100%",
       minHeight: "100vh",
     },
-    pageInnerContainer: {
-      display: "contents",
-    },
     pageContent: {
       padding: theme.spacing(3),
       flex: "1 1 auto",
@@ -746,11 +743,11 @@ export default function Layout({ children, appearance, newAppearance }) {
 
           {/* Company Details */}
           <Box className={classes.flexRow} sx={{ userSelect: "none" }}>
-            <Typography variant="caption" sx={{ mr: 2 }}>
+            <Typography variant="caption" sx={{ mr: 1 }}>
               &#169; {format(time, "yyyy")} Journi R&D
             </Typography>
             {/* <Divider orientation="vertical" flexItem sx={{ mx: 1 }} /> */}
-            <Code fontSize="small" sx={{ ml: 2 }} />
+            <Code fontSize="small" sx={{ ml: 1 }} />
             <Typography variant="caption" sx={{ mx: 1 }}>
               {t("with")}
             </Typography>

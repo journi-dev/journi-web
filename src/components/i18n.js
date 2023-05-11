@@ -16,8 +16,10 @@ i18next
         translation: {
           // AppBar
           home: "Home",
+          announcement: "Announcement",
           announcements: "Announcements",
           updates: "Updates",
+          promotion: "Promotion",
           promotions: "Promotions",
           analytics: "Analytics",
           social: "Social",
@@ -53,8 +55,10 @@ i18next
         translation: {
           // AppBar
           home: "Panel",
+          announcement: "Anuncio",
           announcements: "Anuncios",
           updates: "Actualizaciones",
+          promotion: "Promoción",
           promotions: "Promociones",
           analytics: "Analítica",
           social: "Social",

@@ -151,17 +151,27 @@ html, body {
   justify-content: flex-start;
 }
 
-.child-container {
-  width: auto;
-  height: auto;
-  margin: 0 auto;
+.flex-row-space {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* margin-bottom: 15px; */
 }
 
 .margin-auto-container {
   width: auto;
   display: flex;
+  background-color: yellow;
+}
+
+.child-container {
+  /* width: auto; */
+  /* height: auto; */
+  /* margin: 0 auto; */
+  background-color: red;
 }
 
 .margin-auto-item {
-  margin: auto;
+  margin: 0 auto;
+  background-color: green;
 }
