@@ -139,7 +139,7 @@ export default function Updates({ isDark }) {
               onClick={handleNewButtonClick}
               sx={{ borderRadius: 10 }}
             >
-              New
+              {t("new")}
             </CustomButton>
           </div>
 
@@ -178,7 +178,7 @@ export default function Updates({ isDark }) {
               </div>
               <div className="flex-row">
                 <Typography variant="h5" sx={{ my: 1 }}>
-                  Nothing to report yet!
+                  {t("nothingHereYet")}
                 </Typography>
               </div>
               <Typography textAlign="center">
@@ -211,7 +211,7 @@ export default function Updates({ isDark }) {
               </div>
               <div className="flex-row">
                 <Typography variant="h5" sx={{ my: 1 }}>
-                  Nothing to report yet!
+                  {t("nothingHereYet")}
                 </Typography>
               </div>
               <Typography textAlign="center">

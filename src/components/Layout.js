@@ -356,7 +356,13 @@ export default function Layout({ children, appearance, newAppearance }) {
             {isDrawerExpanded ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>
           <Typography className={classes.date}>
-            {format(time, "EEEE, MMMM d, Y")}
+            {t(format(time, "EEE").toLowerCase())},{" "}
+            {language.nativeName === "Spanish"
+              ? `${format(time, "d")} de `
+              : ""}
+            {t(format(time, "MMM").toLowerCase())}{" "}
+            {language.nativeName !== "Spanish" ? format(time, "d") : ""}
+            {t(format(time, "Y"))}
           </Typography>
           <Typography sx={{ mr: 2 }}>
             {time.getHours() < 12
