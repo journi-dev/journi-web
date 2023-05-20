@@ -80,6 +80,13 @@ i18next
           promoName: "Promo Name",
           promoCode: "Promo Code",
           promoDesc: "Description",
+          // Welcome
+          products: "Products",
+          pricing: "Pricing",
+          "about us": "About us",
+          logIn: "Log in",
+          signUp: "Sign up",
+          demo: "Demo",
         },
       },
       es: {
@@ -150,6 +157,13 @@ i18next
           promoName: "Nombre Promocional",
           promoCode: "Código Promocional",
           promoDesc: "Descripción",
+          // Welcome
+          products: "Productos",
+          pricing: "Precios",
+          "about us": "Sobre nosotros",
+          logIn: "Acceso",
+          signUp: "Inscribirse",
+          demo: "Manifestación",
         },
       },
     },

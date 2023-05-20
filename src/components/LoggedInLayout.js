@@ -188,7 +188,7 @@ const useStyles = makeStyles()((theme) => {
   };
 });
 
-export default function Layout({ children }) {
+export default function LoggedInLayout({ children }) {
   const { classes } = useStyles();
   const history = useHistory();
   const location = useLocation();

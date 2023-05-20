@@ -33,7 +33,7 @@ export default function Settings() {
         });
       });
     });
-  }, []);
+  });
 
   const [fileUpload, setFileUpload] = useState(null);
   const [imageList, setImageList] = useState([]);
@@ -47,7 +47,7 @@ export default function Settings() {
         <input type="file" onChange={(e) => setFileUpload(e.target.files[0])} />
         <button onClick={uploadFile}>Upload</button>
         {imageList.map((url) => {
-          return <img src={url} />;
+          return <img src={url} alt="" />;
         })}
       </div>
     </Box>

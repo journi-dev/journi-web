@@ -7,7 +7,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { /* collection, */ doc, setDoc } from "firebase/firestore";
 
 export default function Auth() {
   const [firstName, setFirstName] = useState("");
@@ -17,9 +17,9 @@ export default function Auth() {
 
   const dispatch = useDispatch();
 
-  const usersCollectionsRef = collection(db, "organizations/uncle-johns/users");
+  // const usersCollectionsRef = collection(db, "organizations/uncle-johns/users");
   const appearance = useSelector((state) => state.appearance.value);
-  const user = useSelector((state) => state.user.value);
+  // const user = useSelector((state) => state.user.value);
 
   const createFirebaseUser = async () => {
     try {

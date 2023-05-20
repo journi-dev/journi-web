@@ -106,7 +106,7 @@ export default function Updates({ isDark }) {
     };
 
     getPromotions();
-  }, []); // TODO: set dependency to be based on submit button in modal and delete buttons. Solve with prop drilling or Redux (ideally the latter)
+  }); // TODO: set dependency to be based on submit button in modal and delete buttons. Solve with prop drilling or Redux (ideally the latter)
 
   return (
     <div className={classes.root}>

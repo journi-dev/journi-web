@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ThemeProvider, createTheme, CssBaseline, Box } from "@mui/material";
-import Layout from "./components/Layout";
+import LoggedInLayout from "./components/LoggedInLayout";
 import Home from "./pages/Home";
 import Updates from "./pages/Updates";
 import Analytics from "./pages/Analytics";
@@ -14,6 +14,14 @@ import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
 import Auth from "./components/Auth";
 import Profile from "./components/Profile";
 import { useSelector } from "react-redux";
+import LoggedOutLayout from "./components/LoggedOutLayout";
+import Welcome from "./pages/Welcome";
+import Products from "./pages/Products";
+import Pricing from "./pages/Pricing";
+import AboutUs from "./pages/AboutUs";
+import LogIn from "./pages/LogIn";
+import SignUp from "./pages/SignUp";
+import Demo from "./pages/Demo";
 
 const lightTheme = createTheme({
   palette: {
@@ -31,11 +39,20 @@ const lightTheme = createTheme({
       // main: "#fe8a7e",
       main: "#ffc1b2",
     },
+    tertiary: {
+      main: "#c1554d",
+    },
+    welcomeAppBar: {
+      main: "#000000",
+    },
     customBackgroundColor: {
       main: "#e7e7e7",
     },
     placeholderColor: {
       main: "#ffebd2",
+    },
+    appBarButtonColor: {
+      main: "#fff",
     },
   },
   typography: {
@@ -61,9 +78,12 @@ const lightTheme = createTheme({
     h6: {
       fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
     },
-    variant1: {
+    caption: {
       fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-      color: "#fc6",
+    },
+    appBarText: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+      color: "#000",
     },
   },
 });
@@ -79,11 +99,20 @@ const darkTheme = createTheme({
       // main: "#fe8a7e",
       main: "#ffc1b2",
     },
+    tertiary: {
+      main: "#c1554d",
+    },
+    welcomeAppBar: {
+      main: "#000000",
+    },
     customBackgroundColor: {
       main: "#2a2a2a",
     },
     placeholderColor: {
       main: "#2a2a2a",
+    },
+    appBarButtonColor: {
+      main: "#fff",
     },
   },
   typography: {
@@ -109,9 +138,12 @@ const darkTheme = createTheme({
     h6: {
       fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
     },
-    variant1: {
+    caption: {
       fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-      color: "#fc6",
+    },
+    appBarText: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+      color: "#000",
     },
   },
 });
@@ -123,41 +155,74 @@ function App() {
       appearance === "system") ||
     appearance === "dark";
   const theme = isDark ? darkTheme : lightTheme;
+  const isLoggedIn = false;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <ThemeProvider theme={theme}>
         <CssBaseline></CssBaseline>
         <Router>
-          <Layout>
-            <Box className="App">
-              <Profile />
-              <Auth />
+          {!isLoggedIn && (
+            <LoggedOutLayout>
               <Switch>
                 <Route exact path="/">
-                  <Home />
+                  {isLoggedIn ? <Home /> : <Welcome />}
                 </Route>
-                <Route exact path="/updates">
-                  <Updates isDark={isDark} />
+                <Route exact path="/products">
+                  <Products />
                 </Route>
-                <Route exact path="/analytics">
-                  <Analytics />
+                <Route exact path="/pricing">
+                  <Pricing />
                 </Route>
-                <Route exact path="/social">
-                  <Social />
+                <Route exact path="/about">
+                  <AboutUs />
                 </Route>
-                <Route exact path="/support">
-                  <Support />
+                <Route exact path="/login">
+                  <LogIn />
                 </Route>
-                <Route exact path="/settings">
-                  <Settings />
+                <Route exact path="/signup">
+                  <SignUp />
+                </Route>
+                <Route exact path="/demo">
+                  <Demo />
                 </Route>
                 <Route exact path="*">
                   <NotFound />
                 </Route>
               </Switch>
-            </Box>
-          </Layout>
+            </LoggedOutLayout>
+          )}
+          {isLoggedIn && (
+            <LoggedInLayout>
+              <Box className="App">
+                <Profile />
+                <Auth />
+                <Switch>
+                  <Route exact path="/">
+                    {isLoggedIn ? <Home /> : <Welcome />}
+                  </Route>
+                  <Route exact path="/updates">
+                    <Updates isDark={isDark} />
+                  </Route>
+                  <Route exact path="/analytics">
+                    <Analytics />
+                  </Route>
+                  <Route exact path="/social">
+                    <Social />
+                  </Route>
+                  <Route exact path="/support">
+                    <Support />
+                  </Route>
+                  <Route exact path="/settings">
+                    <Settings />
+                  </Route>
+                  <Route exact path="*">
+                    <NotFound />
+                  </Route>
+                </Switch>
+              </Box>
+            </LoggedInLayout>
+          )}
         </Router>
       </ThemeProvider>
     </LocalizationProvider>
