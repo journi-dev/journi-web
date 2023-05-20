@@ -10,7 +10,10 @@ import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
-import { useState } from "react";
+// import { useState } from "react";
+import Auth from "./components/Auth";
+import Profile from "./components/Profile";
+import { useSelector } from "react-redux";
 
 const lightTheme = createTheme({
   palette: {
@@ -114,22 +117,22 @@ const darkTheme = createTheme({
 });
 
 function App() {
-  const [appearance, setAppearance] = useState("system");
+  const appearance = useSelector((state) => state.appearance.value);
   const isDark =
     (window.matchMedia("(prefers-color-scheme:dark)").matches &&
       appearance === "system") ||
     appearance === "dark";
   const theme = isDark ? darkTheme : lightTheme;
 
-  const handleNewAppearance = (item) => setAppearance(item);
-
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <ThemeProvider theme={theme}>
         <CssBaseline></CssBaseline>
         <Router>
-          <Layout appearance={appearance} newAppearance={handleNewAppearance}>
+          <Layout>
             <Box className="App">
+              <Profile />
+              <Auth />
               <Switch>
                 <Route exact path="/">
                   <Home />

@@ -54,6 +54,8 @@ import {
   SpanishFlag,
 } from "./CircleFlags";
 import { CustomButton } from "./CustomComponents";
+import { useDispatch, useSelector } from "react-redux";
+import { changeAppearance } from "../utils/redux/features/Appearance";
 
 const drawerWidth = 240;
 const footerHeight = 100;
@@ -186,10 +188,12 @@ const useStyles = makeStyles()((theme) => {
   };
 });
 
-export default function Layout({ children, appearance, newAppearance }) {
+export default function Layout({ children }) {
   const { classes } = useStyles();
   const history = useHistory();
   const location = useLocation();
+  const dispatch = useDispatch();
+  const appearance = useSelector((state) => state.appearance.value);
 
   const languages = {
     en: { name: "english", nativeName: "English", icon: <AmericanFlag /> },
@@ -578,8 +582,9 @@ export default function Layout({ children, appearance, newAppearance }) {
             key={mode}
             type="submit"
             onClick={() => {
+              dispatch(changeAppearance(appearances[mode].name));
+              // newAppearance(appearances[mode].name);
               handleClose3();
-              newAppearance(appearances[mode].name);
             }}
           >
             <ListItemIcon>{appearances[mode].icon}</ListItemIcon>

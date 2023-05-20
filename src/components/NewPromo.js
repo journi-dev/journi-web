@@ -51,6 +51,8 @@ import { makeStyles } from "tss-react/mui";
 import { useHistory } from "react-router-dom";
 import { CustomButton, CustomToggleButton } from "./CustomComponents";
 import { useTranslation } from "react-i18next";
+import { addDoc, collection } from "firebase/firestore";
+import { auth, db } from "../utils/Firebase";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -109,7 +111,7 @@ const useStyles = makeStyles()((theme) => {
   };
 });
 
-export default function AddPromo() {
+export default function AddPromo({ onSubmit, onClose }) {
   const [discountUnit, setDiscountUnit] = useState("dollar");
   const [discountType, setDiscountType] = useState("discount");
   const [discountAmt, setDiscountAmt] = useState(0);
@@ -200,6 +202,11 @@ export default function AddPromo() {
     "Buy some, get some",
   ];
 
+  const promotionsCollectionsRef = collection(
+    db,
+    "organizations/uncle-johns/promotions"
+  );
+
   // METHODS
 
   const handleDiscountUnit = (event, newDiscountUnit) => {
@@ -252,7 +259,7 @@ export default function AddPromo() {
     return result;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Prevents page from refreshing
     setPromoNameError(false);
     setPromoCodeError(false);
@@ -297,7 +304,22 @@ export default function AddPromo() {
         `Promo descriptions should be at least ${LENGTH_MIN} alphanumeric characters (i.e. A-Z, 0-9).`
       );
     }
-    history.push("/promotions");
+
+    try {
+      await addDoc(promotionsCollectionsRef, {
+        promoName,
+        promoCode,
+        promoDesc,
+        createdAt: new Date(),
+        userId: auth?.currentUser?.uid,
+      });
+
+      // onSubmit();
+      onClose();
+    } catch (err) {
+      console.error(err);
+    }
+    history.push("/updates");
   };
 
   // COMPONENTS

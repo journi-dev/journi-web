@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TabTitle } from "../utils/TabTitle";
 import {
   Box,
@@ -20,6 +20,14 @@ import NewPromo from "../components/NewPromo";
 import { CustomButton } from "../components/CustomComponents";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
+import { db } from "../utils/Firebase";
+import {
+  getDocs,
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -51,8 +59,14 @@ export default function Updates({ isDark }) {
   const [openNewPromo, setOpenNewPromo] = useState(false);
   const [openNewAnnouncement, setOpenNewAnnouncement] = useState(false);
   const [newButtonAnchor, setNewButtonAnchor] = useState(null);
+  const [promos, setPromos] = useState([]);
 
   const newButtonAnchorOpen = Boolean(newButtonAnchor);
+
+  const promotionsCollectionsRef = collection(
+    db,
+    "organizations/uncle-johns/promotions"
+  );
 
   const handleNewButtonClick = (e) => {
     setNewButtonAnchor(e.currentTarget);
@@ -61,6 +75,38 @@ export default function Updates({ isDark }) {
   const handleNewButtonClose = (e) => {
     setNewButtonAnchor(null);
   };
+
+  const handleNewPromoClose = () => setOpenNewPromo(false);
+
+  const deletePromotion = async (id) => {
+    const promoDoc = doc(db, "organizations/uncle-johns/promotions", id);
+    await deleteDoc(promoDoc);
+  };
+
+  const updatePromotion = async (id, newParams) => {
+    const promoDoc = doc(db, "organizations/uncle-johns/promotions", id);
+    await updateDoc(promoDoc, { ...newParams });
+  };
+
+  useEffect(() => {
+    const getPromotions = async () => {
+      // Read the data
+      // Set the promo list
+      try {
+        const data = await getDocs(promotionsCollectionsRef);
+        const filteredData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        // console.log(filteredData);
+        setPromos(filteredData);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    getPromotions();
+  }, []); // TODO: set dependency to be based on submit button in modal and delete buttons. Solve with prop drilling or Redux (ideally the latter)
 
   return (
     <div className={classes.root}>
@@ -143,7 +189,7 @@ export default function Updates({ isDark }) {
             </CustomButton>
           </div>
 
-          {/* New Announcement */}
+          {/* New Announcement Modal */}
           <Modal
             open={openNewAnnouncement}
             onClose={() => setOpenNewAnnouncement(false)}
@@ -154,16 +200,18 @@ export default function Updates({ isDark }) {
             </Box>
           </Modal>
 
-          {/* New Promo */}
-          <Modal open={openNewPromo} onClose={() => setOpenNewPromo(false)}>
+          {/* New Promo Modal */}
+          <Modal open={openNewPromo} onClose={handleNewPromoClose}>
             <Box sx={modalStyle}>
-              <NewPromo />
+              <NewPromo
+                // onSubmit={getPromotions}
+                onClose={handleNewPromoClose}
+              />
             </Box>
           </Modal>
 
-          <Typography variant="h5">Active & Upcoming Updates</Typography>
-
           {/* Active & Upcoming Updates Placeholder */}
+          <Typography variant="h5">Active & Upcoming Updates</Typography>
           <div className={classes.marginAutoItem}>
             <Container
               className={`flex-col ${
@@ -194,9 +242,24 @@ export default function Updates({ isDark }) {
             </Container>
           </div>
 
-          <Typography variant="h5">Past Updates</Typography>
+          <div>
+            {promos.map((promo) => (
+              <div>
+                <p>{promo.promoName}</p>
+                <p>{promo.promoCode}</p>
+                <p>{promo.promoDesc}</p>
+                <button onClick={() => deletePromotion(promo.id)}>
+                  Delete
+                </button>
+                <button onClick={() => updatePromotion(promo.id)}>
+                  Update
+                </button>
+              </div>
+            ))}
+          </div>
 
           {/* Past Updates Placeholder */}
+          <Typography variant="h5">Past Updates</Typography>
           <div className={classes.marginAutoItem}>
             <Container
               className={`flex-col ${

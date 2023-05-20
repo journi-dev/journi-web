@@ -1,89 +1,141 @@
 const functions = require("firebase-functions");
-const admin = require("firebase-admin");
-const firestore = require("@google-cloud/firestore");
+const {
+  createPromotion,
+  getPromotion,
+  getPromotions,
+  pinPromotion,
+  unpinPromotion,
+  deletePromotion,
+} = require("./handlers/promotions");
+const {
+  logIn,
+  signUp,
+  uploadImage,
+  addUserDetails,
+  getAuthenticatedUser,
+  getUserDetails,
+  markNotificationsRead,
+} = require("./handlers/users");
+const handleFirebaseAuth = require("./util/handleFirebaseAuth");
+const { db } = require("./util/admin");
 const app = require("express")();
 
-admin.initializeApp();
-const firebaseConfig = {
-  apiKey: "AIzaSyCxtHk0fBgQ6DVLVtMzgUByutDPo_Ld-pY",
-  authDomain: "journi-dev.firebaseapp.com",
-  projectId: "journi-dev",
-  storageBucket: "journi-dev.appspot.com",
-  messagingSenderId: "795283889160",
-  appId: "1:795283889160:web:4071acbd5e5bf855de85bd",
-  measurementId: "G-YMJS42P1GG",
-};
+// "Promotions" Routes
+app.post("/promotion", handleFirebaseAuth, createPromotion);
+app.get("/promotions", getPromotions);
+app.get("/promotion/:promotionId", getPromotion);
+app.delete("/promotion/:promotionId", handleFirebaseAuth, deletePromotion);
+app.get("/promotion/:promotionId/pin", handleFirebaseAuth, pinPromotion);
+app.get("/promotion/:promotionId/unpin", handleFirebaseAuth, unpinPromotion);
 
-// const firebase = require("firebase");
-// firebase.initializeApp(firebaseConfig);
-
-app.get("/promotions", (req, res) => {
-  admin
-    .firestore()
-    .collection("organizations/uncle-johns/promotions")
-    .orderBy("createdAt", "desc")
-    .get()
-    .then((data) => {
-      let promotions = [];
-      data.forEach((doc) => {
-        promotions.push({
-          promoId: doc.id,
-          promoName: doc.data().promoName,
-          promoDesc: doc.data().promoDesc,
-          promoCode: doc.data().promoCode,
-          createdAt: doc.data().createdAt,
-        });
-      });
-      return res.json(promotions);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-});
-
-app.post("/promotion", (req, res) => {
-  // const timestamp = firestore.FieldValue.serverTimestamp();
-  const newPromotion = {
-    promoName: req.body.promoName,
-    promoDesc: req.body.promoDesc,
-    promoCode: req.body.promoCode,
-    createdAt: new Date().toISOString(),
-  };
-
-  admin
-    .firestore()
-    .collection("organizations/uncle-johns/promotions")
-    .add(newPromotion)
-    .then((doc) => {
-      res.json({ message: `Document ${doc.id} created successfully` });
-    })
-    .catch((err) => {
-      res.status(500).json({ error: `Something went wrong` });
-      console.error(err);
-    });
-});
-
-// Signup route
-/* app.post("/signup", (req, res) => {
-  const newUser = {
-    email: req.body.email,
-    password: req.body.password,
-    confirmPassword: req.body.confirmPassword,
-  };
-
-  // TODO: Validate data
-  admin
-    .auth()
-    .createUserWithEmailAndPassword(newUser.email, newUser.password)
-    .then((data) => {
-      return res
-        .status(201)
-        .json({ message: `User ${data.user.uid} signed up successfully` })
-        .catch((err) => {
-          console.error(err);
-          return res.status(500).json({ error: err.code });
-        });
-    });
-}); */
+// "Users" Routes
+app.post("/login", logIn);
+app.post("/signup", signUp);
+app.post("/user", handleFirebaseAuth, addUserDetails);
+app.post("/user/avatar", handleFirebaseAuth, uploadImage);
+app.get("/user", handleFirebaseAuth, getAuthenticatedUser);
+app.get("/user/:username", getUserDetails);
+app.get("/notifications", handleFirebaseAuth, markNotificationsRead);
 
 exports.api = functions.https.onRequest(app);
+
+exports.createNotificationOnPin = functions.firestore
+  .document("organizations/uncle-johns/pinnedUpdates/{id}")
+  .onCreate((snapshot) => {
+    return db
+      .doc(
+        `/organizations/uncle-johns/promotions/${snapshot.data().promotionId}`
+      )
+      .get()
+      .then((doc) => {
+        if (doc.exists && doc.data().username !== snapshot.data().username) {
+          return db
+            .doc(`/organizations/uncle-johns/notifications/${snapshot.id}`)
+            .set({
+              recipient: doc.data().username,
+              sender: snapshot.data().username,
+              isRead: false,
+              promotionId: doc.id,
+              type: "pin",
+              createdAt: new Date(),
+            });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  });
+
+exports.deleteNotificationOnUnpin = functions.firestore
+  .document("organizations/uncle-johns/pinnedUpdates/{id}")
+  .onDelete((snapshot) => {
+    return db
+      .doc(`/organizations/uncle-johns/notifications/${snapshot.id}`)
+      .delete()
+      .catch((err) => {
+        console.error(err);
+        return;
+      });
+  });
+
+exports.onUserImageChange = functions.firestore
+  .document("/organizations/uncle-johns/users/{userId}")
+  .onUpdate((change) => {
+    console.log(change.before.data());
+    console.log(change.after.data());
+
+    if (change.before.data().imageUrl !== change.after.data().imageUrl) {
+      console.log("The user's profile image has changed.");
+      const batch = db.batch();
+
+      return db
+        .collection("organizations/uncle-johns/promotions")
+        .where("username", "==", change.before.data().username)
+        .get()
+        .then((data) => {
+          data.forEach((doc) => {
+            const promotion = db.doc(
+              `/organizations/uncle-johns/promotions/${doc.id}`
+            );
+            batch.update(promotion, {
+              userImage: change.after.data().imageUrl,
+            });
+          });
+        });
+    }
+  });
+
+exports.onPromotionDelete = functions.firestore
+  .document("/organizations/uncle-johns/promotions/{promotionId}")
+  .onDelete((snapshot, context) => {
+    const promotionId = context.params.promotionId;
+    const batch = db.batch();
+    return db
+      .collection("organizations/uncle-johns/pinnedUpdates")
+      .where("promotionId", "==", promotionId)
+      .get()
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(
+            db.doc(`/organizations/uncle-johns/pinnedUpdates/${doc.id}`)
+          );
+        });
+
+        return db
+          .collection("organizations/uncle-johns/notifications")
+          .where("promotionId", "==", promotionId)
+          .get();
+      })
+      .then((data) => {
+        data.forEach((doc) => {
+          batch.delete(
+            db.doc(`/organizations/uncle-johns/notifications/${doc.id}`)
+          );
+        });
+
+        return batch.commit();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  });
