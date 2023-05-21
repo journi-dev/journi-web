@@ -71,12 +71,15 @@ const lightTheme = createTheme({
     },
     /* h5: {
       fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
+    },
+    h6: {
+      fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
     }, */
     h5: {
       fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
     },
     h6: {
-      fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
+      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
     },
     caption: {
       fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
@@ -131,12 +134,15 @@ const darkTheme = createTheme({
     },
     /* h5: {
       fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
+    },
+    h6: {
+      fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
     }, */
     h5: {
       fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
     },
     h6: {
-      fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
+      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
     },
     caption: {
       fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
@@ -155,7 +161,7 @@ function App() {
       appearance === "system") ||
     appearance === "dark";
   const theme = isDark ? darkTheme : lightTheme;
-  const isLoggedIn = false;
+  const isLoggedIn = true;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

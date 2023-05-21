@@ -232,8 +232,6 @@ export default function LoggedOutLayout({ children }) {
         PaperProps={{
           elevation: 0,
           sx: {
-            width: 150,
-            overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
             "& .MuiAvatar-root": {
@@ -288,8 +286,6 @@ export default function LoggedOutLayout({ children }) {
         PaperProps={{
           elevation: 0,
           sx: {
-            width: 160,
-            overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
             "& .MuiAvatar-root": {

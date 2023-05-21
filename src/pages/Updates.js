@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { TabTitle } from "../utils/TabTitle";
 import {
   Box,
@@ -9,25 +9,12 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import {
-  Add,
-  Announcement,
-  Campaign,
-  Discount,
-  History,
-} from "@mui/icons-material";
+import { Add, Announcement, Discount, History } from "@mui/icons-material";
 import NewPromo from "../components/NewPromo";
 import { CustomButton } from "../components/CustomComponents";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
-import { db } from "../utils/Firebase";
-import {
-  getDocs,
-  collection,
-  deleteDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
+import PromotionCards from "../components/PromotionCards";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -59,14 +46,14 @@ export default function Updates({ isDark }) {
   const [openNewPromo, setOpenNewPromo] = useState(false);
   const [openNewAnnouncement, setOpenNewAnnouncement] = useState(false);
   const [newButtonAnchor, setNewButtonAnchor] = useState(null);
-  const [promos, setPromos] = useState([]);
+  // const [promos, setPromos] = useState([]);
 
   const newButtonAnchorOpen = Boolean(newButtonAnchor);
 
-  const promotionsCollectionsRef = collection(
+  /* const promotionsCollectionsRef = collection(
     db,
     "organizations/uncle-johns/promotions"
-  );
+  ); */
 
   const handleNewButtonClick = (e) => {
     setNewButtonAnchor(e.currentTarget);
@@ -78,17 +65,17 @@ export default function Updates({ isDark }) {
 
   const handleNewPromoClose = () => setOpenNewPromo(false);
 
-  const deletePromotion = async (id) => {
+  /* const deletePromotion = async (id) => {
     const promoDoc = doc(db, "organizations/uncle-johns/promotions", id);
     await deleteDoc(promoDoc);
-  };
+  }; */
 
-  const updatePromotion = async (id, newParams) => {
+  /* const updatePromotion = async (id, newParams) => {
     const promoDoc = doc(db, "organizations/uncle-johns/promotions", id);
     await updateDoc(promoDoc, { ...newParams });
-  };
+  }; */
 
-  useEffect(() => {
+  /* useEffect(() => {
     const getPromotions = async () => {
       // Read the data
       // Set the promo list
@@ -106,7 +93,7 @@ export default function Updates({ isDark }) {
     };
 
     getPromotions();
-  }); // TODO: set dependency to be based on submit button in modal and delete buttons. Solve with prop drilling or Redux (ideally the latter)
+  }); // TODO: set dependency to be based on submit button in modal and delete buttons. Solve with prop drilling or Redux (ideally the latter) */
 
   return (
     <div className={classes.root}>
@@ -119,8 +106,6 @@ export default function Updates({ isDark }) {
         PaperProps={{
           elevation: 0,
           sx: {
-            width: 175,
-            overflow: "visible",
             filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
             "& .MuiAvatar-root": {
@@ -178,7 +163,6 @@ export default function Updates({ isDark }) {
         <div className={classes.marginAutoItem}>
           <div className="flex-row-space">
             <Typography variant="h5">{t("updates")}</Typography>
-
             <CustomButton
               variant="contained"
               startIcon={<Add />}
@@ -212,51 +196,8 @@ export default function Updates({ isDark }) {
 
           {/* Active & Upcoming Updates Placeholder */}
           <Typography variant="h5">Active & Upcoming Updates</Typography>
-          <div className={classes.marginAutoItem}>
-            <Container
-              className={`flex-col ${
-                isDark ? "placeholder-dark" : "placeholder-light"
-              }`}
-              sx={{
-                width: "40vw",
-              }}
-            >
-              <div className="flex-row">
-                <Campaign color="action" fontSize="large" />
-              </div>
-              <div className="flex-row">
-                <Typography variant="h5" sx={{ my: 1 }}>
-                  {t("nothingHereYet")}
-                </Typography>
-              </div>
-              <Typography textAlign="center">
-                You currently don't have any active promotions or announcements.
-                Promotions are a great way to attract and increase business, and
-                announcements help keep your patrons informed!
-              </Typography>
-              <div className="flex-row">
-                <Typography textAlign="center" sx={{ mt: 1 }}>
-                  Try creating either one today!
-                </Typography>
-              </div>
-            </Container>
-          </div>
 
-          <div>
-            {promos.map((promo) => (
-              <div>
-                <p>{promo.promoName}</p>
-                <p>{promo.promoCode}</p>
-                <p>{promo.promoDesc}</p>
-                <button onClick={() => deletePromotion(promo.id)}>
-                  Delete
-                </button>
-                <button onClick={() => updatePromotion(promo.id)}>
-                  Update
-                </button>
-              </div>
-            ))}
-          </div>
+          <PromotionCards isDark={isDark} />
 
           {/* Past Updates Placeholder */}
           <Typography variant="h5">Past Updates</Typography>

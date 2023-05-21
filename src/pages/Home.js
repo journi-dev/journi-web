@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <Box>
       <Typography variant="h5">{t("home")}</Typography>
-      <Typography variant="h5">Active Promotions</Typography>
+      <Typography variant="h5">Pinned Updates</Typography>
       <Masonry
         breakpointCols={breakpoints}
         className="my-masonry-grid"

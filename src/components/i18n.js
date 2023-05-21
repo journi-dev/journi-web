@@ -80,6 +80,10 @@ i18next
           promoName: "Promo Name",
           promoCode: "Promo Code",
           promoDesc: "Description",
+          update: "Update",
+          copyPromoCode: "Copy promo code",
+          duplicate: "Duplicate",
+          delete: "Delete",
           // Welcome
           products: "Products",
           pricing: "Pricing",
@@ -157,6 +161,10 @@ i18next
           promoName: "Nombre Promocional",
           promoCode: "Código Promocional",
           promoDesc: "Descripción",
+          update: "Actualizar",
+          copyPromoCode: "Copiar código promocional",
+          duplicate: "Duplicar",
+          delete: "Eliminar",
           // Welcome
           products: "Productos",
           pricing: "Precios",
