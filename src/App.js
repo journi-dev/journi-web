@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ThemeProvider, createTheme, CssBaseline, Box } from "@mui/material";
-import LoggedInLayout from "./components/LoggedInLayout";
 import Home from "./pages/Home";
 import Updates from "./pages/Updates";
 import Analytics from "./pages/Analytics";
@@ -11,7 +10,6 @@ import NotFound from "./pages/NotFound";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
 import { useSelector } from "react-redux";
-import LoggedOutLayout from "./components/LoggedOutLayout";
 import Welcome from "./pages/Welcome";
 import Products from "./pages/Products";
 import Pricing from "./pages/Pricing";
@@ -21,6 +19,7 @@ import SignUp from "./pages/SignUp";
 import Demo from "./pages/Demo";
 import jwtDecode from "jwt-decode";
 import AuthRoute from "./utils/AuthRoute";
+import Layout from "./components/Layout";
 
 const lightThemeLoggedIn = createTheme({
   palette: {
@@ -152,7 +151,6 @@ const darkTheme = createTheme({
     },
   },
 });
-
 const lightThemeLoggedOut = createTheme({
   palette: {
     mode: "light",
@@ -222,18 +220,6 @@ const lightThemeLoggedOut = createTheme({
 });
 
 function App() {
-  const appearance = useSelector((state) => state.appearance.value);
-  const isDark =
-    (window.matchMedia("(prefers-color-scheme:dark)").matches &&
-      appearance === "system") ||
-    appearance === "dark";
-  const isLoggedIn = false;
-  const theme = isDark
-    ? darkTheme
-    : isLoggedIn
-    ? lightThemeLoggedIn
-    : lightThemeLoggedOut;
-
   let authenticated;
   const token = localStorage.FBIdToken;
   if (token) {
@@ -247,17 +233,44 @@ function App() {
     }
   }
 
+  const appearance = useSelector((state) => state.appearance.value);
+  const isDark =
+    (window.matchMedia("(prefers-color-scheme:dark)").matches &&
+      appearance === "system") ||
+    appearance === "dark";
+  const theme = isDark
+    ? darkTheme
+    : authenticated
+    ? lightThemeLoggedIn
+    : lightThemeLoggedOut;
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <ThemeProvider theme={theme}>
         <CssBaseline></CssBaseline>
         <Router>
-          {!isLoggedIn && (
-            <LoggedOutLayout>
+          <Layout authenticated={authenticated}>
+            <Box className="App">
               <Switch>
-                <Route exact path="/">
-                  {isLoggedIn ? <Home /> : <Welcome />}
+                {/* Home Route */}
+                <Route
+                  exact
+                  path="/"
+                  component={authenticated ? Home : Welcome}
+                />
+
+                {/* Logged In Routes */}
+                <Route exact path="/home" component={Home} />
+                <Route exact path="/updates">
+                  <Updates isDark={isDark} />
                 </Route>
+                <Route exact path="/analytics" component={Analytics} />
+                <Route exact path="/social" component={Social} />
+                <Route exact path="/support" component={Support} />
+                <Route exact path="/settings" component={Settings} />
+
+                {/* Logged Out Routes */}
+                <Route exact path="/welcome" component={Welcome} />
                 <Route exact path="/products" component={Products} />
                 <Route exact path="/pricing" component={Pricing} />
                 <Route exact path="/about" component={AboutUs} />
@@ -274,39 +287,12 @@ function App() {
                   authenticated={authenticated}
                 />
                 <Route exact path="/demo" component={Demo} />
+
+                {/* Not Found Route */}
                 <Route exact path="*" component={NotFound} />
               </Switch>
-            </LoggedOutLayout>
-          )}
-          {isLoggedIn && (
-            <LoggedInLayout>
-              <Box className="App">
-                <Switch>
-                  <Route exact path="/">
-                    {isLoggedIn ? <Home /> : <Welcome />}
-                  </Route>
-                  <Route exact path="/updates">
-                    <Updates isDark={isDark} />
-                  </Route>
-                  <Route exact path="/analytics">
-                    <Analytics />
-                  </Route>
-                  <Route exact path="/social">
-                    <Social />
-                  </Route>
-                  <Route exact path="/support">
-                    <Support />
-                  </Route>
-                  <Route exact path="/settings">
-                    <Settings />
-                  </Route>
-                  <Route exact path="*">
-                    <NotFound />
-                  </Route>
-                </Switch>
-              </Box>
-            </LoggedInLayout>
-          )}
+            </Box>
+          </Layout>
         </Router>
       </ThemeProvider>
     </LocalizationProvider>
