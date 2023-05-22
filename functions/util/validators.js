@@ -1,7 +1,8 @@
 const isEmail = (string) => {
   const emailRegEx =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return string.match(emailRegEx);
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  return Boolean(string.toLowerCase().match(emailRegEx));
 };
 
 const isEmpty = (string) => {
@@ -11,8 +12,10 @@ const isEmpty = (string) => {
 exports.validateLoginData = (data) => {
   let errors = {};
 
-  if (isEmpty(data.email)) errors.email = "This cannot not be empty.";
-  if (isEmpty(data.password)) errors.password = "This cannot not be empty.";
+  if (isEmpty(data.email)) errors.email = "Email required";
+  else if (!isEmail(data.email)) errors.email = "Please enter a valid email.";
+
+  if (isEmpty(data.password)) errors.password = "Password required";
 
   return {
     errors,
@@ -23,14 +26,13 @@ exports.validateLoginData = (data) => {
 exports.validateSignUpData = (data) => {
   let errors = {};
 
-  if (isEmpty(data.email)) errors.email = "This cannot not be empty.";
-  else if (!isEmail(data.email))
-    errors.email = "Must be a valid email address.";
+  if (isEmpty(data.email)) errors.email = "Email required";
+  else if (!isEmail(data.email)) errors.email = "Please enter a valid email.";
 
-  if (isEmpty(data.password)) errors.password = "This cannot not be empty.";
+  if (isEmpty(data.password)) errors.password = "Password required";
   if (data.password !== data.confirmPassword)
-    errors.confirmPassword = "Passwords must match.";
-  if (isEmpty(data.username)) errors.username = "This cannot not be empty.";
+    errors.confirmPassword = "Passwords must match";
+  if (isEmpty(data.username)) errors.username = "Username required";
 
   return {
     errors,

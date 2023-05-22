@@ -7,7 +7,6 @@ const {
   validateLoginData,
   validateSignUpData,
 } = require("../util/validators");
-const { response } = require("express");
 const firebaseApp = initializeApp(config);
 const firebaseAuth = getAuth(firebaseApp);
 
@@ -86,20 +85,19 @@ exports.logIn = (request, response) => {
   };
 
   const { valid, errors } = validateLoginData(user);
-  if (!valid) return response.json(400).json(errors);
+  if (!valid) return response.status(400).json({ errors });
 
   signInWithEmailAndPassword(firebaseAuth, user.email, user.password)
     .then((data) => {
       return data.user.getIdToken();
     })
     .then((token) => {
-      return response.json({ token });
+      return response.status(200).json({ token });
     })
     .catch((err) => {
-      console.error(err);
-      return response
-        .status(403)
-        .json({ general: "Wrong credentials... please try again!" });
+      return response.status(403).json({
+        credentials: "Invalid username or password. Please try again!",
+      });
     });
 };
 
@@ -115,7 +113,7 @@ exports.signUp = (request, response) => {
   };
 
   const { valid, errors } = validateSignUpData(newUser);
-  if (!valid) return response.json(400).json(errors);
+  if (!valid) return response.status(400).json({ errors });
 
   const noImg = "DefaultProfilePicture.jpg";
 
@@ -133,7 +131,7 @@ exports.signUp = (request, response) => {
           uid: newUser.username,
           email: newUser.email,
           emailVerified: false,
-          //   phoneNumber: newUser.phoneNumber,
+          // phoneNumber: newUser.phoneNumber,
           password: newUser.password,
           displayName: `${newUser.firstName} ${newUser.lastName}`,
           disabled: false,
@@ -149,7 +147,7 @@ exports.signUp = (request, response) => {
         displayName: user.displayName,
         email: user.email,
         emailVerified: user.emailVerified,
-        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`,
+        userImage: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`,
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         username: user.uid,
@@ -160,7 +158,17 @@ exports.signUp = (request, response) => {
         .set(userCredentials);
     })
     .then(() => {
-      return response.status(201).json({ user: "User successfully added!" });
+      return signInWithEmailAndPassword(
+        firebaseAuth,
+        newUser.email,
+        newUser.password
+      );
+    })
+    .then((data) => {
+      return data.user.getIdToken();
+    })
+    .then((token) => {
+      return response.status(201).json({ token });
     })
     .catch((err) => {
       console.error(err);
