@@ -1,3 +1,4 @@
+import { LoadingButton } from "@mui/lab";
 import { Button, styled, ToggleButtonGroup } from "@mui/material";
 
 export const CustomToggleButton = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -17,5 +18,9 @@ export const CustomToggleButton = styled(ToggleButtonGroup)(({ theme }) => ({
 }));
 
 export const CustomButton = styled(Button)({
+  textTransform: "none",
+});
+
+export const CustomLoadingButton = styled(LoadingButton)({
   textTransform: "none",
 });

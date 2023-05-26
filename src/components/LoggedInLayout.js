@@ -305,7 +305,8 @@ export default function LoggedInLayout({ children }) {
     {
       text: "home",
       icon: <Home color="primary" />,
-      path: "/",
+      path: "/home",
+      path2: "/",
     },
     {
       text: "updates",
@@ -615,7 +616,10 @@ export default function LoggedInLayout({ children }) {
               key={t(item.text)}
               onClick={() => history.push(item.path)}
               className={
-                location.pathname === item.path ? classes.active : null
+                location.pathname === item.path ||
+                (item.path2 && location.pathname === item.path2)
+                  ? classes.active
+                  : null
               }
             >
               <ListItemIcon>{item.icon}</ListItemIcon>
