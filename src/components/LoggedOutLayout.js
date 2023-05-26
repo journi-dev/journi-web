@@ -114,7 +114,7 @@ export default function LoggedOutLayout({ children }) {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
-  const appearance = useSelector((state) => state.appearance.value);
+  const appearance = useSelector((state) => state.appearance.value.mode);
 
   const languages = {
     en: { name: "english", nativeName: "English", icon: <AmericanFlag /> },
@@ -180,6 +180,7 @@ export default function LoggedOutLayout({ children }) {
           <Typography className={classes.appBarLeft}>Hello, World!</Typography>
           {appBarItems.map((item) => (
             <CustomButton
+              key={item.text}
               color={
                 location.pathname === item.path
                   ? "primary"

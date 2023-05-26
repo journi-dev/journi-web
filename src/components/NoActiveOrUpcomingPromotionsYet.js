@@ -1,8 +1,10 @@
 import { Campaign } from "@mui/icons-material";
 import { Container, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 
-export default function NoActiveOrUpcomingPromotionsYet({ isDark }) {
+export default function NoActiveOrUpcomingPromotionsYet() {
+  const isDark = useSelector((state) => state.appearance.value.isDark);
   const { t } = useTranslation();
   return (
     <div>

@@ -11,7 +11,7 @@ const breakpoints = {
   700: 1,
 };
 
-export default function PromotionCards({ isDark }) {
+export default function PromotionCards() {
   const [promotions, setPromotions] = useState([]);
   useEffect(() => {
     axios
@@ -42,7 +42,7 @@ export default function PromotionCards({ isDark }) {
           ))}
         </Masonry>
       ) : (
-        <NoActiveOrUpcomingPromotionsYet isDark={isDark} />
+        <NoActiveOrUpcomingPromotionsYet />
       )}
     </div>
   );

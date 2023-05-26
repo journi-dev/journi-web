@@ -1,5 +1,9 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ThemeProvider, createTheme, CssBaseline, Box } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
+import { useSelector, useDispatch } from "react-redux";
+import jwtDecode from "jwt-decode";
 import Home from "./pages/Home";
 import Updates from "./pages/Updates";
 import Analytics from "./pages/Analytics";
@@ -7,9 +11,6 @@ import Social from "./pages/Social";
 import Support from "./pages/Support";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
-import { useSelector } from "react-redux";
 import Welcome from "./pages/Welcome";
 import Products from "./pages/Products";
 import Pricing from "./pages/Pricing";
@@ -17,9 +18,9 @@ import AboutUs from "./pages/AboutUs";
 import LogIn from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
 import Demo from "./pages/Demo";
-import jwtDecode from "jwt-decode";
 import AuthRoute from "./utils/AuthRoute";
 import Layout from "./components/Layout";
+import { setAuthenticated } from "./utils/redux/features/User";
 
 const lightThemeLoggedIn = createTheme({
   palette: {
@@ -220,24 +221,21 @@ const lightThemeLoggedOut = createTheme({
 });
 
 function App() {
-  let authenticated;
+  let dispatch = useDispatch();
+  let authenticated = useSelector((state) => state.user.authenticated);
   const token = localStorage.FBIdToken;
   if (token) {
     const decodedToken = jwtDecode(token);
     if (decodedToken.exp * 1000 < Date.now()) {
-      // The token has expired.
-      window.location.href("/login");
-      authenticated = false;
+      // window.location.assign("/login"); // The token has expired.
+      // history.push("/login"); // The token has expired.
+      dispatch(setAuthenticated(false));
     } else {
-      authenticated = true;
+      dispatch(setAuthenticated(true));
     }
   }
 
-  const appearance = useSelector((state) => state.appearance.value);
-  const isDark =
-    (window.matchMedia("(prefers-color-scheme:dark)").matches &&
-      appearance === "system") ||
-    appearance === "dark";
+  const isDark = useSelector((state) => state.appearance.value.isDark);
   const theme = isDark
     ? darkTheme
     : authenticated
@@ -261,13 +259,32 @@ function App() {
 
                 {/* Logged In Routes */}
                 <Route exact path="/home" component={Home} />
-                <Route exact path="/updates">
-                  <Updates isDark={isDark} />
-                </Route>
-                <Route exact path="/analytics" component={Analytics} />
-                <Route exact path="/social" component={Social} />
-                <Route exact path="/support" component={Support} />
-                <Route exact path="/settings" component={Settings} />
+
+                <AuthRoute
+                  path="/updates"
+                  component={Updates}
+                  authenticated={!authenticated}
+                />
+                <AuthRoute
+                  path="/analytics"
+                  component={Analytics}
+                  authenticated={!authenticated}
+                />
+                <AuthRoute
+                  path="/social"
+                  component={Social}
+                  authenticated={!authenticated}
+                />
+                <AuthRoute
+                  path="/support"
+                  component={Support}
+                  authenticated={!authenticated}
+                />
+                <AuthRoute
+                  path="/settings"
+                  component={Settings}
+                  authenticated={!authenticated}
+                />
 
                 {/* Logged Out Routes */}
                 <Route exact path="/welcome" component={Welcome} />
@@ -275,16 +292,16 @@ function App() {
                 <Route exact path="/pricing" component={Pricing} />
                 <Route exact path="/about" component={AboutUs} />
                 <AuthRoute
-                  exact
                   path="/login"
                   component={LogIn}
                   authenticated={authenticated}
+                  redirectPath="/home"
                 />
                 <AuthRoute
-                  exact
                   path="/signup"
                   component={SignUp}
                   authenticated={authenticated}
+                  redirectPath="/home"
                 />
                 <Route exact path="/demo" component={Demo} />
 
