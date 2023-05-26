@@ -1,8 +1,10 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
 
-export default function AuthRoute({ children, authenticated, ...props }) {
+export default function AuthRoute({ authenticated, ...props }) {
   return (
-    <Route {...props}>{authenticated ? <Redirect to="/" /> : children}</Route>
+    <Route exact {...props}>
+      {authenticated && <Redirect to={authenticated ? "/home" : "/welcome"} />}
+    </Route>
   );
 }

@@ -1,25 +1,81 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const initialStateValue = {
-  firstName: "",
-  lastName: "",
-  displayName: "",
-  email: "",
-  password: "",
+const initialState = {
+  // displayName: "",
+  isLoading: false,
+  authenticated: false,
+  errors: {},
 };
 
 export const userSlice = createSlice({
   name: "user",
-  initialState: { value: initialStateValue },
+  initialState,
   reducers: {
-    createUser: (state, action) => {
-      state.value = action.payload;
+    reset: (state) => {
+      state = initialState;
     },
-    logOut: (state) => {
-      state.value = initialStateValue;
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
+    setAuthenticated: (state, action) => {
+      state.authenticated = action.payload;
+    },
+    setErrors: (state, action) => {
+      state.errors = action.payload;
     },
   },
 });
 
-export const { createUser, logOut } = userSlice.actions;
+export const { reset, setIsLoading, setAuthenticated, setErrors } =
+  userSlice.actions;
 export default userSlice.reducer;
+
+export const signUpUser = (newUserData, history) => (dispatch) => {
+  dispatch(setIsLoading(true));
+
+  axios
+    .post("/signup", newUserData)
+    .then((response) => {
+      console.log(response);
+      setAuthorizationHeader(response.data.token);
+      dispatch(setIsLoading(false));
+      dispatch(setAuthenticated(true));
+      history.push("/");
+    })
+    .catch((err) => {
+      console.error(err);
+      dispatch(setErrors(err.response.data.errors));
+      dispatch(setIsLoading(false));
+    });
+};
+
+export const logInUser = (userData, history) => (dispatch) => {
+  dispatch(setIsLoading(true));
+  axios
+    .post("/login", userData)
+    .then((response) => {
+      console.log(response);
+      setAuthorizationHeader(response.data.token);
+      dispatch(setIsLoading(false));
+      dispatch(setAuthenticated(true));
+      history.push("/home");
+    })
+    .catch((err) => {
+      console.error(err);
+      dispatch(setErrors(err.response.data.errors));
+      dispatch(setIsLoading(false));
+    });
+};
+
+export const logOutUser = (dispatch) => {
+  localStorage.removeItem("FBIdToken");
+  delete axios.defaults.headers.common["Authorization"];
+  dispatch(setAuthenticated(false));
+};
+
+const setAuthorizationHeader = (token) => {
+  const FBIdToken = `Bearer ${token}`;
+  localStorage.setItem("FBIdToken", FBIdToken);
+  axios.defaults.headers.common["Authorization"] = FBIdToken;
+};

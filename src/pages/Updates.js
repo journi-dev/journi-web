@@ -39,7 +39,7 @@ const modalStyle = {
   boxShadow: 24,
 };
 
-export default function Updates({ isDark }) {
+export default function Updates() {
   TabTitle("updates");
   const { classes } = useStyles();
   const { t } = useTranslation();
@@ -197,15 +197,13 @@ export default function Updates({ isDark }) {
           {/* Active & Upcoming Updates Placeholder */}
           <Typography variant="h5">Active & Upcoming Updates</Typography>
 
-          <PromotionCards isDark={isDark} />
+          <PromotionCards />
 
           {/* Past Updates Placeholder */}
           <Typography variant="h5">Past Updates</Typography>
           <div className={classes.marginAutoItem}>
             <Container
-              className={`flex-col ${
-                isDark ? "placeholder-dark" : "placeholder-light"
-              }`}
+              className="placeholder-light"
               sx={{
                 width: "40vw",
               }}

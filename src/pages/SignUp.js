@@ -1,12 +1,12 @@
 import { TabTitle } from "../utils/TabTitle";
 import { Paper, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-// import Auth from "../components/Auth";
 import { makeStyles } from "tss-react/mui";
 import { useTranslation } from "react-i18next";
 import { CustomLoadingButton } from "../components/CustomComponents";
-import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { signUpUser } from "../utils/redux/features/User";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -31,6 +31,7 @@ export default function SignUp() {
   TabTitle("signUp");
   const { classes } = useStyles();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const [firstName, setFirstName] = useState("");
@@ -39,42 +40,22 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+
+  const isLoading = useSelector((state) => state.user.isLoading);
+  const errors = useSelector((state) => state.user.errors);
 
   const handleSignup = (e) => {
     e.preventDefault();
-    setErrors({});
-    setIsLoading(true);
 
-    try {
-      const newUserData = {
-        email,
-        password,
-        confirmPassword,
-        firstName,
-        lastName,
-        username,
-      };
-      axios
-        .post("/signup", newUserData)
-        .then((response) => {
-          console.log(response);
-          localStorage.setItem("FBIdToken", `Bearer ${response.data.token}`);
-          setIsLoading(false);
-          if (response.data.token) {
-            history.push("/");
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          setErrors(err.response.data.errors);
-          setIsLoading(false);
-        });
-    } catch (err) {
-      console.error(err);
-    }
-    // }
+    const newUserData = {
+      email,
+      password,
+      confirmPassword,
+      firstName,
+      lastName,
+      username,
+    };
+    dispatch(signUpUser(newUserData, history));
   };
 
   return (

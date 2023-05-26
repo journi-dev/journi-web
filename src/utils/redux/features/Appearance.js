@@ -1,13 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialStateValue = "light";
+const initialStateValue = { mode: "light", isDark: false };
 
 export const appearanceSlice = createSlice({
   name: "appearance",
   initialState: { value: initialStateValue },
   reducers: {
     changeAppearance: (state, action) => {
-      state.value = action.payload;
+      state.value = {
+        ...state,
+        mode: action.payload,
+        isDark:
+          (window.matchMedia("(prefers-color-scheme:dark)").matches &&
+            action.payload === "system") ||
+          action.payload === "dark",
+      };
     },
   },
 });

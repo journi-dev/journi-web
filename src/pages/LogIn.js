@@ -1,12 +1,14 @@
 import { TabTitle } from "../utils/TabTitle";
-import { Paper, TextField, Typography } from "@mui/material";
+import Paper from "@mui/material/Paper";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import { useState } from "react";
-// import Auth from "../components/Auth";
 import { makeStyles } from "tss-react/mui";
 import { useTranslation } from "react-i18next";
 import { CustomLoadingButton } from "../components/CustomComponents";
-import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logInUser } from "../utils/redux/features/User";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -31,42 +33,18 @@ export default function LogIn() {
   TabTitle("logIn");
   const { classes } = useStyles();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.user.isLoading);
+  const errors = useSelector((state) => state.user.errors);
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setErrors({});
-    setIsLoading(true);
-
-    try {
-      const userData = {
-        email,
-        password,
-      };
-      axios
-        .post("/login", userData)
-        .then((response) => {
-          console.log(response);
-          localStorage.setItem("FBIdToken", `Bearer ${response.data.token}`);
-          setIsLoading(false);
-          if (response.data.token) {
-            history.push("/");
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          setErrors(err.response.data.errors);
-          setIsLoading(false);
-        });
-    } catch (err) {
-      console.error(err);
-    }
-    // }
+    const userData = { email, password };
+    dispatch(logInUser(userData, history));
   };
 
   return (

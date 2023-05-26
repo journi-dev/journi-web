@@ -56,6 +56,7 @@ import {
 import { CustomButton } from "./CustomComponents";
 import { useDispatch, useSelector } from "react-redux";
 import { changeAppearance } from "../utils/redux/features/Appearance";
+import { logOutUser } from "../utils/redux/features/User";
 
 const drawerWidth = 240;
 const footerHeight = 100;
@@ -193,7 +194,7 @@ export default function LoggedInLayout({ children }) {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
-  const appearance = useSelector((state) => state.appearance.value);
+  const appearance = useSelector((state) => state.appearance.value.mode);
 
   const languages = {
     en: { name: "english", nativeName: "English", icon: <AmericanFlag /> },
@@ -255,6 +256,12 @@ export default function LoggedInLayout({ children }) {
     setAnchorEl3(null);
   };
 
+  const handleLogOut = (e) => {
+    // e.preventDefault();
+    // dispatch(logOutUser());
+  };
+
+  // Time
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(new Date());
@@ -263,8 +270,16 @@ export default function LoggedInLayout({ children }) {
     return () => clearInterval(interval);
   }, []);
 
+  // Weather
   useEffect(() => {
     // const abortCont = new AbortController();
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(
+        `(${position.coords.latitude}, ${position.coords.longitude})`
+      );
+    });
+
     const [lat, lon, key] = [
       String(41.8781),
       String(-87.6298),
@@ -334,11 +349,18 @@ export default function LoggedInLayout({ children }) {
       text: "settings",
       icon: <Settings color="primary" />,
       path: "/settings",
+      action: () => {
+        console.log("Settings...");
+      },
     },
     {
       text: "logOut",
       icon: <Logout color="primary" />,
       path: "/welcome",
+      action: () => {
+        console.log("Logging out...");
+        // handleLogOut();
+      },
     },
   ];
 
@@ -634,7 +656,10 @@ export default function LoggedInLayout({ children }) {
             <ListItem
               button
               key={t(item.text)}
-              onClick={() => history.push(item.path)}
+              onClick={() => {
+                history.push(item.path);
+                item.action();
+              }}
               className={
                 location.pathname === item.path ? classes.active : null
               }
