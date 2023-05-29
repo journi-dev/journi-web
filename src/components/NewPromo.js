@@ -59,6 +59,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../utils/Firebase";
+import { updateArray } from "../utils/Helpers";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -137,7 +138,7 @@ export default function NewPromo({ onSubmit, onClose }) {
   const [discountType, setDiscountType] = useState("discount");
   const [discountAmt, setDiscountAmt] = useState(0);
 
-  const [promoSummary, setPromoSummary] = useState("");
+  const [promoSummary, setPromoSummary] = useState("Get $0 off your order!");
 
   const [promoName, setPromoName] = useState("");
   const [promoNameError, setPromoNameError] = useState(false);
@@ -242,10 +243,12 @@ export default function NewPromo({ onSubmit, onClose }) {
       `Get ${
         discountType === "discount"
           ? (discountUnit === "dollar"
-              ? formatter.format(discountAmt)
+              ? Number.isInteger(Number(discountAmt))
+                ? usdWholeDollarFormatter.format(Number(discountAmt))
+                : usdFormatter.format(discountAmt)
               : discountAmt + "%") + " off your order"
-          : "the entire order for " + formatter.format(discountAmt)
-      }${promoCode.length >= 3 ? "with the promo code " + promoCode : ""}!`
+          : "the entire order for " + usdFormatter.format(discountAmt)
+      }${promoCode.length >= 3 ? " with the promo code " + promoCode : ""}!`
     );
   };
 
@@ -283,22 +286,6 @@ export default function NewPromo({ onSubmit, onClose }) {
       }
     }
     return result;
-  };
-
-  const updateArray = (arr, target) => {
-    let set = new Set();
-    let allElements = [...arr, target];
-    for (const element of allElements) {
-      if (!set.has(element)) set.add(element);
-      else set.delete(element);
-    }
-
-    let result = [];
-    for (const value of set) {
-      result.push(value);
-    }
-
-    return result.sort();
   };
 
   const handleSubmit = async (e) => {
@@ -364,13 +351,15 @@ export default function NewPromo({ onSubmit, onClose }) {
     history.push("/updates");
   };
 
-  const formatter = new Intl.NumberFormat("en-US", {
+  const usdFormatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
+  });
 
-    // These options are needed to round to whole numbers if that's what you want.
-    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  const usdWholeDollarFormatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0,
   });
 
   // COMPONENTS
@@ -637,13 +626,15 @@ export default function NewPromo({ onSubmit, onClose }) {
           sx={{ mb: 2 }}
         >
           <Typography>{promoSummary}</Typography>
-          <IconButton
-            onClick={() => {
-              navigator.clipboard.writeText(promoSummary);
-            }}
-          >
-            <ContentCopy />
-          </IconButton>
+          {promoSummary.length > 0 && (
+            <IconButton
+              onClick={() => {
+                navigator.clipboard.writeText(promoSummary);
+              }}
+            >
+              <ContentCopy />
+            </IconButton>
+          )}
         </Box>
 
         {/* Promo Name, Code, and Description */}
@@ -766,6 +757,9 @@ export default function NewPromo({ onSubmit, onClose }) {
                       setIncludeTimes(e.target.checked);
                       if (promoStartDate && !includeTimes) {
                         promoStartDate.setHours(0, 0, 0);
+                      }
+                      if (promoEndDate && !includeTimes) {
+                        promoEndDate.setHours(0, 0, 0);
                       }
                     }}
                   />
