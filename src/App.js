@@ -39,6 +39,9 @@ const lightThemeLoggedIn = createTheme({
       main: "#ffc1b2",
     },
     tertiary: {
+      main: "#3399ff",
+    },
+    quaternary: {
       main: "#c1554d",
     },
     welcomeAppBar: {
