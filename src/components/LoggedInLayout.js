@@ -56,7 +56,7 @@ import {
 import { CustomButton } from "./CustomComponents";
 import { useDispatch, useSelector } from "react-redux";
 import { changeAppearance } from "../utils/redux/features/Appearance";
-import { logOutUser } from "../utils/redux/features/User";
+// import { logOutUser } from "../utils/redux/features/User";
 
 const drawerWidth = 240;
 const footerHeight = 100;
@@ -256,10 +256,10 @@ export default function LoggedInLayout({ children }) {
     setAnchorEl3(null);
   };
 
-  const handleLogOut = (e) => {
+  /* const handleLogOut = (e) => {
     // e.preventDefault();
     // dispatch(logOutUser());
-  };
+  }; */
 
   // Time
   useEffect(() => {
@@ -274,42 +274,56 @@ export default function LoggedInLayout({ children }) {
   useEffect(() => {
     // const abortCont = new AbortController();
 
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.log(
-        `(${position.coords.latitude}, ${position.coords.longitude})`
-      );
-    });
+    const getWeather = (lat, lon) => {
+      const key = "727b45bf8760b5807a8376e5b36b63b0";
+      const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units=imperial`;
+      setTimeout(() => {
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            // console.log(data);
+            setWeatherTemp(data.main.temp);
+            setWeatherDesc(data.weather[0].description);
+            setWeatherIcon(
+              `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+            );
+            setIsLoading(false);
+            setError(null);
+          })
+          .catch((err) => {
+            if (err.name === "AbortError") {
+              console.log("fetch aborted");
+            }
+            setError(err.message);
+            setIsLoading(false);
+          });
+      }, 1000);
+    };
 
-    const [lat, lon, key] = [
-      String(41.8781),
-      String(-87.6298),
-      "727b45bf8760b5807a8376e5b36b63b0",
-    ];
-    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units=imperial`;
-    setTimeout(() => {
-      fetch(url /* { signal: abortCont.signal } */)
-        .then((response) => response.json())
-        // .then((res) => {
-        //   if (!res.ok) throw Error("Error fetching data");
-        // })
-        .then((data) => {
-          // console.log(data);
-          setWeatherTemp(data.main.temp);
-          setWeatherDesc(data.weather[0].description);
-          setWeatherIcon(
-            `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
-          );
-          setIsLoading(false);
-          setError(null);
-        })
-        .catch((err) => {
-          if (err.name === "AbortError") {
-            console.log("fetch aborted");
-          }
-          setError(err.message);
-          setIsLoading(false);
-        });
-    }, 1000);
+    const options = {
+      enableHighAccuracy: false,
+      timeout: 5000,
+      maximumAge: 0,
+    };
+
+    const success = (position) => {
+      const coords = position.coords;
+      const [lat, lon] = [coords.latitude, coords.longitude];
+      console.log(
+        `Location access granted. Using user's coordinates (${lat}, ${lon}).`
+      );
+      getWeather(lat, lon);
+    };
+
+    const error = (err) => {
+      const [lat, lon] = [41.8781, -87.6298];
+      console.log(
+        `Error Code ${err.code}: ${err.message}. Using default coordinates (${lat}, ${lon}) instead.`
+      );
+      getWeather(lat, lon);
+    };
+
+    navigator.geolocation.getCurrentPosition(success, error, options);
 
     // return () => abortCont.abort();
   }, []); // time, Make it every 5 minutes instead?

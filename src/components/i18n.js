@@ -75,8 +75,17 @@ i18next
           // Updates
           new: "New",
           nothingHereYet: "Nothing here yet!",
+          blockoutDate: "Blockout date(s)",
+          // Announcements
+          newAnnouncement: "New Announcement",
+          announcementName: "Announcement Name",
+          announcementDesc: "Description",
+          addPhotos: "Add photos",
+          addPhotosDesc: "Click here or drag photos to upload.",
+          // Blockout Date(s)
+          newBlockoutDate: "New Blockout Date(s)",
           // Promotions
-          newPromo: "New Promo",
+          newPromo: "New Promotion",
           promoName: "Promo Name",
           promoCode: "Promo Code",
           promoDesc: "Description",
@@ -156,8 +165,17 @@ i18next
           // Updates
           new: "Nuevo",
           nothingHereYet: "¡Nada aquí todavía!",
+          blockoutDate: "Fecha bloqueada(s)",
+          // Announcements
+          newAnnouncement: "Nueva Anuncio",
+          announcementName: "Nombre del anuncio",
+          announcementDesc: "Descripción",
+          addPhotos: "Agregar fotos",
+          addPhotosDesc: "Haga clic aquí o arrastre las fotos para cargarlas.",
+          // Blockout Date(s)
+          newBlockoutDate: "Nueva Becha Bloqueada(s)",
           // Promotions
-          newPromo: "Nueva Promo",
+          newPromo: "Nueva Promocional",
           promoName: "Nombre Promocional",
           promoCode: "Código Promocional",
           promoDesc: "Descripción",

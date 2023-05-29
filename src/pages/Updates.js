@@ -9,7 +9,15 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import { Add, Announcement, Discount, History } from "@mui/icons-material";
+import {
+  Add,
+  Announcement,
+  Discount,
+  EventBusy,
+  History,
+} from "@mui/icons-material";
+import NewAnnouncement from "../components/NewAnnouncement";
+import NewBlockoutDates from "../components/NewBlockoutDates";
 import NewPromo from "../components/NewPromo";
 import { CustomButton } from "../components/CustomComponents";
 import { useTranslation } from "react-i18next";
@@ -43,8 +51,9 @@ export default function Updates() {
   TabTitle("updates");
   const { classes } = useStyles();
   const { t } = useTranslation();
-  const [openNewPromo, setOpenNewPromo] = useState(false);
   const [openNewAnnouncement, setOpenNewAnnouncement] = useState(false);
+  const [openNewBlockoutDates, setOpenNewBlockoutDates] = useState(false);
+  const [openNewPromo, setOpenNewPromo] = useState(false);
   const [newButtonAnchor, setNewButtonAnchor] = useState(null);
   // const [promos, setPromos] = useState([]);
 
@@ -59,10 +68,9 @@ export default function Updates() {
     setNewButtonAnchor(e.currentTarget);
   };
 
-  const handleNewButtonClose = (e) => {
-    setNewButtonAnchor(null);
-  };
-
+  const handleNewButtonClose = () => setNewButtonAnchor(null);
+  const handleNewAnnouncementClose = () => setOpenNewAnnouncement(false);
+  const handleNewBlockoutDatesClose = () => setOpenNewBlockoutDates(false);
   const handleNewPromoClose = () => setOpenNewPromo(false);
 
   /* const deletePromotion = async (id) => {
@@ -146,6 +154,19 @@ export default function Updates() {
         </MenuItem>
         <MenuItem
           dense
+          key="blockout-dates"
+          onClick={() => {
+            setOpenNewBlockoutDates(true);
+            handleNewButtonClose();
+          }}
+        >
+          <ListItemIcon>
+            <EventBusy />
+          </ListItemIcon>
+          {t("blockoutDate")}
+        </MenuItem>
+        <MenuItem
+          dense
           key="promotion"
           onClick={() => {
             setOpenNewPromo(true);
@@ -179,8 +200,23 @@ export default function Updates() {
             onClose={() => setOpenNewAnnouncement(false)}
           >
             <Box sx={modalStyle}>
-              <Typography textAlign="center">Coming soon!</Typography>
-              <Typography textAlign="center">Stay tuned!</Typography>
+              <NewAnnouncement
+                // onSubmit={getPromotions}
+                onClose={handleNewAnnouncementClose}
+              />
+            </Box>
+          </Modal>
+
+          {/* New Blockout Dates Modal */}
+          <Modal
+            open={openNewBlockoutDates}
+            onClose={() => setOpenNewBlockoutDates(false)}
+          >
+            <Box sx={modalStyle}>
+              <NewBlockoutDates
+                // onSubmit={getPromotions}
+                onClose={handleNewBlockoutDatesClose}
+              />
             </Box>
           </Modal>
 

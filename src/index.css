@@ -115,14 +115,14 @@ html, body {
 .placeholder-light {
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='%23FFEBD2FF' stroke-width='7' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   border-radius: 20px;
-  margin: 1em 0px;
+  /* margin: 1em 0px; */
   padding: 2em 0px;
 }
 
 .placeholder-dark {
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='%232A2A2AFF' stroke-width='7' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   border-radius: 20px;
-  margin: 1em 0px;
+  /* margin: 1em 0px; */
   padding: 2em 0px;
 }
 
@@ -136,6 +136,12 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+}
+
+.flex-col-space {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .flex-row {

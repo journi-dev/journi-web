@@ -28,6 +28,7 @@ import {
 import {
   AttachMoney,
   Close,
+  ContentCopy,
   // Done,
   ExpandMore,
   Facebook,
@@ -40,6 +41,7 @@ import {
   Save,
   Schedule,
   Twitter,
+  Visibility,
 } from "@mui/icons-material";
 import {
   MobileDatePicker,
@@ -49,7 +51,11 @@ import { format } from "date-fns";
 import { useState } from "react";
 import { makeStyles } from "tss-react/mui";
 import { useHistory } from "react-router-dom";
-import { CustomButton, CustomToggleButton } from "./CustomComponents";
+import {
+  CustomButton,
+  CustomToggleButton,
+  CustomToggleButtonGroup,
+} from "./CustomComponents";
 import { useTranslation } from "react-i18next";
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../utils/Firebase";
@@ -58,6 +64,9 @@ const useStyles = makeStyles()((theme) => {
   return {
     root: {
       display: "flex",
+    },
+    form: {
+      width: "100%",
     },
     toggleButtonGroup: {
       width: 30,
@@ -95,13 +104,25 @@ const useStyles = makeStyles()((theme) => {
       flexDirection: "row",
       justifyContent: "space-between",
     },
+    vAlignToTop: {
+      display: "flex",
+      alignItems: "start",
+    },
+    vAlignToCenter: {
+      display: "flex",
+      alignItems: "center",
+    },
+    vAlignToBottom: {
+      display: "flex",
+      alignItems: "end",
+    },
     blockRowWithStart: {
       display: "inline-block",
       // justifyContent: 'start',
       verticalAlign: "bottom",
     },
     title: {
-      padding: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
     },
     test: {
       border: (note) => {
@@ -111,10 +132,12 @@ const useStyles = makeStyles()((theme) => {
   };
 });
 
-export default function AddPromo({ onSubmit, onClose }) {
+export default function NewPromo({ onSubmit, onClose }) {
   const [discountUnit, setDiscountUnit] = useState("dollar");
   const [discountType, setDiscountType] = useState("discount");
   const [discountAmt, setDiscountAmt] = useState(0);
+
+  const [promoSummary, setPromoSummary] = useState("");
 
   const [promoName, setPromoName] = useState("");
   const [promoNameError, setPromoNameError] = useState(false);
@@ -209,12 +232,31 @@ export default function AddPromo({ onSubmit, onClose }) {
 
   // METHODS
 
+  const handlePromoSummary = (
+    discountType,
+    discountUnit,
+    discountAmt,
+    promoCode
+  ) => {
+    setPromoSummary(
+      `Get ${
+        discountType === "discount"
+          ? (discountUnit === "dollar"
+              ? formatter.format(discountAmt)
+              : discountAmt + "%") + " off your order"
+          : "the entire order for " + formatter.format(discountAmt)
+      }${promoCode.length >= 3 ? "with the promo code " + promoCode : ""}!`
+    );
+  };
+
   const handleDiscountUnit = (event, newDiscountUnit) => {
     setDiscountUnit(newDiscountUnit);
+    handlePromoSummary(discountType, newDiscountUnit, discountAmt, promoCode);
   };
 
   const handleDiscountType = (event, newDiscountType) => {
     setDiscountType(newDiscountType);
+    handlePromoSummary(newDiscountType, discountUnit, discountAmt, promoCode);
   };
 
   const detectSpecialCharacters = (string) => {
@@ -256,7 +298,7 @@ export default function AddPromo({ onSubmit, onClose }) {
       result.push(value);
     }
 
-    return result;
+    return result.sort();
   };
 
   const handleSubmit = async (e) => {
@@ -321,6 +363,15 @@ export default function AddPromo({ onSubmit, onClose }) {
     }
     history.push("/updates");
   };
+
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+
+    // These options are needed to round to whole numbers if that's what you want.
+    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
+    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
+  });
 
   // COMPONENTS
 
@@ -391,7 +442,7 @@ export default function AddPromo({ onSubmit, onClose }) {
       }}
     >
       {/* Discount Unit Selection */}
-      <CustomToggleButton
+      <CustomToggleButtonGroup
         color="primary"
         size="small"
         value={discountUnit}
@@ -406,12 +457,12 @@ export default function AddPromo({ onSubmit, onClose }) {
         <ToggleButton value="percent" aria-label="percent">
           <Percent />
         </ToggleButton>
-      </CustomToggleButton>
+      </CustomToggleButtonGroup>
 
       <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
 
       {/* Discount Type Selection */}
-      <CustomToggleButton
+      <CustomToggleButtonGroup
         color="primary"
         size="small"
         value={discountType}
@@ -420,17 +471,17 @@ export default function AddPromo({ onSubmit, onClose }) {
         aria-label="discount-type"
         sx={{ height: 30 }}
       >
-        <ToggleButton value="discount" aria-label="discount">
-          Discount
-        </ToggleButton>
-        <ToggleButton
+        <CustomToggleButton value="discount" aria-label="discount">
+          <Typography>Discount</Typography>
+        </CustomToggleButton>
+        <CustomToggleButton
           value="subtotal"
           aria-label="subtotal"
           disabled={discountUnit !== "dollar"}
         >
-          Subtotal
-        </ToggleButton>
-      </CustomToggleButton>
+          <Typography>Subtotal</Typography>
+        </CustomToggleButton>
+      </CustomToggleButtonGroup>
     </Paper>
   );
 
@@ -511,21 +562,30 @@ export default function AddPromo({ onSubmit, onClose }) {
         overflow: "auto",
       }}
     >
-      <form noValidate autoComplete="off" onSubmit={handleSubmit}>
+      <form
+        className={classes.form}
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit}
+      >
         {/* "New Promo" Row */}
-        <div className={classes.flexRow}>
+        <Box
+          className={`${classes.flexRowWithSpace} ${classes.vAlignToCenter}`}
+          // sx={{ mb: 2 }}
+        >
           <Typography variant="h5" sx={{ userSelect: "none" }}>
             {t("newPromo")}
           </Typography>
+
           {promoMenu}
 
           {/* Discount Amount */}
           <div>
-            <Typography
+            {/* <Typography
               sx={{ display: "inline-block", verticalAlign: "middle", mr: 1 }}
             >
-              Enter Amount:
-            </Typography>
+              Amount:
+            </Typography> */}
             <FormControl
               fullWidth
               sx={{
@@ -553,15 +613,46 @@ export default function AddPromo({ onSubmit, onClose }) {
                   sx: { textAlign: "center" },
                 }}
                 value={discountAmt}
-                onChange={(e) => setDiscountAmt(e.target.value)}
+                onChange={(e) => {
+                  setDiscountAmt(e.target.value);
+                  handlePromoSummary(
+                    discountType,
+                    discountUnit,
+                    e.target.value,
+                    promoCode
+                  );
+                }}
               />
             </FormControl>
           </div>
-        </div>
+
+          <IconButton>
+            <Close />
+          </IconButton>
+        </Box>
+
+        {/* Promo Summary */}
+        <Box
+          className={`${classes.flexRowWithStart} ${classes.vAlignToCenter}`}
+          sx={{ mb: 2 }}
+        >
+          <Typography>{promoSummary}</Typography>
+          <IconButton
+            onClick={() => {
+              navigator.clipboard.writeText(promoSummary);
+            }}
+          >
+            <ContentCopy />
+          </IconButton>
+        </Box>
 
         {/* Promo Name, Code, and Description */}
         <div className={classes.flexRow}>
-          <Container className={classes.flexColWithStart} sx={{ width: "40%" }}>
+          {/* Promo Name and Code */}
+          <Box
+            className={classes.flexColWithStart}
+            sx={{ width: "40%", mr: 3 }}
+          >
             <TextField
               sx={{ mb: 2 }}
               label={t("promoName")}
@@ -579,12 +670,21 @@ export default function AddPromo({ onSubmit, onClose }) {
               placeholder="(e.g. FIRSTORDER)"
               required
               value={promoCode}
-              onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+              onChange={(e) => {
+                setPromoCode(e.target.value.toUpperCase());
+                handlePromoSummary(
+                  discountType,
+                  discountUnit,
+                  discountAmt,
+                  e.target.value
+                );
+              }}
               error={promoCodeError}
               helperText={promoCodeHelperText}
             />
-          </Container>
+          </Box>
 
+          {/* Promo Description */}
           <TextField
             className={classes.flexColWithStart}
             sx={{ width: "60%" }}
@@ -603,7 +703,10 @@ export default function AddPromo({ onSubmit, onClose }) {
 
         {/* Promo Date Range and Checkboxes */}
         <div className={classes.flexRow}>
-          <Container className={classes.flexRowWithSpace} sx={{ width: "60%" }}>
+          <Box
+            className={classes.flexRowWithSpace}
+            sx={{ width: "60%", pr: 5 }}
+          >
             {!includeTimes && (
               <MobileDatePicker
                 sx={{ mr: 1 }}
@@ -640,8 +743,8 @@ export default function AddPromo({ onSubmit, onClose }) {
                 onChange={(e) => setPromoEndDate(e)}
               />
             )}
-          </Container>
-          <Container className={classes.flexColWithStart} sx={{ width: "40%" }}>
+          </Box>
+          <Box className={classes.flexColWithStart} sx={{ width: "40%" }}>
             <FormGroup row>
               <FormControlLabel
                 control={
@@ -670,7 +773,7 @@ export default function AddPromo({ onSubmit, onClose }) {
                 label="Include times"
               />
             </FormGroup>
-          </Container>
+          </Box>
         </div>
 
         <Accordion>
@@ -1131,21 +1234,22 @@ export default function AddPromo({ onSubmit, onClose }) {
 
         <Container className={classes.flexRow}>
           <CustomButton
-            variant="outlined"
-            color="error"
-            startIcon={<Close />}
+            variant="contained"
+            color="action"
+            endIcon={<Visibility />}
             sx={{ mt: 2, mx: 2 }}
           >
-            Cancel
+            Preview
           </CustomButton>
 
           <CustomButton
-            variant="outlined"
+            variant="contained"
+            color="secondary"
             endIcon={<Save />}
             type="submit"
             sx={{ mt: 2, mx: 2 }}
           >
-            {promoStartDate <= new Date() ? "Save Draft" : "Schedule Promo"}
+            Save Draft
           </CustomButton>
 
           <CustomButton
