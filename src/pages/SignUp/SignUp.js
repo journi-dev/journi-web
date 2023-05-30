@@ -1,12 +1,12 @@
-import { TabTitle } from "../utils/TabTitle";
+import { TabTitle } from "../../utils/TabTitle";
 import { Paper, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { makeStyles } from "tss-react/mui";
 import { useTranslation } from "react-i18next";
-import { CustomLoadingButton } from "../components/CustomComponents";
+import { CustomLoadingButton } from "../../components/ui/CustomComponents";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signUpUser } from "../utils/redux/features/User";
+import { signUpUser } from "../../context/features/User";
 
 const useStyles = makeStyles()((theme) => {
   return {

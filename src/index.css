@@ -1,4 +1,4 @@
-@import "/src/avenir-next-webfontkit/stylesheet.css";
+@import "/src/assets/fonts/avenir-next-webfontkit/stylesheet.css";
 
 /*
 avenir_nextheavy, avenir_nextheavy_italic
@@ -16,12 +16,14 @@ avenir_nextultra_light, avenir_nextultra_light_italic
 
 ::selection {
   background: #ffc1b2;
-  /* WebKit/Blink Browsers */
+  color: #000;
+  /* ::selection -> WebKit/Blink Browsers */
 }
 
 ::-moz-selection {
   background: #ffc1b2;
-  /* Gecko Browsers */
+  color: #000;
+  /* ::-moz-selection -> Gecko Browsers */
 }
 
 code {
@@ -68,12 +70,12 @@ html, body {
 }
 
 .logo-compressed {
-  background: url("./img/boltLogo192.png") no-repeat;
+  background: url("./assets/images/logo/boltLogo192.png") no-repeat;
   width: 30px;
 }
 
 .logo-expanded {
-  background: url("./img/fullLogoFilled192.png") no-repeat;
+  background: url("./assets/images/logo/fullLogoFilled192.png") no-repeat;
   width: 240px;
 }
 

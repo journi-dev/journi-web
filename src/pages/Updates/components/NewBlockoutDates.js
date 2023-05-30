@@ -27,13 +27,13 @@ import { MobileDatePicker, MobileDateTimePicker } from "@mui/x-date-pickers";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
-import { updateArray } from "../utils/Helpers";
-import Doordash from "./icons/Doordash";
+import { updateArray } from "../../../utils/Helpers";
+import Doordash from "../../../components/icons/Doordash";
 import {
   CustomButton,
   CustomToggleButton,
   CustomToggleButtonGroup,
-} from "./CustomComponents";
+} from "../../../components/ui/CustomComponents";
 
 const useStyles = makeStyles()((theme) => {
   return {

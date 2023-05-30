@@ -1,8 +1,8 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import Masonry from "react-masonry-css";
-import Orders from "../components/Orders";
-import { TabTitle } from "../utils/TabTitle";
+import Orders from "./components/Orders";
+import { TabTitle } from "../../utils/TabTitle";
 import { useTranslation } from "react-i18next";
 // import { makeStyles } from '@mui/material';
 

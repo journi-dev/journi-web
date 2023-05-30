@@ -28,10 +28,10 @@ import {
   // ChineseFlag,
   // PolishFlag,
   SpanishFlag,
-} from "./CircleFlags";
+} from "../icons/CircleFlags";
 import { CustomButton } from "./CustomComponents";
 import { useDispatch, useSelector } from "react-redux";
-import { changeAppearance } from "../utils/redux/features/Appearance";
+import { changeAppearance } from "../../context/features/Appearance";
 
 const footerHeight = 100;
 

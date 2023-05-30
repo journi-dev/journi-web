@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createUser, logOut } from "../utils/redux/features/User";
-import { auth, db, googleProvider } from "../utils/Firebase";
+import { auth, db, googleProvider } from "../../../utils/Firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithPopup,

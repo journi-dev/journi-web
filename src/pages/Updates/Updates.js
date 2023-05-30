@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TabTitle } from "../utils/TabTitle";
+import { TabTitle } from "../../utils/TabTitle";
 import {
   Box,
   Container,
@@ -16,13 +16,13 @@ import {
   EventBusy,
   History,
 } from "@mui/icons-material";
-import NewAnnouncement from "../components/NewAnnouncement";
-import NewBlockoutDates from "../components/NewBlockoutDates";
-import NewPromo from "../components/NewPromo";
-import { CustomButton } from "../components/CustomComponents";
+import NewAnnouncement from "./components/NewAnnouncement";
+import NewBlockoutDates from "./components/NewBlockoutDates";
+import NewPromo from "./components/NewPromo";
+import { CustomButton } from "../../components/ui/CustomComponents";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
-import PromotionCards from "../components/PromotionCards";
+import PromotionCards from "./components/PromotionCards";
 
 const useStyles = makeStyles()((theme) => {
   return {

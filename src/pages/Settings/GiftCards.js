@@ -36,7 +36,7 @@ const marks = [
   },
 ];
 
-export default function GiftCardSettings() {
+export default function GiftCards() {
   const [enableGiftCards, setEnableGiftCards] = useState(true);
   const [codeLength, setCodeLength] = useState(12);
   const [codeType, setCodeType] = useState("");

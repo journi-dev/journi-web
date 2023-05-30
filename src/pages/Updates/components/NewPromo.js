@@ -55,11 +55,11 @@ import {
   CustomButton,
   CustomToggleButton,
   CustomToggleButtonGroup,
-} from "./CustomComponents";
+} from "../../../components/ui/CustomComponents";
 import { useTranslation } from "react-i18next";
 import { addDoc, collection } from "firebase/firestore";
-import { auth, db } from "../utils/Firebase";
-import { updateArray } from "../utils/Helpers";
+import { auth, db } from "../../../utils/Firebase";
+import { updateArray } from "../../../utils/Helpers";
 
 const useStyles = makeStyles()((theme) => {
   return {

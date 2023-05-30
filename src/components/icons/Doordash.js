@@ -1,7 +1,7 @@
 import React from "react";
 import { SvgIcon } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
-import { ReactComponent as DoordashIcon } from "../../img/Doordash.svg";
+import { ReactComponent as DoordashIcon } from "../../assets/images/icons/Doordash.svg";
 
 const useStyles = makeStyles()((theme) => {
   return {

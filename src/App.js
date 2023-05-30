@@ -4,23 +4,32 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
 import { useSelector, useDispatch } from "react-redux";
 import jwtDecode from "jwt-decode";
-import Home from "./pages/Home";
-import Updates from "./pages/Updates";
-import Analytics from "./pages/Analytics";
-import Social from "./pages/Social";
-import Support from "./pages/Support";
-import Settings from "./pages/Settings";
-import NotFound from "./pages/NotFound";
-import Welcome from "./pages/Welcome";
-import Products from "./pages/Products";
-import Pricing from "./pages/Pricing";
-import AboutUs from "./pages/AboutUs";
-import LogIn from "./pages/LogIn";
-import SignUp from "./pages/SignUp";
-import Demo from "./pages/Demo";
+import Home from "./pages/Home/Home";
+import Updates from "./pages/Updates/Updates";
+import Analytics from "./pages/Analytics/Analytics";
+import Social from "./pages/Social/Social";
+import Support from "./pages/Support/Support";
+import Settings from "./pages/Settings/Settings";
+import NotFound from "./pages/Error/NotFound";
+import Welcome from "./pages/Welcome/Welcome";
+import Products from "./pages/Products/Products";
+import Pricing from "./pages/Pricing/Pricing";
+import AboutUs from "./pages/AboutUs/AboutUs";
+import LogIn from "./pages/LogIn/LogIn";
+import SignUp from "./pages/SignUp/SignUp";
+import Demo from "./pages/Demo/Demo";
 import AuthRoute from "./utils/AuthRoute";
-import Layout from "./components/Layout";
-import { setAuthenticated } from "./utils/redux/features/User";
+import Layout from "./components/ui/Layout";
+import { setAuthenticated } from "./context/features/User";
+import BusinessInfo from "./pages/Settings/BusinessInfo";
+import Menu from "./pages/Settings/Menu";
+import UsersAndPatrons from "./pages/Settings/UsersAndPatrons";
+import AppAndWebsite from "./pages/Settings/AppAndWebsite";
+import Integrations from "./pages/Settings/Integrations";
+import GiftCards from "./pages/Settings/GiftCards";
+import Billing from "./pages/Settings/Billing";
+import Developers from "./pages/Settings/Developers";
+import MyAccount from "./pages/Settings/MyAccount";
 
 const lightThemeLoggedIn = createTheme({
   palette: {
@@ -286,6 +295,60 @@ function App() {
                 <AuthRoute
                   path="/settings"
                   component={Settings}
+                  authenticated={!authenticated}
+                />
+
+                <AuthRoute
+                  path="/settings/business-info"
+                  component={BusinessInfo}
+                  authenticated={!authenticated}
+                />
+
+                <AuthRoute
+                  path="/settings/menu"
+                  component={Menu}
+                  authenticated={!authenticated}
+                />
+
+                <AuthRoute
+                  path="/settings/users"
+                  component={UsersAndPatrons}
+                  authenticated={!authenticated}
+                />
+
+                <AuthRoute
+                  path="/settings/my-app"
+                  component={AppAndWebsite}
+                  authenticated={!authenticated}
+                />
+
+                <AuthRoute
+                  path="/settings/integrations"
+                  component={Integrations}
+                  authenticated={!authenticated}
+                />
+
+                <AuthRoute
+                  path="/settings/gift-cards"
+                  component={GiftCards}
+                  authenticated={!authenticated}
+                />
+
+                <AuthRoute
+                  path="/settings/billing"
+                  component={Billing}
+                  authenticated={!authenticated}
+                />
+
+                <AuthRoute
+                  path="/settings/developers"
+                  component={Developers}
+                  authenticated={!authenticated}
+                />
+
+                <AuthRoute
+                  path="/settings/my-account"
+                  component={MyAccount}
                   authenticated={!authenticated}
                 />
 
