@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  // Routes,
+  Route,
+  Switch,
+} from "react-router-dom";
 import { ThemeProvider, createTheme, CssBaseline, Box } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
@@ -65,6 +70,9 @@ const lightThemeLoggedIn = createTheme({
     appBarButtonColor: {
       main: "#fff",
     },
+    iconButton: {
+      main: "#fff",
+    },
   },
   typography: {
     fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
@@ -114,6 +122,9 @@ const darkTheme = createTheme({
       main: "#ffc1b2",
     },
     tertiary: {
+      main: "#3399ff",
+    },
+    quaternary: {
       main: "#c1554d",
     },
     welcomeAppBar: {
@@ -126,6 +137,9 @@ const darkTheme = createTheme({
       main: "#2a2a2a",
     },
     appBarButtonColor: {
+      main: "#fff",
+    },
+    iconButton: {
       main: "#fff",
     },
   },
@@ -292,65 +306,67 @@ function App() {
                   component={Support}
                   authenticated={!authenticated}
                 />
+
+                {/* Settings Route and Subroutes */}
                 <AuthRoute
                   path="/settings"
                   component={Settings}
                   authenticated={!authenticated}
-                />
+                >
+                  <AuthRoute
+                    path="/settings/business-info"
+                    component={BusinessInfo}
+                    authenticated={!authenticated}
+                  />
 
-                <AuthRoute
-                  path="/settings/business-info"
-                  component={BusinessInfo}
-                  authenticated={!authenticated}
-                />
+                  <AuthRoute
+                    path="/settings/menu"
+                    component={Menu}
+                    authenticated={!authenticated}
+                  />
 
-                <AuthRoute
-                  path="/settings/menu"
-                  component={Menu}
-                  authenticated={!authenticated}
-                />
+                  <AuthRoute
+                    path="/settings/users"
+                    component={UsersAndPatrons}
+                    authenticated={!authenticated}
+                  />
 
-                <AuthRoute
-                  path="/settings/users"
-                  component={UsersAndPatrons}
-                  authenticated={!authenticated}
-                />
+                  <AuthRoute
+                    path="/settings/my-app"
+                    component={AppAndWebsite}
+                    authenticated={!authenticated}
+                  />
 
-                <AuthRoute
-                  path="/settings/my-app"
-                  component={AppAndWebsite}
-                  authenticated={!authenticated}
-                />
+                  <AuthRoute
+                    path="/settings/integrations"
+                    component={Integrations}
+                    authenticated={!authenticated}
+                  />
 
-                <AuthRoute
-                  path="/settings/integrations"
-                  component={Integrations}
-                  authenticated={!authenticated}
-                />
+                  <AuthRoute
+                    path="/settings/gift-cards"
+                    component={GiftCards}
+                    authenticated={!authenticated}
+                  />
 
-                <AuthRoute
-                  path="/settings/gift-cards"
-                  component={GiftCards}
-                  authenticated={!authenticated}
-                />
+                  <AuthRoute
+                    path="/settings/billing"
+                    component={Billing}
+                    authenticated={!authenticated}
+                  />
 
-                <AuthRoute
-                  path="/settings/billing"
-                  component={Billing}
-                  authenticated={!authenticated}
-                />
+                  <AuthRoute
+                    path="/settings/develop"
+                    component={Developers}
+                    authenticated={!authenticated}
+                  />
 
-                <AuthRoute
-                  path="/settings/developers"
-                  component={Developers}
-                  authenticated={!authenticated}
-                />
-
-                <AuthRoute
-                  path="/settings/my-account"
-                  component={MyAccount}
-                  authenticated={!authenticated}
-                />
+                  <AuthRoute
+                    path="/settings/my-account"
+                    component={MyAccount}
+                    authenticated={!authenticated}
+                  />
+                </AuthRoute>
 
                 {/* Logged Out Routes */}
                 <Route exact path="/welcome" component={Welcome} />
