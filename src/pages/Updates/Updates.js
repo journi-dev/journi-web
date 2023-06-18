@@ -232,7 +232,6 @@ export default function Updates() {
 
           {/* Active & Upcoming Updates Placeholder */}
           <Typography variant="h5">Active & Upcoming Updates</Typography>
-
           <PromotionCards />
 
           {/* Past Updates Placeholder */}
