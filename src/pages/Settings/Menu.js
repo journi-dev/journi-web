@@ -13,11 +13,12 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ExcelRenderer } from "react-excel-renderer";
 import { makeStyles } from "tss-react/mui";
 import { fillEmptyValues } from "../../utils/Helpers";
 import { CustomButton } from "../../components/ui/CustomComponents";
+import axios from "axios";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -44,9 +45,41 @@ export default function Menu() {
   const [dragActive, setDragActive] = useState(false);
   const [header, setHeader] = useState([]);
   const [cols, setCols] = useState([]);
+  const [menu, setMenu] = useState([]);
+  const [menuData, setMenuData] = useState([]);
   const [menuItemCount, setMenuItemCount] = useState(0);
   const [overwrite, setOverwrite] = useState(false);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    axios
+      .get("/menu")
+      .then((response) => {
+        setMenu(response.data);
+        console.log(response.data);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  const convertMenuData = (menuData) => {
+    const result = [];
+    const headerRow = menuData[0];
+    for (let i = 1; i < menuData.length; i++) {
+      const menuItem = {
+        name: menuData[i][headerRow.indexOf("Name")],
+        description: menuData[i][headerRow.indexOf("Description")],
+        size1Price: menuData[i][headerRow.indexOf("Size 1 Price")],
+        size2Price: menuData[i][headerRow.indexOf("Size 2 Price")],
+        size3Price: menuData[i][headerRow.indexOf("Size 3 Price")],
+        size4Price: menuData[i][headerRow.indexOf("Size 4 Price")],
+        singleSizePrice: menuData[i][headerRow.indexOf("Single-Size Price")],
+        menuCategory: menuData[i][headerRow.indexOf("Menu Category")],
+        itemCategory: menuData[i][headerRow.indexOf("Item Category")],
+      };
+      result.push(menuItem);
+    }
+    return result;
+  };
 
   const handleFile = (file) => {
     ExcelRenderer(file, (err, response) => {
@@ -54,11 +87,13 @@ export default function Menu() {
         console.error(err);
       } else {
         let rows = response.rows.filter((row) => row.length > 1);
-        rows = fillEmptyValues(rows, "", rows[0].length);
+        rows = fillEmptyValues(rows, null, rows[0].length);
         setHeader(rows[0]);
         setCols(rows);
         setMenuItemCount(rows.length - 1);
+        setMenuData(convertMenuData(rows));
         console.log(rows);
+        console.log(convertMenuData(rows));
       }
     });
   };
@@ -77,6 +112,17 @@ export default function Menu() {
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFile(e.dataTransfer.files[0]);
     }
+  };
+
+  const handleSubmit = () => {
+    axios
+      .post("/addMultipleToMenu", menuData)
+      .then((response) => {
+        console.log(response.data.message);
+      })
+      .catch((err) => {
+        console.error("Ruh-roh", err);
+      });
   };
 
   /* const handleButtonClick = () => {
@@ -159,43 +205,20 @@ export default function Menu() {
           <FormGroup>
             <FormControlLabel
               control={<Checkbox defaultChecked />}
-              label="Overwite current menu"
+              label="Overwrite current menu"
               checked={overwrite}
               onChange={(e) => setOverwrite(e.target.checked)}
             />
           </FormGroup>
-          <CustomButton variant="contained" startIcon={<CloudUpload />}>
+          <CustomButton
+            variant="contained"
+            startIcon={<CloudUpload />}
+            onClick={handleSubmit}
+          >
             Upload {menuItemCount} item{menuItemCount === 1 ? "" : "s"}
           </CustomButton>
         </div>
       )}
-
-      {/* <table
-        style={{
-          borderCollapse: "collapse",
-          margin: "10px auto",
-          border: "1px auto black",
-        }}
-      >
-        <thead>
-          <tr>
-            {header.map((h, i) => (
-              <th style={{ border: "1px auto black" }} key={i}>
-                {h}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {cols.slice(1).map((col, i) => (
-            <tr key={i}>
-              {col.map((c, i) => (
-                <td key={i}>{c}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
     </div>
   );
 }

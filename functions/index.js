@@ -18,6 +18,7 @@ const {
 } = require("./handlers/users");
 const handleFirebaseAuth = require("./util/handleFirebaseAuth");
 const { db } = require("./util/admin");
+const { addMultipleToMenu, getMenu } = require("./handlers/menu");
 const app = require("express")();
 
 // "Promotions" Routes
@@ -36,6 +37,11 @@ app.post("/user/avatar", handleFirebaseAuth, uploadImage);
 app.get("/user", handleFirebaseAuth, getAuthenticatedUser);
 app.get("/user/:username", getUserDetails);
 app.get("/notifications", handleFirebaseAuth, markNotificationsRead);
+
+// "Menu" Routes
+// app.post("/addMultipleToMenu", handleFirebaseAuth, addMultipleToMenu);
+app.post("/addMultipleToMenu", addMultipleToMenu);
+app.get("/menu", getMenu);
 
 exports.api = functions.https.onRequest(app);
 
@@ -101,6 +107,8 @@ exports.onUserImageChange = functions.firestore
               userImage: change.after.data().imageUrl,
             });
           });
+
+          // return batch.commit();
         });
     }
   });
