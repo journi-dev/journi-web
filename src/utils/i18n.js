@@ -76,6 +76,7 @@ i18next
           new: "New",
           nothingHereYet: "Nothing here yet!",
           blockoutDate: "Blockout date(s)",
+          error: "Error",
           // Announcements
           newAnnouncement: "New Announcement",
           announcementName: "Announcement Name",
@@ -166,6 +167,7 @@ i18next
           new: "Nuevo",
           nothingHereYet: "¡Nada aquí todavía!",
           blockoutDate: "Fecha bloqueada(s)",
+          error: "Error",
           // Announcements
           newAnnouncement: "Nueva Anuncio",
           announcementName: "Nombre del anuncio",
