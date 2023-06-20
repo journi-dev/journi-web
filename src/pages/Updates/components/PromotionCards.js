@@ -66,7 +66,6 @@ export default function PromotionCards() {
         <NoActiveOrUpcomingPromotionsYet />
       )}
       {error && <ErrorPlaceholder />}
-      <ErrorPlaceholder />
     </div>
   );
 }

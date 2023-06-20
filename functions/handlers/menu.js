@@ -1,4 +1,3 @@
-// const { generateRandomId } = require("../../src/utils/Helpers");
 const { db } = require("../util/admin");
 
 exports.addMultipleToMenu = (request, response) => {

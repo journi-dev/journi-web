@@ -59,7 +59,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../../../utils/Firebase";
-import { updateArray } from "../../../utils/Helpers";
+import { updateArray, usdFormatter, usdWholeDollarFormatter } from "../../../utils/Helpers";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -350,17 +350,6 @@ export default function NewPromo({ onSubmit, onClose }) {
     }
     history.push("/updates");
   };
-
-  const usdFormatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  });
-
-  const usdWholeDollarFormatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  });
 
   // COMPONENTS
 

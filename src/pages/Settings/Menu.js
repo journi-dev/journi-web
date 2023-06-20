@@ -1,9 +1,18 @@
-import { CloudUpload, FileUpload } from "@mui/icons-material";
 import {
+  AttachMoney,
+  BarChart,
+  CloudUpload,
+  FileUpload,
+  MoreVert,
+} from "@mui/icons-material";
+import {
+  Box,
   Checkbox,
   Container,
+  Divider,
   FormControlLabel,
   FormGroup,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -16,9 +25,10 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { ExcelRenderer } from "react-excel-renderer";
 import { makeStyles } from "tss-react/mui";
-import { fillEmptyValues } from "../../utils/Helpers";
+import { fillEmptyValues, usdFormatter } from "../../utils/Helpers";
 import { CustomButton } from "../../components/ui/CustomComponents";
 import axios from "axios";
+import Masonry from "react-masonry-css";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -40,12 +50,20 @@ const useStyles = makeStyles()((theme) => {
   };
 });
 
+// TODO: Make based on theme with makeStyles
+const breakpoints = {
+  default: 3,
+  1100: 2,
+  700: 1,
+};
+
 export default function Menu() {
   const { classes } = useStyles();
   const [dragActive, setDragActive] = useState(false);
   const [header, setHeader] = useState([]);
   const [cols, setCols] = useState([]);
   const [menu, setMenu] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [menuData, setMenuData] = useState([]);
   const [menuItemCount, setMenuItemCount] = useState(0);
   const [overwrite, setOverwrite] = useState(false);
@@ -55,11 +73,35 @@ export default function Menu() {
     axios
       .get("/menu")
       .then((response) => {
-        setMenu(response.data);
-        console.log(response.data);
+        const data = response.data;
+        setMenu(data);
+        setCategories(getMenu(data, "menuCategory", "itemCategory"));
+        console.log(data);
+        // console.log(getMenu(data, "menuCategory", "itemCategory"));
       })
       .catch((err) => console.error(err));
   }, []);
+
+  const getMenu = (menuData, menuKey, itemKey) => {
+    const result = [];
+    let map = new Map();
+
+    for (const menuItem of menuData) {
+      const [menu, item] = [menuItem[menuKey], menuItem[itemKey]];
+      if (!map.has(menu)) {
+        map.set(menu, map.size);
+        result.push({
+          menu,
+          items: [item],
+        });
+      } else {
+        result[map.get(menu)].items = [
+          ...new Set([...result[map.get(menu)].items, item]),
+        ];
+      }
+    }
+    return result;
+  };
 
   const convertMenuData = (menuData) => {
     const result = [];
@@ -131,7 +173,132 @@ export default function Menu() {
 
   return (
     <div>
-      <Typography>Menu</Typography>
+      <Typography variant="h5">Menu</Typography>
+
+      {categories.map((category) => (
+        <div>
+          <Typography variant="h6">{category.menu}</Typography>
+          <Masonry
+            breakpointCols={breakpoints}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+          >
+            {category.items.map((itemCategory) => (
+              <Paper>
+                <Typography variant="h6">{itemCategory}</Typography>
+                {menu
+                  .filter((menuItem) => menuItem.itemCategory === itemCategory)
+                  .map((menuItem) => (
+                    <Box sx={{ m: 1.5 }}>
+                      <Box
+                        className="flex-row-space"
+                        sx={{ alignItems: "center" }}
+                      >
+                        <Box
+                          className="flex-row-start"
+                          sx={{ alignItems: "center" }}
+                        >
+                          <IconButton>
+                            <MoreVert fontSize="small" />
+                            {/* To-Do: make a menu for favoriting, deleting, editing */}
+                          </IconButton>
+
+                          <Box
+                            className="flex-row-start"
+                            sx={{ alignItems: "baseline" }}
+                          >
+                            <Typography sx={{ ml: 1 }}>
+                              {menuItem.name}
+                            </Typography>
+
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                              display="flex"
+                              alignItems="center"
+                              sx={{ ml: 1 }}
+                            >
+                              <BarChart fontSize="inherit" />
+                              3.1k
+                            </Typography>
+
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                              display="flex"
+                              alignItems="center"
+                              sx={{ ml: 1 }}
+                            >
+                              <AttachMoney fontSize="inherit" />
+                              $2.3k
+                            </Typography>
+                          </Box>
+                        </Box>
+
+                        {(menuItem.size1Price > 0 ||
+                          menuItem.size2Price > 0 ||
+                          menuItem.size3Price > 0 ||
+                          menuItem.size4Price > 0) && (
+                          <Box className="flex-row-end">
+                            {menuItem.size1Price > 0 && (
+                              <Box sx={{ textAlign: "center", ml: 3 }}>
+                                <Typography>
+                                  {usdFormatter.format(menuItem.size1Price)}
+                                </Typography>
+                                <Typography variant="caption">Small</Typography>
+                              </Box>
+                            )}
+
+                            {menuItem.size2Price > 0 && (
+                              <Box sx={{ textAlign: "center", ml: 3 }}>
+                                <Typography>
+                                  {usdFormatter.format(menuItem.size2Price)}
+                                </Typography>
+                                <Typography variant="caption">
+                                  Medium
+                                </Typography>
+                              </Box>
+                            )}
+
+                            {menuItem.size3Price > 0 && (
+                              <Box sx={{ textAlign: "center", ml: 3 }}>
+                                <Typography>
+                                  {usdFormatter.format(menuItem.size3Price)}
+                                </Typography>
+                                <Typography variant="caption">Large</Typography>
+                              </Box>
+                            )}
+
+                            {menuItem.size4Price > 0 && (
+                              <Box sx={{ textAlign: "center", ml: 3 }}>
+                                <Typography>
+                                  {usdFormatter.format(menuItem.size4Price)}
+                                </Typography>
+                                <Typography variant="caption">Jumbo</Typography>
+                              </Box>
+                            )}
+                          </Box>
+                        )}
+
+                        {menuItem.singleSizePrice > 0 && (
+                          <Typography>
+                            {usdFormatter.format(menuItem.singleSizePrice)}
+                          </Typography>
+                        )}
+                      </Box>
+                      {menuItem.description.length > 0 && (
+                        <Typography variant="caption">
+                          {menuItem.description}
+                        </Typography>
+                      )}
+                      <Divider sx={{ mx: 1.5, mt: 1.5 }} />
+                    </Box>
+                  ))}
+              </Paper>
+            ))}
+          </Masonry>
+        </div>
+      ))}
 
       <form
         className={classes.form}

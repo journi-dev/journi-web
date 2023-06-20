@@ -161,6 +161,12 @@ body {
   justify-content: flex-start;
 }
 
+.flex-row-end {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
 .flex-row-space {
   display: flex;
   flex-direction: row;
