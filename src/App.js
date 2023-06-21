@@ -9,7 +9,7 @@ import Updates from "./pages/Updates/Updates";
 import Analytics from "./pages/Analytics/Analytics";
 import Social from "./pages/Social/Social";
 import Support from "./pages/Support/Support";
-import Settings from "./pages/Settings/Settings";
+import AllSettings from "./pages/Settings/AllSettings";
 import NotFound from "./pages/Error/NotFound";
 import Welcome from "./pages/Welcome/Welcome";
 import Products from "./pages/Products/Products";
@@ -283,7 +283,7 @@ function App() {
                 <Route path="support" element={<Support />} />
 
                 {/* Settings Route and Subroutes */}
-                <Route path="settings" element={<Settings />}>
+                <Route path="settings" element={<AllSettings />}>
                   <Route path="business-info" element={<BusinessInfo />} />
                   <Route path="menu" element={<Menu />} />
                   <Route path="users" element={<UsersAndPatrons />} />
