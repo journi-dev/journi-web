@@ -6,7 +6,7 @@ import { useState } from "react";
 import { makeStyles } from "tss-react/mui";
 import { useTranslation } from "react-i18next";
 import { CustomLoadingButton } from "../../components/ui/CustomComponents";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logInUser } from "../../context/features/User";
 
@@ -34,7 +34,7 @@ export default function LogIn() {
   const { classes } = useStyles();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,7 +44,7 @@ export default function LogIn() {
   const handleLogin = (e) => {
     e.preventDefault();
     const userData = { email, password };
-    dispatch(logInUser(userData, history));
+    dispatch(logInUser(userData, navigate));
   };
 
   return (

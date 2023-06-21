@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  // Routes,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ThemeProvider, createTheme, CssBaseline, Box } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers-pro/AdapterDateFns";
@@ -23,7 +18,6 @@ import AboutUs from "./pages/AboutUs/AboutUs";
 import LogIn from "./pages/LogIn/LogIn";
 import SignUp from "./pages/SignUp/SignUp";
 import Demo from "./pages/Demo/Demo";
-import AuthRoute from "./utils/AuthRoute";
 import Layout from "./components/ui/Layout";
 import { setAuthenticated } from "./context/features/User";
 import BusinessInfo from "./pages/Settings/BusinessInfo";
@@ -35,6 +29,7 @@ import GiftCards from "./pages/Settings/GiftCards";
 import Billing from "./pages/Settings/Billing";
 import Developers from "./pages/Settings/Developers";
 import MyAccount from "./pages/Settings/MyAccount";
+import ComingSoon from "./pages/ComingSoon/ComingSoon";
 
 const lightThemeLoggedIn = createTheme({
   palette: {
@@ -271,128 +266,53 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <ThemeProvider theme={theme}>
-        <CssBaseline></CssBaseline>
-        <Router>
-          <Layout authenticated={authenticated}>
-            <Box className="App">
-              <Switch>
-                {/* Home Route */}
-                <Route
-                  exact
-                  path="/"
-                  component={authenticated ? Home : Welcome}
-                />
-
+        <CssBaseline />
+        <BrowserRouter>
+          <Box className="App">
+            <Routes>
+              {/* Home Route */}
+              <Route
+                path="/"
+                element={<Layout authenticated={authenticated} />}
+              >
                 {/* Logged In Routes */}
-                <Route exact path="/home" component={Home} />
-
-                <AuthRoute
-                  path="/updates"
-                  component={Updates}
-                  authenticated={!authenticated}
-                />
-                <AuthRoute
-                  path="/analytics"
-                  component={Analytics}
-                  authenticated={!authenticated}
-                />
-                <AuthRoute
-                  path="/social"
-                  component={Social}
-                  authenticated={!authenticated}
-                />
-                <AuthRoute
-                  path="/support"
-                  component={Support}
-                  authenticated={!authenticated}
-                />
+                <Route path="home" element={<Home />} />
+                <Route path="updates" element={<Updates />} />
+                <Route path="analytics" element={<Analytics />} />
+                <Route path="social" element={<Social />} />
+                <Route path="support" element={<Support />} />
 
                 {/* Settings Route and Subroutes */}
-                <AuthRoute
-                  path="/settings"
-                  component={Settings}
-                  authenticated={!authenticated}
-                >
-                  <AuthRoute
-                    path="/settings/business-info"
-                    component={BusinessInfo}
-                    authenticated={!authenticated}
-                  />
-
-                  <AuthRoute
-                    path="/settings/menu"
-                    component={Menu}
-                    authenticated={!authenticated}
-                  />
-
-                  <AuthRoute
-                    path="/settings/users"
-                    component={UsersAndPatrons}
-                    authenticated={!authenticated}
-                  />
-
-                  <AuthRoute
-                    path="/settings/my-app"
-                    component={AppAndWebsite}
-                    authenticated={!authenticated}
-                  />
-
-                  <AuthRoute
-                    path="/settings/integrations"
-                    component={Integrations}
-                    authenticated={!authenticated}
-                  />
-
-                  <AuthRoute
-                    path="/settings/gift-cards"
-                    component={GiftCards}
-                    authenticated={!authenticated}
-                  />
-
-                  <AuthRoute
-                    path="/settings/billing"
-                    component={Billing}
-                    authenticated={!authenticated}
-                  />
-
-                  <AuthRoute
-                    path="/settings/develop"
-                    component={Developers}
-                    authenticated={!authenticated}
-                  />
-
-                  <AuthRoute
-                    path="/settings/my-account"
-                    component={MyAccount}
-                    authenticated={!authenticated}
-                  />
-                </AuthRoute>
+                <Route path="settings" element={<Settings />}>
+                  <Route path="business-info" element={<BusinessInfo />} />
+                  <Route path="menu" element={<Menu />} />
+                  <Route path="users" element={<UsersAndPatrons />} />
+                  <Route path="my-app" element={<AppAndWebsite />} />
+                  <Route path="integrations" element={<Integrations />} />
+                  <Route path="gift-cards" element={<GiftCards />} />
+                  <Route path="billing" element={<Billing />} />
+                  <Route path="develop" element={<Developers />} />
+                  <Route path="my-account" element={<MyAccount />} />
+                  <Route path="platform-settings" element={<ComingSoon />} />
+                  <Route path="help" element={<ComingSoon />} />
+                  <Route path="tasks" element={<ComingSoon />} />
+                </Route>
 
                 {/* Logged Out Routes */}
-                <Route exact path="/welcome" component={Welcome} />
-                <Route exact path="/products" component={Products} />
-                <Route exact path="/pricing" component={Pricing} />
-                <Route exact path="/about" component={AboutUs} />
-                <AuthRoute
-                  path="/login"
-                  component={LogIn}
-                  authenticated={authenticated}
-                  redirectPath="/home"
-                />
-                <AuthRoute
-                  path="/signup"
-                  component={SignUp}
-                  authenticated={authenticated}
-                  redirectPath="/home"
-                />
-                <Route exact path="/demo" component={Demo} />
+                <Route path="welcome" element={<Welcome />} />
+                <Route path="products" element={<Products />} />
+                <Route path="pricing" element={<Pricing />} />
+                <Route path="about" element={<AboutUs />} />
+                <Route path="login" element={<LogIn />} />
+                <Route path="signup" element={<SignUp />} />
+                <Route path="demo" element={<Demo />} />
 
                 {/* Not Found Route */}
-                <Route exact path="*" component={NotFound} />
-              </Switch>
-            </Box>
-          </Layout>
-        </Router>
+                <Route path="*" element={<NotFound />} />
+              </Route>
+            </Routes>
+          </Box>
+        </BrowserRouter>
       </ThemeProvider>
     </LocalizationProvider>
   );

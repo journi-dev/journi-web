@@ -4,7 +4,7 @@ import { useState } from "react";
 import { makeStyles } from "tss-react/mui";
 import { useTranslation } from "react-i18next";
 import { CustomLoadingButton } from "../../components/ui/CustomComponents";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signUpUser } from "../../context/features/User";
 
@@ -32,7 +32,7 @@ export default function SignUp() {
   const { classes } = useStyles();
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -55,7 +55,7 @@ export default function SignUp() {
       lastName,
       username,
     };
-    dispatch(signUpUser(newUserData, history));
+    dispatch(signUpUser(newUserData, navigate));
   };
 
   return (

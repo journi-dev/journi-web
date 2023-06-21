@@ -31,7 +31,7 @@ export const { reset, setIsLoading, setAuthenticated, setErrors } =
   userSlice.actions;
 export default userSlice.reducer;
 
-export const signUpUser = (newUserData, history) => (dispatch) => {
+export const signUpUser = (newUserData, navigate) => (dispatch) => {
   dispatch(setIsLoading(true));
 
   axios
@@ -41,7 +41,7 @@ export const signUpUser = (newUserData, history) => (dispatch) => {
       setAuthorizationHeader(response.data.token);
       dispatch(setIsLoading(false));
       dispatch(setAuthenticated(true));
-      history.push("/");
+      navigate("/");
     })
     .catch((err) => {
       console.error(err);
@@ -50,7 +50,7 @@ export const signUpUser = (newUserData, history) => (dispatch) => {
     });
 };
 
-export const logInUser = (userData, history) => (dispatch) => {
+export const logInUser = (userData, navigate) => (dispatch) => {
   dispatch(setIsLoading(true));
   axios
     .post("/login", userData)
@@ -59,7 +59,7 @@ export const logInUser = (userData, history) => (dispatch) => {
       setAuthorizationHeader(response.data.token);
       dispatch(setIsLoading(false));
       dispatch(setAuthenticated(true));
-      history.push("/home");
+      navigate("/home");
     })
     .catch((err) => {
       console.error(err);

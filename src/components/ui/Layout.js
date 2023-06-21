@@ -1,14 +1,19 @@
 import React from "react";
 import LoggedOutLayout from "./LoggedOutLayout";
 import LoggedInLayout from "./LoggedInLayout";
+import { Outlet } from "react-router-dom";
 
-export default function Layout({ authenticated, children }) {
+export default function Layout({ authenticated }) {
   return (
     <div>
       {authenticated ? (
-        <LoggedInLayout>{children}</LoggedInLayout>
+        <LoggedInLayout>
+          <Outlet />
+        </LoggedInLayout>
       ) : (
-        <LoggedOutLayout>{children}</LoggedOutLayout>
+        <LoggedOutLayout>
+          <Outlet />
+        </LoggedOutLayout>
       )}
     </div>
   );

@@ -20,7 +20,7 @@ import {
   styled,
 } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import format from "date-fns/format";
 import {
   Home,
@@ -189,9 +189,9 @@ const useStyles = makeStyles()((theme) => {
   };
 });
 
-export default function LoggedInLayout({ children }) {
+export default function LoggedInLayout() {
   const { classes } = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const appearance = useSelector((state) => state.appearance.value.mode);
@@ -650,7 +650,7 @@ export default function LoggedInLayout({ children }) {
             <ListItem
               button
               key={t(item.text)}
-              onClick={() => history.push(item.path)}
+              onClick={() => navigate(item.path)}
               className={
                 location.pathname === item.path ||
                 (item.path2 && location.pathname === item.path2)
@@ -671,7 +671,7 @@ export default function LoggedInLayout({ children }) {
               button
               key={t(item.text)}
               onClick={() => {
-                history.push(item.path);
+                navigate(item.path);
                 item.action();
               }}
               className={
@@ -743,7 +743,7 @@ export default function LoggedInLayout({ children }) {
         {/* Page Content */}
         <div className={classes.pageContent}>
           <div className={classes.toolbar}></div>
-          {children}
+          <Outlet />
         </div>
 
         {/* Footer */}

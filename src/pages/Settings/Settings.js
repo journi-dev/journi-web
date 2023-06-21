@@ -19,7 +19,7 @@ import {
   TaskAlt,
 } from "@mui/icons-material";
 import { makeStyles } from "tss-react/mui";
-import Menu from "./Menu";
+import { Link, Outlet } from "react-router-dom";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -74,81 +74,82 @@ export default function Settings() {
     {
       text: "Business Info",
       icon: <Storefront fontSize="large" color="itemButton" />,
-      path: "/business-info",
+      path: "/settings/business-info",
     },
     {
       text: "Menu & Retail",
       icon: <MenuBook fontSize="large" color="itemButton" />,
-      path: "/menu",
+      path: "/settings/menu",
     },
     {
       text: "Users & Patrons",
       icon: <People fontSize="large" color="itemButton" />,
-      path: "/users",
+      path: "/settings/users",
     },
     {
       text: "App & Website",
       icon: <Devices fontSize="large" color="itemButton" />,
-      path: "/my-app",
+      path: "/settings/my-app",
     },
     {
       text: "Integrations",
       icon: <Power fontSize="large" color="itemButton" />,
-      path: "/integrations",
+      path: "/settings/integrations",
     },
     {
       text: "Gift Cards",
       icon: <CardGiftcard fontSize="large" color="itemButton" />,
-      path: "/gift-cards",
+      path: "/settings/gift-cards",
     },
     {
       text: "Billing",
       icon: <CreditCard fontSize="large" color="itemButton" />,
-      path: "/billing",
+      path: "/settings/billing",
     },
     {
       text: "Develop",
       icon: <IntegrationInstructions fontSize="large" color="itemButton" />,
-      path: "/develop",
+      path: "/settings/develop",
     },
     {
       text: "Journi Settings",
       icon: <DisplaySettings fontSize="large" color="itemButton" />,
-      path: "/platform-settings",
+      path: "/settings/platform-settings",
     },
 
     {
       text: "Get Support",
       icon: <Help fontSize="large" color="itemButton" />,
-      path: "/help",
+      path: "/settings/help",
     },
     {
       text: "Task Management",
       icon: <TaskAlt fontSize="large" color="itemButton" />,
-      path: "/audio",
+      path: "/settings/tasks",
     },
     {
       text: "My Account",
       icon: <AccountCircle fontSize="large" color="itemButton" />,
-      path: "/my-account",
+      path: "/settings/my-account",
     },
   ];
 
   return (
     <Box>
       <Typography variant="h5">{t("settings")}</Typography>
-
-      <Menu />
       <Grid container>
         {settingsMenu.map((item) => (
           <Grid item xs={12} sm={6} md={3}>
-            <Container className={classes.menuItem} sx={{ my: 2 }}>
-              {item.icon}
-              <Typography variant="h6">{item.text}</Typography>
-            </Container>
+            <Link to={item.path}>
+              <Container className={classes.menuItem} sx={{ my: 2 }}>
+                {item.icon}
+                <Typography variant="h6">{item.text}</Typography>
+              </Container>
+            </Link>
           </Grid>
         ))}
       </Grid>
+      <Outlet />
     </Box>
   );
 }

@@ -50,7 +50,7 @@ import {
 import { format } from "date-fns";
 import { useState } from "react";
 import { makeStyles } from "tss-react/mui";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   CustomButton,
   CustomToggleButton,
@@ -59,7 +59,11 @@ import {
 import { useTranslation } from "react-i18next";
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../../../utils/Firebase";
-import { updateArray, usdFormatter, usdWholeDollarFormatter } from "../../../utils/Helpers";
+import {
+  updateArray,
+  usdFormatter,
+  usdWholeDollarFormatter,
+} from "../../../utils/Helpers";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -181,7 +185,7 @@ export default function NewPromo({ onSubmit, onClose }) {
   const [notifCustomDateTime, setNotifCustomDateTime] = useState(null);
 
   const { classes } = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const testCategorySelection = [
@@ -348,7 +352,7 @@ export default function NewPromo({ onSubmit, onClose }) {
     } catch (err) {
       console.error(err);
     }
-    history.push("/updates");
+    navigate("/updates");
   };
 
   // COMPONENTS

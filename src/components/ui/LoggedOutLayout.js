@@ -10,7 +10,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
-import { useHistory, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import format from "date-fns/format";
 import {
   LightMode,
@@ -109,9 +109,9 @@ const useStyles = makeStyles()((theme) => {
   };
 });
 
-export default function LoggedOutLayout({ children }) {
+export default function LoggedOutLayout() {
   const { classes } = useStyles();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const appearance = useSelector((state) => state.appearance.value.mode);
@@ -187,7 +187,7 @@ export default function LoggedOutLayout({ children }) {
                   : "appBarButtonColor"
               }
               disableElevation
-              onClick={() => history.push(item.path)}
+              onClick={() => navigate(item.path)}
             >
               <Typography variant="caption">{t(item.text)}</Typography>
             </CustomButton>
@@ -198,7 +198,7 @@ export default function LoggedOutLayout({ children }) {
               location.pathname === "/login" ? "primary" : "appBarButtonColor"
             }
             disableElevation
-            onClick={() => history.push("/login")}
+            onClick={() => navigate("/login")}
           >
             <Typography variant="caption">{t("logIn")}</Typography>
           </CustomButton>
@@ -208,14 +208,14 @@ export default function LoggedOutLayout({ children }) {
               location.pathname === "/signup" ? "primary" : "appBarButtonColor"
             }
             disableElevation
-            onClick={() => history.push("/signup")}
+            onClick={() => navigate("/signup")}
           >
             <Typography variant="caption">{t("signUp")}</Typography>
           </CustomButton>
           <CustomButton
             variant="contained"
             disableElevation
-            onClick={() => history.push("/demo")}
+            onClick={() => navigate("/demo")}
           >
             <Typography variant="caption" fontWeight="bold">
               {t("demo")}
@@ -334,7 +334,7 @@ export default function LoggedOutLayout({ children }) {
         {/* Page Content */}
         <div className={classes.pageContent}>
           <div className={classes.toolbar}></div>
-          {children}
+          <Outlet />
         </div>
 
         {/* Footer */}
