@@ -1,7 +1,10 @@
-import React from 'react'
+import { Typography } from "@mui/material";
+import React from "react";
 
 export default function Billing() {
   return (
-    <div>Billing</div>
-  )
+    <div>
+      <Typography variant="h5">Billing</Typography>
+    </div>
+  );
 }

@@ -2,6 +2,7 @@ import {
   AttachMoney,
   BarChart,
   CloudUpload,
+  Edit,
   FileUpload,
   MoreVert,
 } from "@mui/icons-material";
@@ -20,7 +21,9 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
+  Zoom,
 } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { ExcelRenderer } from "react-excel-renderer";
@@ -173,7 +176,17 @@ export default function Menu() {
 
   return (
     <div>
-      <Typography variant="h5">Menu</Typography>
+      <Box className="flex-row-start" sx={{ mb: 2 }}>
+        <Typography variant="h5">Menu</Typography>
+        <CustomButton
+          disableElevation
+          variant="contained"
+          startIcon={<Edit />}
+          sx={{ borderRadius: 25, ml: 3 }}
+        >
+          Edit
+        </CustomButton>
+      </Box>
 
       {categories.map((category) => (
         <div>
@@ -207,31 +220,40 @@ export default function Menu() {
                             className="flex-row-start"
                             sx={{ alignItems: "baseline" }}
                           >
-                            <Typography sx={{ ml: 1 }}>
-                              {menuItem.name}
-                            </Typography>
+                            <Tooltip
+                              TransitionComponent={Zoom}
+                              arrow
+                              placement="top"
+                              title={
+                                <Box className="flex-row">
+                                  <Typography
+                                    variant="caption"
+                                    color="text.secondary"
+                                    display="flex"
+                                    alignItems="center"
+                                    sx={{ ml: 1, color: "white" }}
+                                  >
+                                    <BarChart fontSize="inherit" />
+                                    3.1k
+                                  </Typography>
 
-                            <Typography
-                              variant="caption"
-                              color="text.secondary"
-                              display="flex"
-                              alignItems="center"
-                              sx={{ ml: 1 }}
+                                  <Typography
+                                    variant="caption"
+                                    color="text.secondary"
+                                    display="flex"
+                                    alignItems="center"
+                                    sx={{ ml: 1, color: "white" }}
+                                  >
+                                    <AttachMoney fontSize="inherit" />
+                                    $2.3k
+                                  </Typography>
+                                </Box>
+                              }
                             >
-                              <BarChart fontSize="inherit" />
-                              3.1k
-                            </Typography>
-
-                            <Typography
-                              variant="caption"
-                              color="text.secondary"
-                              display="flex"
-                              alignItems="center"
-                              sx={{ ml: 1 }}
-                            >
-                              <AttachMoney fontSize="inherit" />
-                              $2.3k
-                            </Typography>
+                              <Typography fontSize={14} sx={{ ml: 1 }}>
+                                {menuItem.name}
+                              </Typography>
+                            </Tooltip>
                           </Box>
                         </Box>
 
@@ -242,7 +264,7 @@ export default function Menu() {
                           <Box className="flex-row-end">
                             {menuItem.size1Price > 0 && (
                               <Box sx={{ textAlign: "center", ml: 3 }}>
-                                <Typography>
+                                <Typography fontSize={14}>
                                   {usdFormatter.format(menuItem.size1Price)}
                                 </Typography>
                                 <Typography variant="caption">Small</Typography>
@@ -251,7 +273,7 @@ export default function Menu() {
 
                             {menuItem.size2Price > 0 && (
                               <Box sx={{ textAlign: "center", ml: 3 }}>
-                                <Typography>
+                                <Typography fontSize={14}>
                                   {usdFormatter.format(menuItem.size2Price)}
                                 </Typography>
                                 <Typography variant="caption">
@@ -262,7 +284,7 @@ export default function Menu() {
 
                             {menuItem.size3Price > 0 && (
                               <Box sx={{ textAlign: "center", ml: 3 }}>
-                                <Typography>
+                                <Typography fontSize={14}>
                                   {usdFormatter.format(menuItem.size3Price)}
                                 </Typography>
                                 <Typography variant="caption">Large</Typography>
@@ -271,7 +293,7 @@ export default function Menu() {
 
                             {menuItem.size4Price > 0 && (
                               <Box sx={{ textAlign: "center", ml: 3 }}>
-                                <Typography>
+                                <Typography fontSize={14}>
                                   {usdFormatter.format(menuItem.size4Price)}
                                 </Typography>
                                 <Typography variant="caption">Jumbo</Typography>
@@ -281,7 +303,7 @@ export default function Menu() {
                         )}
 
                         {menuItem.singleSizePrice > 0 && (
-                          <Typography>
+                          <Typography fontSize={14}>
                             {usdFormatter.format(menuItem.singleSizePrice)}
                           </Typography>
                         )}

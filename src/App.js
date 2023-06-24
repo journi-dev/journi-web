@@ -20,7 +20,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import Demo from "./pages/Demo/Demo";
 import Layout from "./components/ui/Layout";
 import { setAuthenticated } from "./context/features/User";
-import BusinessInfo from "./pages/Settings/BusinessInfo";
+import BusinessInfo from "./pages/Settings/BusinessInfo/BusinessInfo";
 import Menu from "./pages/Settings/Menu";
 import UsersAndPatrons from "./pages/Settings/UsersAndPatrons";
 import AppAndWebsite from "./pages/Settings/AppAndWebsite";
@@ -30,6 +30,7 @@ import Billing from "./pages/Settings/Billing";
 import Developers from "./pages/Settings/Developers";
 import MyAccount from "./pages/Settings/MyAccount";
 import ComingSoon from "./pages/ComingSoon/ComingSoon";
+import JourniSettings from "./pages/Settings/JourniSettings";
 
 const lightThemeLoggedIn = createTheme({
   palette: {
@@ -293,7 +294,10 @@ function App() {
                   <Route path="billing" element={<Billing />} />
                   <Route path="develop" element={<Developers />} />
                   <Route path="my-account" element={<MyAccount />} />
-                  <Route path="platform-settings" element={<ComingSoon />} />
+                  <Route
+                    path="platform-settings"
+                    element={<JourniSettings />}
+                  />
                   <Route path="help" element={<ComingSoon />} />
                   <Route path="tasks" element={<ComingSoon />} />
                 </Route>

@@ -110,7 +110,7 @@ export default function AllSettings() {
   return (
     <Box className="flex-row-space">
       <Outlet />
-      <Box className="menu" sx={{ mr: 2 }}>
+      <Box className="menu" sx={{ mx: 2, width: 150 }}>
         <StickyBox offsetTop={75}>
           <Typography
             variant="caption"

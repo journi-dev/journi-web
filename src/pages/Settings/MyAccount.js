@@ -1,7 +1,10 @@
-import React from 'react'
+import { Typography } from "@mui/material";
+import React from "react";
 
 export default function MyAccount() {
   return (
-    <div>My Account</div>
-  )
+    <div>
+      <Typography variant="h5">My Account</Typography>
+    </div>
+  );
 }
