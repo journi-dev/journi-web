@@ -35,20 +35,9 @@ import Masonry from "react-masonry-css";
 
 const useStyles = makeStyles()((theme) => {
   return {
-    form: {
-      width: "30%",
-    },
-    inputContainer: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
+    root: {
+      // display: "flex",
       width: "100%",
-    },
-    dragActive: {
-      backgroundColor: "#ffffff",
-    },
-    dragFileElement: {
-      backgroundColor: "#ffff00",
     },
   };
 });
@@ -175,9 +164,11 @@ export default function Menu() {
   }; */
 
   return (
-    <div>
+    <div className={classes.root}>
       <Box className="flex-row-start" sx={{ mb: 2 }}>
-        <Typography variant="h5">Menu</Typography>
+        <Typography variant="h5" component="h1">
+          Menu & Retail
+        </Typography>
         <CustomButton
           disableElevation
           variant="contained"
@@ -190,22 +181,39 @@ export default function Menu() {
 
       {categories.map((category) => (
         <div>
-          <Typography variant="h6">{category.menu}</Typography>
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            {category.menu}
+          </Typography>
           <Masonry
             breakpointCols={breakpoints}
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
           >
             {category.items.map((itemCategory) => (
-              <Paper>
-                <Typography variant="h6">{itemCategory}</Typography>
+              <Paper sx={{ p: 1.5 }}>
+                <Typography variant="subtitle1" sx={{ ml: 2, mb: 1 }}>
+                  {itemCategory} (
+                  {
+                    menu.filter(
+                      (menuItem) => menuItem.itemCategory === itemCategory
+                    ).length
+                  }{" "}
+                  item
+                  {menu.filter(
+                    (menuItem) => menuItem.itemCategory === itemCategory
+                  ).length === 1
+                    ? ""
+                    : "s"}
+                  )
+                </Typography>
                 {menu
                   .filter((menuItem) => menuItem.itemCategory === itemCategory)
-                  .map((menuItem) => (
-                    <Box sx={{ m: 1.5 }}>
+                  .map((menuItem, i) => (
+                    <Box>
+                      {/* Menu Item */}
                       <Box
                         className="flex-row-space"
-                        sx={{ alignItems: "center" }}
+                        sx={{ alignItems: "center", my: 1.25, mx: 1 }}
                       >
                         <Box
                           className="flex-row-start"
@@ -216,45 +224,48 @@ export default function Menu() {
                             {/* To-Do: make a menu for favoriting, deleting, editing */}
                           </IconButton>
 
-                          <Box
-                            className="flex-row-start"
-                            sx={{ alignItems: "baseline" }}
-                          >
-                            <Tooltip
-                              TransitionComponent={Zoom}
-                              arrow
-                              placement="top"
-                              title={
-                                <Box className="flex-row">
-                                  <Typography
-                                    variant="caption"
-                                    color="text.secondary"
-                                    display="flex"
-                                    alignItems="center"
-                                    sx={{ ml: 1, color: "white" }}
-                                  >
-                                    <BarChart fontSize="inherit" />
-                                    3.1k
-                                  </Typography>
+                          {/* Menu Item Name */}
+                          <Tooltip
+                            TransitionComponent={Zoom}
+                            arrow
+                            placement="top"
+                            title={
+                              <Box className="flex-row">
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary"
+                                  display="flex"
+                                  alignItems="center"
+                                  sx={{ ml: 1, color: "white" }}
+                                >
+                                  <BarChart fontSize="inherit" />
+                                  3.1k
+                                </Typography>
 
-                                  <Typography
-                                    variant="caption"
-                                    color="text.secondary"
-                                    display="flex"
-                                    alignItems="center"
-                                    sx={{ ml: 1, color: "white" }}
-                                  >
-                                    <AttachMoney fontSize="inherit" />
-                                    $2.3k
-                                  </Typography>
-                                </Box>
-                              }
-                            >
-                              <Typography fontSize={14} sx={{ ml: 1 }}>
+                                <Typography
+                                  variant="caption"
+                                  color="text.secondary"
+                                  display="flex"
+                                  alignItems="center"
+                                  sx={{ ml: 1, color: "white" }}
+                                >
+                                  <AttachMoney fontSize="inherit" />
+                                  $2.3k
+                                </Typography>
+                              </Box>
+                            }
+                          >
+                            <Box sx={{ ml: 1 }}>
+                              <Typography fontSize={14}>
                                 {menuItem.name}
                               </Typography>
-                            </Tooltip>
-                          </Box>
+                              {menuItem.description.length > 0 && (
+                                <Typography variant="caption">
+                                  {menuItem.description}
+                                </Typography>
+                              )}
+                            </Box>
+                          </Tooltip>
                         </Box>
 
                         {(menuItem.size1Price > 0 ||
@@ -308,12 +319,13 @@ export default function Menu() {
                           </Typography>
                         )}
                       </Box>
-                      {menuItem.description.length > 0 && (
-                        <Typography variant="caption">
-                          {menuItem.description}
-                        </Typography>
-                      )}
-                      <Divider sx={{ mx: 1.5, mt: 1.5 }} />
+
+                      {/* Divider */}
+                      {i !==
+                        menu.filter(
+                          (menuItem) => menuItem.itemCategory === itemCategory
+                        ).length -
+                          1 && <Divider sx={{ mx: 0 }} />}
                     </Box>
                   ))}
               </Paper>

@@ -24,13 +24,14 @@ const useStyles = makeStyles()((theme) => {
     menu: {
       position: "relative",
     },
-    menuItem: {
+    menuLink: {
       textDecoration: "none",
+    },
+    menuItem: {
       color: theme.palette.text.secondary,
       borderLeft: "2px solid rgba(255, 204, 102, 0)",
     },
     menuItemActive: {
-      textDecoration: "none",
       color: theme.palette.text.primary,
       borderLeft: "2px solid rgba(255, 204, 102, 1)",
     },
@@ -96,7 +97,7 @@ export default function AllSettings() {
       path: "/settings/help",
     },
     {
-      text: "Task Management",
+      text: "Tasks",
       icon: <TaskAlt fontSize="small" color="itemButton" />,
       path: "/settings/tasks",
     },
@@ -121,21 +122,21 @@ export default function AllSettings() {
             {t("settings")}
           </Typography>
           {settingsMenu.map((item) => (
-            <Box sx={{ my: 1 }}>
-              <Link
-                to={item.path}
-                className={
+            <Link to={item.path} className={classes.menuLink}>
+              <Box
+                className={`flex-row-start ${
                   location.pathname === item.path
                     ? classes.menuItemActive
                     : classes.menuItem
-                }
+                }`}
+                sx={{ my: 1, alignContent: "center" }}
               >
                 <Typography variant="caption" sx={{ mx: 1 }}>
                   {item.icon}
                 </Typography>
                 <Typography variant="caption">{item.text}</Typography>
-              </Link>
-            </Box>
+              </Box>
+            </Link>
           ))}
         </StickyBox>
       </Box>

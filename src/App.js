@@ -96,6 +96,9 @@ const lightThemeLoggedIn = createTheme({
     h6: {
       fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
     },
+    subtitle1: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+    },
     caption: {
       fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
     },
@@ -165,6 +168,9 @@ const darkTheme = createTheme({
     h6: {
       fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
     },
+    subtitle1: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+    },
     caption: {
       fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
     },
@@ -231,6 +237,9 @@ const lightThemeLoggedOut = createTheme({
     },
     h6: {
       fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
+    },
+    subtitle1: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
     },
     caption: {
       fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
