@@ -1,10 +1,12 @@
 import {
+  Add,
   AttachMoney,
   BarChart,
   CloudUpload,
   Edit,
   FileUpload,
   MoreVert,
+  Save,
 } from "@mui/icons-material";
 import {
   Box,
@@ -28,15 +30,16 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { ExcelRenderer } from "react-excel-renderer";
 import { makeStyles } from "tss-react/mui";
-import { fillEmptyValues, usdFormatter } from "../../utils/Helpers";
-import { CustomButton } from "../../components/ui/CustomComponents";
+import { fillEmptyValues, usdFormatter } from "../../../utils/Helpers";
+import { CustomButton } from "../../../components/ui/CustomComponents";
 import axios from "axios";
 import Masonry from "react-masonry-css";
+import MenuCategoryLoadingCard from "./components/MenuCategoryLoadingCard";
+import ErrorPlaceholder from "../../Updates/components/ErrorPlaceholder";
 
 const useStyles = makeStyles()((theme) => {
   return {
     root: {
-      // display: "flex",
       width: "100%",
     },
   };
@@ -51,14 +54,22 @@ const breakpoints = {
 
 export default function Menu() {
   const { classes } = useStyles();
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const [dragActive, setDragActive] = useState(false);
   const [header, setHeader] = useState([]);
   const [cols, setCols] = useState([]);
+
   const [menu, setMenu] = useState([]);
   const [categories, setCategories] = useState([]);
   const [menuData, setMenuData] = useState([]);
   const [menuItemCount, setMenuItemCount] = useState(0);
+
   const [overwrite, setOverwrite] = useState(false);
+  const [isEditActive, setIsEditActive] = useState(false);
+
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -68,10 +79,13 @@ export default function Menu() {
         const data = response.data;
         setMenu(data);
         setCategories(getMenu(data, "menuCategory", "itemCategory"));
-        console.log(data);
-        // console.log(getMenu(data, "menuCategory", "itemCategory"));
+        setError(null);
+        setIsLoading(false);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        setError(err);
+        setIsLoading(false);
+      });
   }, []);
 
   const getMenu = (menuData, menuKey, itemKey) => {
@@ -159,25 +173,54 @@ export default function Menu() {
       });
   };
 
-  /* const handleButtonClick = () => {
-    inputRef.current.click();
-  }; */
-
   return (
     <div className={classes.root}>
+      {/* Header & Buttons */}
       <Box className="flex-row-start" sx={{ mb: 2 }}>
         <Typography variant="h5" component="h1">
           Menu & Retail
         </Typography>
-        <CustomButton
-          disableElevation
-          variant="contained"
-          startIcon={<Edit />}
-          sx={{ borderRadius: 25, ml: 3 }}
-        >
-          Edit
-        </CustomButton>
+        <Box sx={{ ml: 3 }}>
+          <CustomButton
+            // disableElevation
+            variant="contained"
+            startIcon={<Add />}
+            sx={{ borderRadius: 25, mr: 1 }}
+          >
+            Add
+          </CustomButton>
+          <CustomButton
+            color={isEditActive ? "secondary" : "primary"}
+            // disableElevation
+            variant="contained"
+            startIcon={isEditActive ? <Save /> : <Edit />}
+            sx={{ borderRadius: 25 }}
+            onClick={() => setIsEditActive(!isEditActive)}
+          >
+            {isEditActive ? "Save" : "Edit"}
+          </CustomButton>
+        </Box>
       </Box>
+
+      {isLoading && (
+        <div>
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Loading...
+          </Typography>
+          <Masonry
+            breakpointCols={breakpoints}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+          >
+            <MenuCategoryLoadingCard itemCount={3} />
+            <MenuCategoryLoadingCard itemCount={1} />
+            <MenuCategoryLoadingCard itemCount={2} />
+            <MenuCategoryLoadingCard itemCount={2} />
+            <MenuCategoryLoadingCard itemCount={4} />
+            <MenuCategoryLoadingCard itemCount={3} />
+          </Masonry>
+        </div>
+      )}
 
       {categories.map((category) => (
         <div>
@@ -191,21 +234,27 @@ export default function Menu() {
           >
             {category.items.map((itemCategory) => (
               <Paper sx={{ p: 1.5 }}>
-                <Typography variant="subtitle1" sx={{ ml: 2, mb: 1 }}>
-                  {itemCategory} (
-                  {
-                    menu.filter(
+                <Box className="flex-row-space" sx={{ alignItems: "center" }}>
+                  <Typography variant="subtitle1" sx={{ ml: 2, mb: 1 }}>
+                    {itemCategory} (
+                    {
+                      menu.filter(
+                        (menuItem) => menuItem.itemCategory === itemCategory
+                      ).length
+                    }{" "}
+                    item
+                    {menu.filter(
                       (menuItem) => menuItem.itemCategory === itemCategory
-                    ).length
-                  }{" "}
-                  item
-                  {menu.filter(
-                    (menuItem) => menuItem.itemCategory === itemCategory
-                  ).length === 1
-                    ? ""
-                    : "s"}
-                  )
-                </Typography>
+                    ).length === 1
+                      ? ""
+                      : "s"}
+                    )
+                  </Typography>
+                  <IconButton>
+                    {/* To-Do: Rename menu category; Delete menu category */}
+                    <MoreVert />
+                  </IconButton>
+                </Box>
                 {menu
                   .filter((menuItem) => menuItem.itemCategory === itemCategory)
                   .map((menuItem, i) => (
@@ -217,12 +266,17 @@ export default function Menu() {
                       >
                         <Box
                           className="flex-row-start"
-                          sx={{ alignItems: "center" }}
+                          sx={{ alignItems: "baseline" }}
                         >
-                          <IconButton>
-                            <MoreVert fontSize="small" />
-                            {/* To-Do: make a menu for favoriting, deleting, editing */}
-                          </IconButton>
+                          <Box sx={{ width: 30, height: 30 }}>
+                            {!isEditActive && (
+                              <IconButton>
+                                <MoreVert fontSize="small" />
+                                {/* To-Do: make a menu for favoriting, deleting, editing */}
+                              </IconButton>
+                            )}
+                            {isEditActive && <Checkbox size="small" />}
+                          </Box>
 
                           {/* Menu Item Name */}
                           <Tooltip
@@ -333,6 +387,8 @@ export default function Menu() {
           </Masonry>
         </div>
       ))}
+
+      {error && <ErrorPlaceholder />}
 
       <form
         className={classes.form}
