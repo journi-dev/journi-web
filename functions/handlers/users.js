@@ -96,7 +96,11 @@ exports.logIn = (request, response) => {
     })
     .catch((err) => {
       return response.status(403).json({
-        credentials: "Invalid username or password. Please try again!",
+        errors: {
+          email: "",
+          password: "",
+          credentials: "Invalid username or password. Please try again!",
+        },
       });
     });
 };
@@ -171,7 +175,6 @@ exports.signUp = (request, response) => {
       return response.status(201).json({ token });
     })
     .catch((err) => {
-      console.error(err);
       if (err.code === "auth/email-already-exists")
         return response.status(400).json({
           email:
@@ -191,7 +194,6 @@ exports.addUserDetails = (request, response) => {
       return response.json({ message: "Details updated successfully!" });
     })
     .catch((err) => {
-      console.log(err);
       return response.status(500).json({ error: err.code });
     });
 };
@@ -237,7 +239,6 @@ exports.getAuthenticatedUser = (request, response) => {
       return response.json(userData);
     })
     .catch((err) => {
-      console.error(err);
       return response.status(500).json({ error: err.code });
     });
 };
@@ -292,7 +293,6 @@ exports.uploadImage = (request, response) => {
         return response.json({ message: "Image uploaded successfully" });
       })
       .catch((err) => {
-        console.error(err);
         return response.status(500).json({ error: err.code });
       });
   });
@@ -332,7 +332,6 @@ exports.getUserDetails = (request, response) => {
       return response.json(userData);
     })
     .catch((err) => {
-      console.error(err);
       return response.status(500).json({ error: err.code });
     });
 };
@@ -354,7 +353,6 @@ exports.markNotificationsRead = (request, response) => {
       });
     })
     .catch((err) => {
-      console.error(err);
       return response.status(500).json({ error: err.code });
     });
 };

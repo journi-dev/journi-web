@@ -9,17 +9,27 @@ const isEmpty = (string) => {
   return string.trim() === "";
 };
 
+const validateErrors = (object) => {
+  let isValid = true;
+  Object.keys(object).forEach((key) => {
+    if (object[key] !== "") isValid = false;
+  });
+  return isValid;
+};
+
 exports.validateLoginData = (data) => {
   let errors = {};
 
   if (isEmpty(data.email)) errors.email = "Email required";
   else if (!isEmail(data.email)) errors.email = "Please enter a valid email.";
+  else errors.email = "";
 
   if (isEmpty(data.password)) errors.password = "Password required";
+  else errors.password = "";
 
   return {
     errors,
-    valid: Object.keys(errors).length === 0,
+    valid: validateErrors(errors),
   };
 };
 
