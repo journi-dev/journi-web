@@ -21,6 +21,9 @@ import StickyBox from "react-sticky-box";
 
 const useStyles = makeStyles()((theme) => {
   return {
+    root: {
+      width: "100%",
+    },
     menu: {
       position: "relative",
     },
@@ -110,7 +113,9 @@ export default function AllSettings() {
 
   return (
     <Box className="flex-row-space">
-      <Outlet />
+      <Box className={classes.root}>
+        <Outlet />
+      </Box>
       <Box className="menu" sx={{ mx: 2, width: 150 }}>
         <StickyBox offsetTop={75}>
           <Typography

@@ -38,11 +38,7 @@ import MenuCategoryLoadingCard from "./components/MenuCategoryLoadingCard";
 import ErrorPlaceholder from "../../Updates/components/ErrorPlaceholder";
 
 const useStyles = makeStyles()((theme) => {
-  return {
-    root: {
-      width: "100%",
-    },
-  };
+  return {};
 });
 
 // TODO: Make based on theme with makeStyles
@@ -174,7 +170,7 @@ export default function Menu() {
   };
 
   return (
-    <div className={classes.root}>
+    <div>
       {/* Header & Buttons */}
       <Box className="flex-row-start" sx={{ mb: 2 }}>
         <Typography variant="h5" component="h1">
