@@ -91,6 +91,15 @@ body {
   display: flex;
 }
 
+.toolbar-button:hover,
+.toolbar-button-active {
+  border-bottom: 4px solid #ffc1b2;
+}
+
+.toolbar-button {
+  border-bottom: 4px solid #ffc1b200;
+}
+
 .my-masonry-grid {
   display: -webkit-box;
   /* Not needed if autoprefixing */

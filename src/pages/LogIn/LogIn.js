@@ -9,12 +9,11 @@ import { CustomLoadingButton } from "../../components/ui/CustomComponents";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logInUser } from "../../context/features/User";
-import { Box } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 
 const useStyles = makeStyles()((theme) => {
   return {
     root: {
-      // display: "flex",
       textAlign: "center",
     },
     marginAutoContainer: {
@@ -23,9 +22,15 @@ const useStyles = makeStyles()((theme) => {
     marginAutoItem: {
       margin: "0 auto",
     },
-    textField: {
+    loginComponent: {
       width: "90%",
       margin: "10px auto",
+    },
+    link: {
+      textDecoration: "none",
+    },
+    linkContainer: {
+      color: theme.palette.text.secondary,
     },
   };
 });
@@ -50,7 +55,7 @@ export default function LogIn() {
 
   return (
     <div className={classes.root}>
-      <Paper className={classes.marginAutoItem} sx={{ width: 500, m: 2, p:2}}>
+      <Paper className={classes.marginAutoItem} sx={{ width: 500, m: 2, p: 2 }}>
         <Typography variant="h5">{t("logIn")}</Typography>
         <form noValidate onSubmit={handleLogin}>
           <Box className="flex-col">
@@ -59,7 +64,7 @@ export default function LogIn() {
               name="email"
               type="email"
               label="Email"
-              className={classes.textField}
+              className={classes.loginComponent}
               helperText={errors.email}
               error={Boolean(errors.email)}
               value={email}
@@ -73,7 +78,7 @@ export default function LogIn() {
               name="password"
               type="password"
               label="Password"
-              className={classes.textField}
+              className={classes.loginComponent}
               helperText={errors.password}
               error={Boolean(errors.password)}
               value={password}
@@ -85,19 +90,35 @@ export default function LogIn() {
             <Typography variant="caption" color="error">
               {errors.credentials}
             </Typography>
+
+            <Box className={classes.loginComponent}>
+              <FormGroup>
+                <FormControlLabel control={<Checkbox />} label="Remember me" />
+              </FormGroup>
+            </Box>
+
             <CustomLoadingButton
               type="submit"
               variant="contained"
               disableElevation
               loading={isLoading}
-              sx={{ borderRadius: 25, my: 2, width: 100, mx: "auto" }}
+              sx={{ borderRadius: 25, mb: 2, width: 100, mx: "auto" }}
             >
               {t("logIn")}
             </CustomLoadingButton>
-            <Link to="/signup" sx={{ textDecoration: "none" }}>
-              <Typography variant="caption" display="block">
-                Don't have an account? Click here to sign up.
-              </Typography>
+            <Link to="/signup" className={classes.link}>
+              <Box className={classes.linkContainer}>
+                <Typography variant="caption" display="block">
+                  Don't have an account? Sign up!
+                </Typography>
+              </Box>
+            </Link>
+            <Link to="/forgot-password" className={classes.link}>
+              <Box className={classes.linkContainer} sx={{ mt: 1 }}>
+                <Typography variant="caption" display="block">
+                  Forgot password?
+                </Typography>
+              </Box>
             </Link>
           </Box>
         </form>

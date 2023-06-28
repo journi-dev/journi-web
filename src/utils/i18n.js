@@ -97,7 +97,9 @@ i18next
           // Welcome
           products: "Products",
           pricing: "Pricing",
+          resources: "Resources",
           "about us": "About us",
+          company: "Company",
           logIn: "Log in",
           signUp: "Sign up",
           demo: "Demo",
@@ -188,7 +190,9 @@ i18next
           // Welcome
           products: "Productos",
           pricing: "Precios",
+          resources: "Recursos",
           "about us": "Sobre nosotros",
+          company: "Compañía",
           logIn: "Acceso",
           signUp: "Inscribirse",
           demo: "Manifestación",

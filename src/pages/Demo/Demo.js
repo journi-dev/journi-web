@@ -5,7 +5,7 @@ import animationData from "../../assets/motion-graphics/25992-hand-scrolls-the-m
 export default function Demo() {
   return (
     <div>
-      <Box className="flex-row" sx={{ height: "75vh" }}>
+      <Box className="flex-row" sx={{ height: "70vh" }}>
         <Box className="flex-col">
           <Typography variant="h2">Create. Control. Customize.</Typography>
           <Typography>

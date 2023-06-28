@@ -1,6 +1,7 @@
 import React from "react";
 import {
   AppBar,
+  Box,
   Toolbar,
   Typography,
   ListItemIcon,
@@ -8,9 +9,10 @@ import {
   Divider,
   Menu,
   MenuItem,
+  Fab,
 } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import format from "date-fns/format";
 import {
   LightMode,
@@ -19,8 +21,8 @@ import {
   BugReport,
   DarkMode,
   SettingsBrightness,
+  QuestionMark,
 } from "@mui/icons-material";
-import { Box } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
@@ -167,31 +169,55 @@ export default function LoggedOutLayout() {
       path: "/pricing",
     },
     {
-      text: "about us",
-      path: "/about",
+      text: "resources",
+      path: "/resources",
+    },
+    {
+      text: "company",
+      path: "/company",
     },
   ];
 
   return (
     <div className={classes.root}>
       {/* Header */}
-      <AppBar className={classes.appBar} color="welcomeAppBar" elevation={0}>
+      <AppBar
+        className={classes.appBar}
+        color="welcomeAppBar"
+        elevation={0}
+        sx={{ py: 0 }}
+      >
         <Toolbar>
-          <Typography className={classes.appBarLeft}>Hello, World!</Typography>
-          {appBarItems.map((item) => (
-            <CustomButton
-              key={item.text}
-              color={
-                location.pathname === item.path
-                  ? "primary"
-                  : "appBarButtonColor"
-              }
-              disableElevation
-              onClick={() => navigate(item.path)}
-            >
-              <Typography variant="caption">{t(item.text)}</Typography>
-            </CustomButton>
-          ))}
+          <Link className={classes.appBarLeft} to="/">
+            <Box className="logo-expanded" alt="Journi Logo" />
+          </Link>
+
+          <Box className={classes.appBarLeft}>
+            {appBarItems.map((item) => (
+              <CustomButton
+                className=""
+                key={item.text}
+                color={
+                  location.pathname === item.path
+                    ? "primary"
+                    : "appBarButtonColor"
+                }
+                disableElevation
+                onClick={() => navigate(item.path)}
+                sx={{ mx: 2 }}
+              >
+                <Box
+                  className={
+                    location.pathname === item.path
+                      ? "toolbar-button-active"
+                      : "toolbar-button"
+                  }
+                >
+                  <Typography sx={{ px: 2, pb: 1 }}>{t(item.text)}</Typography>
+                </Box>
+              </CustomButton>
+            ))}
+          </Box>
           <CustomButton
             variant="outlined"
             color={
@@ -209,6 +235,7 @@ export default function LoggedOutLayout() {
             }
             disableElevation
             onClick={() => navigate("/signup")}
+            sx={{ mx: 2 }}
           >
             <Typography variant="caption">{t("signUp")}</Typography>
           </CustomButton>
@@ -335,6 +362,16 @@ export default function LoggedOutLayout() {
         <div className={classes.pageContent}>
           <div className={classes.toolbar}></div>
           <Outlet />
+          <Fab
+            color="primary"
+            sx={{
+              position: "absolute",
+              bottom: footerHeight + 25,
+              right: 25,
+            }}
+          >
+            <QuestionMark />
+          </Fab>
         </div>
 
         {/* Footer */}
