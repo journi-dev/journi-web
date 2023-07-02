@@ -87,26 +87,8 @@ const useStyles = makeStyles()((theme) => {
                 if (note.category === 'work') return yellow[700]
             } */
     },
-    flexCol: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-    },
-    flexColWithStart: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "start",
-    },
-    flexRow: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "center",
-      margin: "0px 0px 15px 0px",
-    },
-    flexRowWithStart: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "start",
+    button: {
+      borderRadius: 50,
     },
   };
 });
@@ -195,7 +177,6 @@ export default function LoggedOutLayout() {
           <Box className={classes.appBarLeft}>
             {appBarItems.map((item) => (
               <CustomButton
-                className=""
                 key={item.text}
                 color={
                   location.pathname === item.path
@@ -220,6 +201,7 @@ export default function LoggedOutLayout() {
           </Box>
           <CustomButton
             variant="outlined"
+            className={classes.button}
             color={
               location.pathname === "/login" ? "primary" : "appBarButtonColor"
             }
@@ -230,6 +212,7 @@ export default function LoggedOutLayout() {
           </CustomButton>
           <CustomButton
             variant="outlined"
+            className={classes.button}
             color={
               location.pathname === "/signup" ? "primary" : "appBarButtonColor"
             }
@@ -237,10 +220,11 @@ export default function LoggedOutLayout() {
             onClick={() => navigate("/signup")}
             sx={{ mx: 2 }}
           >
-            <Typography variant="caption">{t("signUp")}</Typography>
+            <Typography variant="caption">{t("getStarted")}</Typography>
           </CustomButton>
           <CustomButton
             variant="contained"
+            className={classes.button}
             disableElevation
             onClick={() => navigate("/demo")}
           >
@@ -377,7 +361,7 @@ export default function LoggedOutLayout() {
         {/* Footer */}
         <Paper className={classes.footer} elevation={0} sx={{ mt: 1 }}>
           {/* Footer Menu */}
-          <Box className={classes.flexRow}>
+          <Box className="flex-row" sx={{ mb: 1 }}>
             <CustomButton size="small">
               <Typography variant="caption" color="text.primary">
                 {t("termsOfService")}
@@ -418,7 +402,7 @@ export default function LoggedOutLayout() {
           </Box>
 
           {/* Company Details */}
-          <Box className={classes.flexRow} sx={{ userSelect: "none" }}>
+          <Box className="flex-row" sx={{ userSelect: "none", mb: 1 }}>
             <Typography variant="caption" sx={{ mr: 1 }}>
               &#169; {format(new Date(), "yyyy")} Journi R&D
             </Typography>

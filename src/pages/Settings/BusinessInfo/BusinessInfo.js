@@ -291,6 +291,12 @@ export default function BusinessInfo() {
             <BusinessHours />
             <SupportHours />
           </Box>
+          <Typography>Delivery Settings</Typography>
+          <Typography>Enable delivery chekbox</Typography>
+          <Typography>
+            Set delivery territory by dropdown (radius, zip code, neighborhood,
+            city, draw){" "}
+          </Typography>
         </Box>
       </form>
     </div>
