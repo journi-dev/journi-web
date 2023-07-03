@@ -5,6 +5,7 @@ import axios from "axios";
 // import { format } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import UsersActions from "./components/UsersActions";
+import ErrorPlaceholder from "../../Updates/components/ErrorPlaceholder";
 
 export default function UsersAndPatrons() {
   const [users, setUsers] = useState([]);
@@ -94,41 +95,35 @@ export default function UsersAndPatrons() {
         </Typography>
       </Box>
 
-      {isLoading && (
+      {isLoading ? (
         <div>
-          <Typography variant="h6" sx={{ mb: 2 }}>
+          <Typography variant="subtitle1" sx={{ mb: 2 }}>
             Loading...
           </Typography>
         </div>
-      )}
-
-      <DataGrid
-        columns={columns}
-        rows={users}
-        getRowId={(row) => row.id}
-        rowsPerPageOptions={[5, 10, 25, 50]}
-        pageSize={pageSize}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        /* getRowSpacing={(params) => ({
+      ) : (
+        <DataGrid
+          columns={columns}
+          rows={users}
+          getRowId={(row) => row.id}
+          rowsPerPageOptions={[5, 10, 25, 50]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          /* getRowSpacing={(params) => ({
           top: params.isFirstVisible ? 0 : 5,
           bottom: params.isLastVisible ? 0 : 5,
         })} */
-        sx={{
-          [`& .${gridClasses.row}`]: {
-            bgcolor: (theme) =>
-              theme.palette.mode === "light" ? grey[200] : grey[900],
-          },
-        }}
-        onCellEditStop={(params) => setRowId(params.id)}
-      />
-
-      {error && (
-        <div>
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            Error ({error})
-          </Typography>
-        </div>
+          sx={{
+            [`& .${gridClasses.row}`]: {
+              bgcolor: (theme) =>
+                theme.palette.mode === "light" ? grey[200] : grey[900],
+            },
+          }}
+          onCellEditStop={(params) => setRowId(params.id)}
+        />
       )}
+
+      {error && <ErrorPlaceholder />}
 
       <Box sx={{ my: 2 }}>
         <Typography variant="h6">Patrons</Typography>
