@@ -22,7 +22,7 @@ import Layout from "./components/ui/Layout";
 import { setAuthenticated } from "./context/features/User";
 import BusinessInfo from "./pages/Settings/BusinessInfo/BusinessInfo";
 import Menu from "./pages/Settings/Menu/Menu";
-import UsersAndPatrons from "./pages/Settings/UsersAndPatrons";
+import UsersAndPatrons from "./pages/Settings/UsersAndPatrons/UsersAndPatrons";
 import AppAndWebsite from "./pages/Settings/AppAndWebsite";
 import Integrations from "./pages/Settings/Integrations";
 import GiftCards from "./pages/Settings/GiftCards";

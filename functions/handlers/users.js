@@ -78,24 +78,24 @@ const generateSequence = (length) => {
   return string;
 };
 
-exports.logIn = (request, response) => {
+exports.logIn = (req, res) => {
   const user = {
-    email: request.body.email,
-    password: request.body.password,
+    email: req.body.email,
+    password: req.body.password,
   };
 
   const { valid, errors } = validateLoginData(user);
-  if (!valid) return response.status(400).json({ errors });
+  if (!valid) return res.status(400).json({ errors });
 
   signInWithEmailAndPassword(firebaseAuth, user.email, user.password)
     .then((data) => {
       return data.user.getIdToken();
     })
     .then((token) => {
-      return response.status(200).json({ token });
+      return res.status(200).json({ token });
     })
     .catch((err) => {
-      return response.status(403).json({
+      return res.status(403).json({
         errors: {
           email: "",
           password: "",
@@ -105,19 +105,19 @@ exports.logIn = (request, response) => {
     });
 };
 
-exports.signUp = (request, response) => {
+exports.signUp = (req, res) => {
   const newUser = {
-    email: request.body.email,
-    password: request.body.password,
-    confirmPassword: request.body.confirmPassword,
-    firstName: request.body.firstName,
-    lastName: request.body.lastName,
-    username: request.body.username,
-    // phoneNumber: request.body.phoneNumber,
+    email: req.body.email,
+    password: req.body.password,
+    confirmPassword: req.body.confirmPassword,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    username: req.body.username,
+    // phoneNumber: req.body.phoneNumber,
   };
 
   const { valid, errors } = validateSignUpData(newUser);
-  if (!valid) return response.status(400).json({ errors });
+  if (!valid) return res.status(400).json({ errors });
 
   const noImg = "DefaultProfilePicture.jpg";
 
@@ -126,7 +126,7 @@ exports.signUp = (request, response) => {
     .then((doc) => {
       if (doc.exists) {
         // The username is already taken
-        return response.status(400).json({
+        return res.status(400).json({
           username:
             "This username is already in use! Please try another username.",
         });
@@ -144,8 +144,8 @@ exports.signUp = (request, response) => {
     })
     .then((user) => {
       const userCredentials = {
-        accessLevel: "user",
-        appearancePreferance: "light",
+        accessLevel: "Employee",
+        appearancePreference: "light",
         createdAt: user.metadata.creationTime,
         disabled: user.disabled,
         displayName: user.displayName,
@@ -172,42 +172,42 @@ exports.signUp = (request, response) => {
       return data.user.getIdToken();
     })
     .then((token) => {
-      return response.status(201).json({ token });
+      return res.status(201).json({ token });
     })
     .catch((err) => {
       if (err.code === "auth/email-already-exists")
-        return response.status(400).json({
+        return res.status(400).json({
           email:
             "This email is already in use! Log in with that email or try another email.",
         });
-      return response
+      return res
         .status(500)
         .json({ general: "Something went wrong. Please try again." });
     });
 };
 
-exports.addUserDetails = (request, response) => {
-  let userDetails = reduceUserDetails(request.body);
-  db.doc(`/organizations/uncle-johns/users/${request.user.username}`)
+exports.addUserDetails = (req, res) => {
+  let userDetails = reduceUserDetails(req.body);
+  db.doc(`/organizations/uncle-johns/users/${req.user.username}`)
     .update(userDetails)
     .then(() => {
-      return response.json({ message: "Details updated successfully!" });
+      return res.json({ message: "Details updated successfully!" });
     })
     .catch((err) => {
-      return response.status(500).json({ error: err.code });
+      return res.status(500).json({ error: err.code });
     });
 };
 
-exports.getAuthenticatedUser = (request, response) => {
+exports.getAuthenticatedUser = (req, res) => {
   let userData = {};
-  db.doc(`/organizations/uncle-johns/users/${request.user.username}`)
+  db.doc(`/organizations/uncle-johns/users/${req.user.username}`)
     .get()
     .then((doc) => {
       if (doc.exists) {
         userData.credentials = doc.data();
         return db
           .collection(`/organizations/uncle-johns/pinnedUpdates/`)
-          .where("username", "==", request.user.username)
+          .where("username", "==", req.user.username)
           .get();
       }
     })
@@ -218,7 +218,7 @@ exports.getAuthenticatedUser = (request, response) => {
       });
       return db
         .collection("organizations/uncle-johns/notifications")
-        .where("recipient", "==", request.user.username)
+        .where("recipient", "==", req.user.username)
         .orderBy("createdAt", "desc")
         .limit(10)
         .get();
@@ -236,20 +236,60 @@ exports.getAuthenticatedUser = (request, response) => {
           notificationId: doc.id,
         });
       });
-      return response.json(userData);
+      return res.json(userData);
     })
     .catch((err) => {
-      return response.status(500).json({ error: err.code });
+      return res.status(500).json({ error: err.code });
     });
 };
 
-exports.uploadImage = (request, response) => {
+exports.getUsers = (req, res) => {
+  db.collection("organizations/uncle-johns/users")
+    .orderBy("createdAt", "desc")
+    .get()
+    .then((data) => {
+      const users = [];
+      data.forEach((doc) => {
+        users.push({
+          id: doc.id,
+          accessLevel: doc.data().accessLevel,
+          createdAt: doc.data().createdAt,
+          disabled: doc.data().disabled,
+          email: doc.data().email,
+          emailVerified: doc.data().emailVerified,
+          firstName: doc.data().firstName,
+          lastName: doc.data().lastName,
+          userImage: doc.data().userImage,
+          username: doc.data().username,
+        });
+      });
+      return res.json(users);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+exports.updateUser = (req, res) => {
+  const { accessLevel, disabled } = req.body;
+
+  db.doc(`/organizations/uncle-johns/users/${req.params.username}`)
+    .update({ accessLevel, disabled })
+    .then(() => {
+      return res.json({ message: "User details updated successfully!" });
+    })
+    .catch((err) => {
+      return res.status(500).json({ error: err.code });
+    });
+};
+
+exports.uploadImage = (req, res) => {
   const Busboy = require("busboy");
   const path = require("path");
   const os = require("os");
   const fs = require("fs");
 
-  const busboy = Busboy({ headers: request.headers });
+  const busboy = Busboy({ headers: req.headers });
 
   let imageFileName;
   let imageToBeUploaded = {};
@@ -260,7 +300,7 @@ exports.uploadImage = (request, response) => {
     // console.log("mimetype", mimetype);
 
     if (mimetype !== "image/jpeg" && mimetype !== "image/png")
-      return response.status(400).json({ error: "Incorrect file type." });
+      return res.status(400).json({ error: "Incorrect file type." });
 
     let splitFileName = filename.filename.split(".");
     const imageExtension = splitFileName[splitFileName.length - 1];
@@ -286,34 +326,34 @@ exports.uploadImage = (request, response) => {
       .then(() => {
         const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${imageFileName}?alt=media`;
         return db
-          .doc(`/organizations/uncle-johns/users/${request.user.username}`)
+          .doc(`/organizations/uncle-johns/users/${req.user.username}`)
           .update({ imageUrl });
       })
       .then(() => {
-        return response.json({ message: "Image uploaded successfully" });
+        return res.json({ message: "Image uploaded successfully" });
       })
       .catch((err) => {
-        return response.status(500).json({ error: err.code });
+        return res.status(500).json({ error: err.code });
       });
   });
 
-  busboy.end(request.rawBody);
+  busboy.end(req.rawBody);
 };
 
-exports.getUserDetails = (request, response) => {
+exports.getUserDetails = (req, res) => {
   let userData = {};
-  db.doc(`/organizations/uncle-johns/users/${request.params.username}`)
+  db.doc(`/organizations/uncle-johns/users/${req.params.username}`)
     .get()
     .then((doc) => {
       if (doc.exists) {
         userData.user = doc.data();
         return db
           .collection("organizations/uncle-johns/promotions")
-          .where("username", "==", request.params.username)
+          .where("username", "==", req.params.username)
           .orderBy("createdAt", "desc")
           .get();
       } else {
-        return response.status(404).json({ error: "User not found." });
+        return res.status(404).json({ error: "User not found." });
       }
     })
     .then((data) => {
@@ -329,16 +369,16 @@ exports.getUserDetails = (request, response) => {
           promotionId: doc.id,
         });
       });
-      return response.json(userData);
+      return res.json(userData);
     })
     .catch((err) => {
-      return response.status(500).json({ error: err.code });
+      return res.status(500).json({ error: err.code });
     });
 };
 
-exports.markNotificationsRead = (request, response) => {
+exports.markNotificationsRead = (req, res) => {
   let batch = db.batch();
-  request.body.forEach((notifId) => {
+  req.body.forEach((notifId) => {
     const notification = db.doc(
       `/organizations/uncle-johns/notifications/${notifId}`
     );
@@ -348,11 +388,11 @@ exports.markNotificationsRead = (request, response) => {
   batch
     .commit()
     .then(() => {
-      return response.json({
+      return res.json({
         message: "Notifications successfully marked read.",
       });
     })
     .catch((err) => {
-      return response.status(500).json({ error: err.code });
+      return res.status(500).json({ error: err.code });
     });
 };

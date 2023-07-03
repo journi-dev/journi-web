@@ -1,18 +1,18 @@
 const { db } = require("../util/admin");
 
-exports.createPromotion = (request, response) => {
-  if (request.body.promoName.trim() === "")
-    return response
+exports.createPromotion = (req, res) => {
+  if (req.body.promoName.trim() === "")
+    return res
       .status(400)
       .json({ promoName: "Promotion name field must not be empty." });
 
   const newPromotion = {
     createdAt: new Date(),
-    username: request.user.username,
-    userImage: request.user.imageUrl,
-    promoName: request.body.promoName,
-    promoCode: request.body.promoCode,
-    promoDesc: request.body.promoDesc,
+    username: req.user.username,
+    userImage: req.user.imageUrl,
+    promoName: req.body.promoName,
+    promoCode: req.body.promoCode,
+    promoDesc: req.body.promoDesc,
     isPinned: false,
   };
 
@@ -21,32 +21,32 @@ exports.createPromotion = (request, response) => {
     .then((doc) => {
       const responsePromotion = newPromotion;
       responsePromotion.promotionId = doc.id;
-      return response.json(responsePromotion);
+      return res.json(responsePromotion);
     })
     .catch((err) => {
       console.error(err);
-      return response.status(500).json({ error: "Something went wrong." });
+      return res.status(500).json({ error: "Something went wrong." });
     });
 };
 
-exports.getPromotion = (request, response) => {
+exports.getPromotion = (req, res) => {
   let promotionData = {};
-  db.doc(`/organizations/uncle-johns/promotions/${request.params.promotionId}`)
+  db.doc(`/organizations/uncle-johns/promotions/${req.params.promotionId}`)
     .get()
     .then((doc) => {
       if (!doc.exists)
-        return response.status(404).json({ error: "Promotion not found." });
+        return res.status(404).json({ error: "Promotion not found." });
       promotionData = doc.data();
       promotionData.promoId = doc.id;
-      return response.json(promotionData);
+      return res.json(promotionData);
     })
     .catch((err) => {
       console.error(err);
-      response.status(500).json({ error: err.code });
+      res.status(500).json({ error: err.code });
     });
 };
 
-exports.getPromotions = (request, response) => {
+exports.getPromotions = (req, res) => {
   db.collection("organizations/uncle-johns/promotions")
     .orderBy("createdAt", "desc")
     .get()
@@ -63,22 +63,22 @@ exports.getPromotions = (request, response) => {
           promoDesc: doc.data().promoDesc,
         });
       });
-      return response.json(promotions);
+      return res.json(promotions);
     })
     .catch((err) => {
       console.error(err);
     });
 };
 
-exports.pinPromotion = (request, response) => {
+exports.pinPromotion = (req, res) => {
   const pinDoc = db
     .collection("organizations/uncle-johns/pinnedUpdates/")
-    .where("username", "==", request.user.username)
-    .where("promotionId", "==", request.params.promotionId)
+    .where("username", "==", req.user.username)
+    .where("promotionId", "==", req.params.promotionId)
     .limit(1);
 
   const promoDoc = db.doc(
-    `organizations/uncle-johns/promotions/${request.params.promotionId}`
+    `organizations/uncle-johns/promotions/${req.params.promotionId}`
   );
 
   let promotionData;
@@ -90,44 +90,41 @@ exports.pinPromotion = (request, response) => {
         promotionData = doc.data();
         promotionData.promotionId = doc.id;
         return pinDoc.get();
-      } else
-        return response.status(404).json({ error: "Promotion not found." });
+      } else return res.status(404).json({ error: "Promotion not found." });
     })
     .then((data) => {
       if (data.empty) {
         return db
           .collection("organizations/uncle-johns/pinnedUpdates/")
           .add({
-            promotionId: request.params.promotionId,
-            username: request.user.username,
+            promotionId: req.params.promotionId,
+            username: req.user.username,
           })
           .then(() => {
             promotionData.isPinned = true;
             return promoDoc.update({ isPinned: promotionData.isPinned });
           })
           .then(() => {
-            return response.json(promotionData);
+            return res.json(promotionData);
           });
       } else {
-        return response
-          .status(400)
-          .json({ error: "Promotion is already pinned." });
+        return res.status(400).json({ error: "Promotion is already pinned." });
       }
     })
     .catch((err) => {
-      response.status(500).json({ error: err.code });
+      res.status(500).json({ error: err.code });
     });
 };
 
-exports.unpinPromotion = (request, response) => {
+exports.unpinPromotion = (req, res) => {
   const pinDoc = db
     .collection("organizations/uncle-johns/pinnedUpdates/")
-    .where("username", "==", request.user.username)
-    .where("promotionId", "==", request.params.promotionId)
+    .where("username", "==", req.user.username)
+    .where("promotionId", "==", req.params.promotionId)
     .limit(1);
 
   const promoDoc = db.doc(
-    `organizations/uncle-johns/promotions/${request.params.promotionId}`
+    `organizations/uncle-johns/promotions/${req.params.promotionId}`
   );
 
   let promotionData;
@@ -139,12 +136,11 @@ exports.unpinPromotion = (request, response) => {
         promotionData = doc.data();
         promotionData.promotionId = doc.id;
         return pinDoc.get();
-      } else
-        return response.status(404).json({ error: "Promotion not found." });
+      } else return res.status(404).json({ error: "Promotion not found." });
     })
     .then((data) => {
       if (data.empty) {
-        return response.status(400).json({ error: "Promotion is not pinned." });
+        return res.status(400).json({ error: "Promotion is not pinned." });
       } else {
         return db
           .doc(`organizations/uncle-johns/pinnedUpdates/${data.docs[0].id}`)
@@ -154,34 +150,34 @@ exports.unpinPromotion = (request, response) => {
             return promoDoc.update({ isPinned: promotionData.isPinned });
           })
           .then(() => {
-            response.json(promotionData);
+            res.json(promotionData);
           });
       }
     })
     .catch((err) => {
-      response.status(500).json({ error: err.code });
+      res.status(500).json({ error: err.code });
     });
 };
 
-exports.deletePromotion = (request, response) => {
+exports.deletePromotion = (req, res) => {
   const document = db.doc(
-    `/organizations/uncle-johns/promotions/${request.params.promotionId}`
+    `/organizations/uncle-johns/promotions/${req.params.promotionId}`
   );
 
   document
     .get()
     .then((doc) => {
       if (!doc.exists) {
-        return response.status(404).json({ error: "Promotion not found." });
+        return res.status(404).json({ error: "Promotion not found." });
       } else {
         return document.delete();
       }
     })
     .then(() => {
-      response.json({ message: "Promotion deleted successfully." });
+      res.json({ message: "Promotion deleted successfully." });
     })
     .catch((err) => {
       console.error(err);
-      return response.status(500).json({ error: err.code });
+      return res.status(500).json({ error: err.code });
     });
 };

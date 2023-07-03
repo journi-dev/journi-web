@@ -22,6 +22,7 @@ import {
 import { makeStyles } from "tss-react/mui";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import format from "date-fns/format";
+import { enUS, es /* , zhCN, pl */ } from "date-fns/locale";
 import {
   Home,
   BarChart,
@@ -197,10 +198,30 @@ export default function LoggedInLayout() {
   const appearance = useSelector((state) => state.appearance.value.mode);
 
   const languages = {
-    en: { name: "english", nativeName: "English", icon: <AmericanFlag /> },
-    es: { name: "spanish", nativeName: "Spanish", icon: <SpanishFlag /> },
-    // pl: { name: "polish", nativeName: "Polish", icon: <PolishFlag /> },
-    // cn: { name: "chinese", nativeName: "Chinese", icon: <ChineseFlag /> },
+    en: {
+      name: "english",
+      nativeName: "English",
+      icon: <AmericanFlag />,
+      locale: enUS,
+    },
+    es: {
+      name: "spanish",
+      nativeName: "Spanish",
+      icon: <SpanishFlag />,
+      locale: es,
+    },
+    /* pl: {
+      name: "polish",
+      nativeName: "Polish",
+      icon: <PolishFlag />,
+      locale: pl,
+    },
+    cn: {
+      name: "chinese",
+      nativeName: "Chinese",
+      icon: <ChineseFlag />,
+      locale: zhCN,
+    }, */
   };
   const appearances = {
     light: { name: "light", icon: <LightMode color="action" /> },
@@ -396,15 +417,11 @@ export default function LoggedInLayout() {
           >
             {isDrawerExpanded ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>
+
           <Typography className={classes.date}>
-            {t(format(time, "EEE").toLowerCase())},{" "}
-            {language.nativeName === "Spanish"
-              ? `${format(time, "d")} de `
-              : ""}
-            {t(format(time, "MMM").toLowerCase())}{" "}
-            {language.nativeName !== "Spanish" ? format(time, "d") : ""}
-            {t(format(time, "Y"))}
+            {format(time, "PPPP", { locale: language.locale })}
           </Typography>
+
           <Typography sx={{ mr: 2 }}>
             {time.getHours() < 12
               ? t("goodMorning")

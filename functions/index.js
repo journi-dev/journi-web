@@ -15,6 +15,8 @@ const {
   getAuthenticatedUser,
   getUserDetails,
   markNotificationsRead,
+  getUsers,
+  updateUser,
 } = require("./handlers/users");
 const handleFirebaseAuth = require("./util/handleFirebaseAuth");
 const { db } = require("./util/admin");
@@ -36,7 +38,9 @@ app.post("/user", handleFirebaseAuth, addUserDetails);
 app.post("/user/avatar", handleFirebaseAuth, uploadImage);
 app.get("/user", handleFirebaseAuth, getAuthenticatedUser);
 app.get("/user/:username", getUserDetails);
+app.post("/user/:username/update", updateUser);
 app.get("/notifications", handleFirebaseAuth, markNotificationsRead);
+app.get("/users", getUsers);
 
 // "Menu" Routes
 // app.post("/addMultipleToMenu", handleFirebaseAuth, addMultipleToMenu);

@@ -1,6 +1,6 @@
 const { db } = require("../util/admin");
 
-exports.addMultipleToMenu = (request, response) => {
+exports.addMultipleToMenu = (req, res) => {
   let batch = db.batch();
 
   function generateId(length) {
@@ -77,7 +77,7 @@ exports.addMultipleToMenu = (request, response) => {
     return result;
   }
 
-  request.body.forEach((menuItem) => {
+  req.body.forEach((menuItem) => {
     const newMenuItemData = {
       createdAt: new Date(),
       id: generateId(4),
@@ -101,15 +101,15 @@ exports.addMultipleToMenu = (request, response) => {
   batch
     .commit()
     .then(() => {
-      return response.json({ message: "Menu options successfully updated." });
+      return res.json({ message: "Menu options successfully updated." });
     })
     .catch((err) => {
       console.error(err);
-      return response.status(500).json({ error: err.code });
+      return res.status(500).json({ error: err.code });
     });
 };
 
-exports.getMenu = (request, response) => {
+exports.getMenu = (req, res) => {
   db.collection("organizations/uncle-johns/menu")
     .orderBy("createdAt", "desc")
     .get()
@@ -130,7 +130,7 @@ exports.getMenu = (request, response) => {
           itemCategory: doc.data().itemCategory,
         });
       });
-      return response.json(menu);
+      return res.json(menu);
     })
     .catch((err) => {
       console.error(err);

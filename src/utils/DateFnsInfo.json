@@ -1,0 +1,500 @@
+[
+  {
+    "code": "af",
+    "iso_639_2": "afr",
+    "summary": "Afrikaans locale",
+    "language": "Afrikaans"
+  },
+  {
+    "code": "ar-DZ",
+    "iso_639_2": "ara",
+    "summary": "Arabic locale (Algerian Arabic)",
+    "language": "Algerian Arabic"
+  },
+  {
+    "code": "ar-MA",
+    "iso_639_2": "ara",
+    "summary": "Arabic locale (Moroccan Arabic)",
+    "language": "Moroccan Arabic"
+  },
+  {
+    "code": "ar-SA",
+    "iso_639_2": "ara",
+    "summary": "Arabic locale (Sauid Arabic)",
+    "language": "Arabic"
+  },
+  {
+    "code": "ar-TN",
+    "iso_639_2": "ara",
+    "summary": "Arabic locale (Tunisian Arabic)",
+    "language": "Arabic"
+  },
+  {
+    "code": "az",
+    "iso_639_2": "aze",
+    "summary": "Azerbaijani locale",
+    "language": "Azerbaijani"
+  },
+  {
+    "code": "be",
+    "iso_639_2": "bel",
+    "summary": "Belarusian locale",
+    "language": "Belarusian"
+  },
+  {
+    "code": "bg",
+    "iso_639_2": "bul",
+    "summary": "Bulgarian locale",
+    "language": "Bulgarian"
+  },
+  {
+    "code": "bn",
+    "iso_639_2": "ben",
+    "summary": "Bengali locale",
+    "language": "Bengali"
+  },
+  {
+    "code": "bs",
+    "iso_639_2": "bos",
+    "summary": "Bosnian locale",
+    "language": "Bosnian"
+  },
+  {
+    "code": "ca",
+    "iso_639_2": "cat",
+    "summary": "Catalan locale",
+    "language": "Catalan"
+  },
+  {
+    "code": "cs",
+    "iso_639_2": "ces",
+    "summary": "Czech locale",
+    "language": "Czech"
+  },
+  {
+    "code": "cy",
+    "iso_639_2": "cym",
+    "summary": "Welsh locale",
+    "language": "Welsh"
+  },
+  {
+    "code": "da",
+    "iso_639_2": "dan",
+    "summary": "Danish locale",
+    "language": "Danish"
+  },
+  {
+    "code": "de",
+    "iso_639_2": "deu",
+    "summary": "German locale",
+    "language": "German"
+  },
+  {
+    "code": "de-AT",
+    "iso_639_2": "deu",
+    "summary": "German locale (Austria)",
+    "language": "German"
+  },
+  {
+    "code": "el",
+    "iso_639_2": "ell",
+    "summary": "Greek locale",
+    "language": "Greek"
+  },
+  {
+    "code": "en-AU",
+    "iso_639_2": "eng",
+    "summary": "English locale (Australia)",
+    "language": "English"
+  },
+  {
+    "code": "en-CA",
+    "iso_639_2": "eng",
+    "summary": "English locale (Canada)",
+    "language": "English"
+  },
+  {
+    "code": "en-GB",
+    "iso_639_2": "eng",
+    "summary": "English locale (United Kingdom)",
+    "language": "English"
+  },
+  {
+    "code": "en-IN",
+    "iso_639_2": "eng",
+    "summary": "English locale (India)",
+    "language": "English"
+  },
+  {
+    "code": "en-NZ",
+    "iso_639_2": "eng",
+    "summary": "English locale (New Zealand)",
+    "language": "English"
+  },
+  {
+    "code": "en-US",
+    "iso_639_2": "eng",
+    "summary": "English locale (United States)",
+    "language": "English"
+  },
+  {
+    "code": "en-ZA",
+    "iso_639_2": "eng",
+    "summary": "English locale (South Africa)",
+    "language": "English"
+  },
+  {
+    "code": "eo",
+    "iso_639_2": "epo",
+    "summary": "Esperanto locale",
+    "language": "Esperanto"
+  },
+  {
+    "code": "es",
+    "iso_639_2": "spa",
+    "summary": "Spanish locale",
+    "language": "Spanish"
+  },
+  {
+    "code": "et",
+    "iso_639_2": "est",
+    "summary": "Estonian locale",
+    "language": "Estonian"
+  },
+  {
+    "code": "eu",
+    "iso_639_2": "eus",
+    "summary": "Basque locale",
+    "language": "Basque"
+  },
+  {
+    "code": "fa-IR",
+    "iso_639_2": "ira",
+    "summary": "Persian/Farsi locale (Iran)",
+    "language": "Persian"
+  },
+  {
+    "code": "fi",
+    "iso_639_2": "fin",
+    "summary": "Finnish locale",
+    "language": "Finnish"
+  },
+  {
+    "code": "fr",
+    "iso_639_2": "fra",
+    "summary": "French locale",
+    "language": "French"
+  },
+  {
+    "code": "fr-CA",
+    "iso_639_2": "fra",
+    "summary": "French locale (Canada)",
+    "language": "French"
+  },
+  {
+    "code": "fr-CH",
+    "iso_639_2": "fra",
+    "summary": "French locale",
+    "language": "French"
+  },
+  {
+    "code": "gd",
+    "iso_639_2": "gla",
+    "summary": "Scottish Gaelic",
+    "language": "Scottish Gaelic"
+  },
+  {
+    "code": "gl",
+    "iso_639_2": "glg",
+    "summary": "Galician locale",
+    "language": "Galician"
+  },
+  {
+    "code": "gu",
+    "iso_639_2": "guj",
+    "summary": "Gujarati locale (India)",
+    "language": "Gujarati"
+  },
+  {
+    "code": "he",
+    "iso_639_2": "heb",
+    "summary": "Hebrew locale",
+    "language": "Hebrew"
+  },
+  {
+    "code": "hi",
+    "iso_639_2": "hin",
+    "summary": "Hindi locale (India)",
+    "language": "Hindi"
+  },
+  {
+    "code": "hr",
+    "iso_639_2": "hrv",
+    "summary": "Croatian locale",
+    "language": "Croatian"
+  },
+  {
+    "code": "ht",
+    "iso_639_2": "hat",
+    "summary": "Haitian Creole locale",
+    "language": "Haitian Creole"
+  },
+  {
+    "code": "hu",
+    "iso_639_2": "hun",
+    "summary": "Hungarian locale",
+    "language": "Hungarian"
+  },
+  {
+    "code": "hy",
+    "iso_639_2": "arm",
+    "summary": "Armenian locale",
+    "language": "Armenian"
+  },
+  {
+    "code": "id",
+    "iso_639_2": "ind",
+    "summary": "Indonesian locale",
+    "language": "Indonesian"
+  },
+  {
+    "code": "is",
+    "iso_639_2": "isl",
+    "summary": "Icelandic locale",
+    "language": "Icelandic"
+  },
+  {
+    "code": "it",
+    "iso_639_2": "ita",
+    "summary": "Italian locale",
+    "language": "Italian"
+  },
+  {
+    "code": "ja",
+    "iso_639_2": "jpn",
+    "summary": "Japanese locale",
+    "language": "Japanese"
+  },
+  {
+    "code": "ja-Hira",
+    "iso_639_2": "jpn",
+    "summary": "Japanese (Hiragana) locale",
+    "language": "Japanese (Hiragana)"
+  },
+  {
+    "code": "ka",
+    "iso_639_2": "geo",
+    "summary": "Georgian locale",
+    "language": "Georgian"
+  },
+  {
+    "code": "kk",
+    "iso_639_2": "kaz",
+    "summary": "Kazakh locale",
+    "language": "Kazakh"
+  },
+  {
+    "code": "kn",
+    "iso_639_2": "kan",
+    "summary": "Kannada locale (India)",
+    "language": "Kannada"
+  },
+  {
+    "code": "ko",
+    "iso_639_2": "kor",
+    "summary": "Korean locale",
+    "language": "Korean"
+  },
+  {
+    "code": "lb",
+    "iso_639_2": "ltz",
+    "summary": "Luxembourgish locale",
+    "language": "Luxembourgish"
+  },
+  {
+    "code": "lt",
+    "iso_639_2": "lit",
+    "summary": "Lithuanian locale",
+    "language": "Lithuanian"
+  },
+  {
+    "code": "lv",
+    "iso_639_2": "lav",
+    "summary": "Latvian locale (Latvia)",
+    "language": "Latvian"
+  },
+  {
+    "code": "mk",
+    "iso_639_2": "mkd",
+    "summary": "Macedonian locale",
+    "language": "Macedonian"
+  },
+  {
+    "code": "mn",
+    "iso_639_2": "mon",
+    "summary": "Mongolian locale",
+    "language": "Mongolian"
+  },
+  {
+    "code": "ms",
+    "iso_639_2": "msa",
+    "summary": "Malay locale",
+    "language": "Malay"
+  },
+  {
+    "code": "mt",
+    "iso_639_2": "mlt",
+    "summary": "Maltese locale",
+    "language": "Maltese"
+  },
+  {
+    "code": "nb",
+    "iso_639_2": "nob",
+    "summary": "Norwegian Bokmål locale",
+    "language": "Norwegian Bokmål"
+  },
+  {
+    "code": "nl",
+    "iso_639_2": "nld",
+    "summary": "Dutch locale",
+    "language": "Dutch"
+  },
+  {
+    "code": "nl-BE",
+    "iso_639_2": "nld",
+    "summary": "Dutch locale",
+    "language": "Dutch"
+  },
+  {
+    "code": "nn",
+    "iso_639_2": "nno",
+    "summary": "Norwegian Nynorsk locale",
+    "language": "Norwegian Nynorsk"
+  },
+  {
+    "code": "pl",
+    "iso_639_2": "pol",
+    "summary": "Polish locale",
+    "language": "Polish"
+  },
+  {
+    "code": "pt",
+    "iso_639_2": "por",
+    "summary": "Portuguese locale",
+    "language": "Portuguese"
+  },
+  {
+    "code": "pt-BR",
+    "iso_639_2": "por",
+    "summary": "Portuguese locale (Brazil)",
+    "language": "Portuguese"
+  },
+  {
+    "code": "ro",
+    "iso_639_2": "ron",
+    "summary": "Romanian locale",
+    "language": "Romanian"
+  },
+  {
+    "code": "ru",
+    "iso_639_2": "rus",
+    "summary": "Russian locale",
+    "language": "Russian"
+  },
+  {
+    "code": "sk",
+    "iso_639_2": "slk",
+    "summary": "Slovak locale",
+    "language": "Slovak"
+  },
+  {
+    "code": "sl",
+    "iso_639_2": "slv",
+    "summary": "Slovenian locale",
+    "language": "Slovenian"
+  },
+  {
+    "code": "sq",
+    "iso_639_2": "sqi",
+    "summary": "Albanian locale",
+    "language": "Shqip"
+  },
+  {
+    "code": "sr",
+    "iso_639_2": "srp",
+    "summary": "Serbian cyrillic locale",
+    "language": "Serbian"
+  },
+  {
+    "code": "sr-Latn",
+    "iso_639_2": "srp",
+    "summary": "Serbian latin locale",
+    "language": "Serbian"
+  },
+  {
+    "code": "sv",
+    "iso_639_2": "swe",
+    "summary": "Swedish locale",
+    "language": "Swedish"
+  },
+  {
+    "code": "ta",
+    "iso_639_2": "tam",
+    "summary": "Tamil locale (India)",
+    "language": "Tamil"
+  },
+  {
+    "code": "te",
+    "iso_639_2": "tel",
+    "summary": "Telugu locale",
+    "language": "Telugu"
+  },
+  {
+    "code": "th",
+    "iso_639_2": "tha",
+    "summary": "Thai locale",
+    "language": "Thai"
+  },
+  {
+    "code": "tr",
+    "iso_639_2": "tur",
+    "summary": "Turkish locale",
+    "language": "Turkish"
+  },
+  {
+    "code": "ug",
+    "iso_639_2": "uig",
+    "summary": "Uighur locale",
+    "language": "Uighur"
+  },
+  {
+    "code": "uk",
+    "iso_639_2": "ukr",
+    "summary": "Ukrainian locale",
+    "language": "Ukrainian"
+  },
+  {
+    "code": "uz",
+    "iso_639_2": "uzb",
+    "summary": "Uzbek locale",
+    "language": "Uzbek"
+  },
+  {
+    "code": "vi",
+    "iso_639_2": "vie",
+    "summary": "Vietnamese locale (Vietnam)",
+    "language": "Vietnamese"
+  },
+  {
+    "code": "zh-CN",
+    "iso_639_2": "zho",
+    "summary": "Chinese Simplified locale",
+    "language": "Chinese Simplified"
+  },
+  {
+    "code": "zh-TW",
+    "iso_639_2": "zho",
+    "summary": "Chinese Traditional locale",
+    "language": "Chinese Traditional"
+  }
+]
