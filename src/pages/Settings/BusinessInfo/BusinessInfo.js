@@ -20,8 +20,10 @@ import { useState } from "react";
 import BusinessHours from "./components/BusinessHours";
 import SupportHours from "./components/SupportHours";
 import { CustomButton } from "../../../components/ui/CustomComponents";
+import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
 
 export default function BusinessInfo() {
+  WattsnTabTitle("Business Info Settings");
   const usTerritoryAbbrv = [
     "AL",
     "AK",

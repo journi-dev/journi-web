@@ -1,4 +1,4 @@
-import { TabTitle } from "../../utils/TabTitle";
+import { JourniTabTitle } from "../../utils/JourniTabTitle";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -36,7 +36,7 @@ const useStyles = makeStyles()((theme) => {
 });
 
 export default function LogIn() {
-  TabTitle("logIn");
+  JourniTabTitle("logIn");
   const { classes } = useStyles();
   const { t } = useTranslation();
   const dispatch = useDispatch();

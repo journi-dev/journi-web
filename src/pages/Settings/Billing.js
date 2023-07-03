@@ -1,8 +1,10 @@
 import { Typography } from "@mui/material";
 import React from "react";
 import { CustomButton } from "../../components/ui/CustomComponents";
+import { WattsnTabTitle } from "../../utils/WattsnTabTitle";
 
 export default function Billing() {
+  WattsnTabTitle("Billing Settings");
   return (
     <div>
       <Typography variant="h5">Billing</Typography>

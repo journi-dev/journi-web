@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
+import { WattsnTabTitle } from "../../utils/WattsnTabTitle";
 
 const marks = [
   {
@@ -37,6 +38,7 @@ const marks = [
 ];
 
 export default function GiftCards() {
+  WattsnTabTitle("Gift Card Settings");
   const [enableGiftCards, setEnableGiftCards] = useState(true);
   const [codeLength, setCodeLength] = useState(12);
   const [codeType, setCodeType] = useState("");

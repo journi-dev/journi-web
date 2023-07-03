@@ -30,7 +30,7 @@ import Billing from "./pages/Settings/Billing";
 import Developers from "./pages/Settings/Developers";
 import MyAccount from "./pages/Settings/MyAccount";
 import ComingSoon from "./pages/ComingSoon/ComingSoon";
-import JourniSettings from "./pages/Settings/JourniSettings";
+import WATTSNSettings from "./pages/Settings/WATTSNSettings";
 
 const lightThemeLoggedIn = createTheme({
   palette: {
@@ -305,7 +305,7 @@ function App() {
                   <Route path="my-account" element={<MyAccount />} />
                   <Route
                     path="platform-settings"
-                    element={<JourniSettings />}
+                    element={<WATTSNSettings />}
                   />
                   <Route path="help" element={<ComingSoon />} />
                   <Route path="tasks" element={<ComingSoon />} />

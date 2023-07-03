@@ -1,4 +1,4 @@
-import { TabTitle } from "../../utils/TabTitle";
+import { JourniTabTitle } from "../../utils/JourniTabTitle";
 import {
   Box,
   Checkbox,
@@ -42,7 +42,7 @@ const useStyles = makeStyles()((theme) => {
 });
 
 export default function SignUp() {
-  TabTitle("signUp");
+  JourniTabTitle("signUp");
   const { classes } = useStyles();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -206,7 +206,11 @@ export default function SignUp() {
                 <FormControlLabel
                   control={<Checkbox size="small" />}
                   label={
-                    <Typography variant="caption" textAlign="left" color="text.secondary">
+                    <Typography
+                      variant="caption"
+                      textAlign="left"
+                      color="text.secondary"
+                    >
                       I agree to the Terms of Service, Privacy Policy, and
                       Cookies Policy.
                     </Typography>

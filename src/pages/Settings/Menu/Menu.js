@@ -36,6 +36,7 @@ import axios from "axios";
 import Masonry from "react-masonry-css";
 import MenuCategoryLoadingCard from "./components/MenuCategoryLoadingCard";
 import ErrorPlaceholder from "../../Updates/components/ErrorPlaceholder";
+import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
 
 const useStyles = makeStyles()((theme) => {
   return {};
@@ -49,6 +50,7 @@ const breakpoints = {
 };
 
 export default function Menu() {
+  WattsnTabTitle("Menu & Retail Settings");
   const { classes } = useStyles();
 
   const [isLoading, setIsLoading] = useState(true);

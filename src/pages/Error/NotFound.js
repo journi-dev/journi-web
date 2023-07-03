@@ -2,10 +2,10 @@ import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { Link } from "react-router-dom";
-import { TabTitle } from "../../utils/TabTitle";
+import { JourniTabTitle } from "../../utils/JourniTabTitle";
 
 export default function NotFound() {
-  TabTitle("Uh oh!");
+  JourniTabTitle("Uh oh!");
 
   return (
     <Box className="not-found">

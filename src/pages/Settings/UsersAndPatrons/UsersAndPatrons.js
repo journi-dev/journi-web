@@ -6,8 +6,10 @@ import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import UsersActions from "./components/UsersActions";
 import ErrorPlaceholder from "../../Updates/components/ErrorPlaceholder";
+import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
 
 export default function UsersAndPatrons() {
+  WattsnTabTitle("Users & Patrons Settings");
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);

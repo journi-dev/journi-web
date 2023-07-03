@@ -1,7 +1,9 @@
 import { Box, Paper, Typography } from "@mui/material";
 import React from "react";
+import { JourniTabTitle } from "../../utils/JourniTabTitle";
 
 export default function Pricing() {
+  JourniTabTitle("Pricing");
   return (
     <div>
       <Typography variant="h3">Pricing</Typography>

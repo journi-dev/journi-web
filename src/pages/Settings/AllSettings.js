@@ -1,4 +1,4 @@
-import { TabTitle } from "../../utils/TabTitle";
+import { WattsnTabTitle } from "../../utils/WattsnTabTitle";
 import { Box, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import {
@@ -42,7 +42,7 @@ const useStyles = makeStyles()((theme) => {
 });
 
 export default function AllSettings() {
-  TabTitle("settings");
+  WattsnTabTitle("settings");
   const { t } = useTranslation();
   const { classes } = useStyles();
   const location = useLocation();
@@ -69,7 +69,7 @@ export default function AllSettings() {
       path: "/settings/my-app",
     },
     {
-      text: "Integrations",
+      text: "Integrations 🚧",
       icon: <Power fontSize="small" color="itemButton" />,
       path: "/settings/integrations",
     },
@@ -84,23 +84,23 @@ export default function AllSettings() {
       path: "/settings/billing",
     },
     {
-      text: "Develop",
+      text: "Developers 🚧",
       icon: <IntegrationInstructions fontSize="small" color="itemButton" />,
       path: "/settings/develop",
     },
     {
-      text: "Journi Settings",
+      text: "WATTSN",
       icon: <DisplaySettings fontSize="small" color="itemButton" />,
       path: "/settings/platform-settings",
     },
 
     {
-      text: "Get Support",
+      text: "Get Support 🚧",
       icon: <Help fontSize="small" color="itemButton" />,
       path: "/settings/help",
     },
     {
-      text: "Tasks",
+      text: "Tasks 🚧",
       icon: <TaskAlt fontSize="small" color="itemButton" />,
       path: "/settings/tasks",
     },

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { TabTitle } from "../../utils/TabTitle";
+import { useState } from "react";
+import { WattsnTabTitle } from "../../utils/WattsnTabTitle";
 import {
   Box,
   Container,
@@ -48,7 +48,7 @@ const modalStyle = {
 };
 
 export default function Updates() {
-  TabTitle("updates");
+  WattsnTabTitle("updates");
   const { classes } = useStyles();
   const { t } = useTranslation();
   const [openNewAnnouncement, setOpenNewAnnouncement] = useState(false);
