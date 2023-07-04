@@ -7,13 +7,13 @@ import {
   CreditCard,
   Devices,
   DisplaySettings,
-  Help,
-  IntegrationInstructions,
+  // Help,
+  // IntegrationInstructions,
   MenuBook,
   People,
   Power,
   Storefront,
-  TaskAlt,
+  // TaskAlt,
 } from "@mui/icons-material";
 import { makeStyles } from "tss-react/mui";
 import { Link, Outlet, useLocation } from "react-router-dom";
@@ -83,27 +83,26 @@ export default function AllSettings() {
       icon: <CreditCard fontSize="small" color="itemButton" />,
       path: "/settings/billing",
     },
-    {
+    /* {
       text: "Developers 🚧",
       icon: <IntegrationInstructions fontSize="small" color="itemButton" />,
       path: "/settings/develop",
-    },
+    }, */
     {
       text: "WATTSN",
       icon: <DisplaySettings fontSize="small" color="itemButton" />,
       path: "/settings/platform-settings",
     },
-
-    {
+    /* {
       text: "Get Support 🚧",
       icon: <Help fontSize="small" color="itemButton" />,
       path: "/settings/help",
-    },
-    {
+    }, */
+    /* {
       text: "Tasks 🚧",
       icon: <TaskAlt fontSize="small" color="itemButton" />,
       path: "/settings/tasks",
-    },
+    }, */
     {
       text: "My Account",
       icon: <AccountCircle fontSize="small" color="itemButton" />,

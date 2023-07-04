@@ -34,15 +34,15 @@ exports.getPromotion = (req, res) => {
   db.doc(`/organizations/uncle-johns/promotions/${req.params.promotionId}`)
     .get()
     .then((doc) => {
-      if (!doc.exists)
+      if (!doc.exists) {
         return res.status(404).json({ error: "Promotion not found." });
+      }
       promotionData = doc.data();
       promotionData.promoId = doc.id;
       return res.json(promotionData);
     })
     .catch((err) => {
-      console.error(err);
-      res.status(500).json({ error: err.code });
+      return res.status(500).json({ code: err.code });
     });
 };
 
@@ -66,7 +66,7 @@ exports.getPromotions = (req, res) => {
       return res.json(promotions);
     })
     .catch((err) => {
-      console.error(err);
+      return res.status(500).json({ code: err.code });
     });
 };
 
@@ -112,7 +112,7 @@ exports.pinPromotion = (req, res) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err.code });
+      return res.status(500).json({ code: err.code });
     });
 };
 
@@ -155,7 +155,7 @@ exports.unpinPromotion = (req, res) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({ error: err.code });
+      return res.status(500).json({ code: err.code });
     });
 };
 
@@ -177,7 +177,6 @@ exports.deletePromotion = (req, res) => {
       res.json({ message: "Promotion deleted successfully." });
     })
     .catch((err) => {
-      console.error(err);
-      return res.status(500).json({ error: err.code });
+      return res.status(500).json({ code: err.code });
     });
 };

@@ -21,7 +21,7 @@ import Demo from "./pages/Demo/Demo";
 import Layout from "./components/ui/Layout";
 import { setAuthenticated } from "./context/features/User";
 import BusinessInfo from "./pages/Settings/BusinessInfo/BusinessInfo";
-import Menu from "./pages/Settings/Menu/Menu";
+import MenuAndRetail from "./pages/Settings/MenuAndRetail/MenuAndRetail";
 import UsersAndPatrons from "./pages/Settings/UsersAndPatrons/UsersAndPatrons";
 import AppAndWebsite from "./pages/Settings/AppAndWebsite";
 import Integrations from "./pages/Settings/Integrations";
@@ -295,7 +295,7 @@ function App() {
                 {/* Settings Route and Subroutes */}
                 <Route path="settings" element={<AllSettings />}>
                   <Route path="business-info" element={<BusinessInfo />} />
-                  <Route path="menu" element={<Menu />} />
+                  <Route path="menu" element={<MenuAndRetail />} />
                   <Route path="users" element={<UsersAndPatrons />} />
                   <Route path="my-app" element={<AppAndWebsite />} />
                   <Route path="integrations" element={<Integrations />} />

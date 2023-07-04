@@ -194,7 +194,7 @@ exports.addUserDetails = (req, res) => {
       return res.json({ message: "Details updated successfully!" });
     })
     .catch((err) => {
-      return res.status(500).json({ error: err.code });
+      return res.status(500).json({ code: err.code });
     });
 };
 
@@ -239,7 +239,7 @@ exports.getAuthenticatedUser = (req, res) => {
       return res.json(userData);
     })
     .catch((err) => {
-      return res.status(500).json({ error: err.code });
+      return res.status(500).json({ code: err.code });
     });
 };
 
@@ -266,7 +266,7 @@ exports.getUsers = (req, res) => {
       return res.json(users);
     })
     .catch((err) => {
-      console.error(err);
+      return res.status(500).json({ code: err.code });
     });
 };
 
@@ -279,7 +279,7 @@ exports.updateUser = (req, res) => {
       return res.json({ message: "User details updated successfully!" });
     })
     .catch((err) => {
-      return res.status(500).json({ error: err.code });
+      return res.status(500).json({ code: err.code });
     });
 };
 
@@ -333,7 +333,7 @@ exports.uploadImage = (req, res) => {
         return res.json({ message: "Image uploaded successfully" });
       })
       .catch((err) => {
-        return res.status(500).json({ error: err.code });
+        return res.status(500).json({ code: err.code });
       });
   });
 
@@ -372,7 +372,7 @@ exports.getUserDetails = (req, res) => {
       return res.json(userData);
     })
     .catch((err) => {
-      return res.status(500).json({ error: err.code });
+      return res.status(500).json({ code: err.code });
     });
 };
 
@@ -393,6 +393,6 @@ exports.markNotificationsRead = (req, res) => {
       });
     })
     .catch((err) => {
-      return res.status(500).json({ error: err.code });
+      return res.status(500).json({ code: err.code });
     });
 };

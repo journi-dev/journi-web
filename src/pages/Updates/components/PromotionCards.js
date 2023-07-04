@@ -4,7 +4,7 @@ import PromotionCard from "./PromotionCard";
 import Masonry from "react-masonry-css";
 import NoActiveOrUpcomingPromotionsYet from "./NoActiveOrUpcomingPromotionsYet";
 import PromotionLoadingCard from "./PromotionLoadingCard";
-import ErrorPlaceholder from "./ErrorPlaceholder";
+import ErrorPlaceholder from "../../../components/placeholders/ErrorPlaceholder";
 
 // TODO: Make based on theme with makeStyles
 const breakpoints = {
@@ -65,7 +65,7 @@ export default function PromotionCards() {
       {promotions.length === 0 && !isLoading && (
         <NoActiveOrUpcomingPromotionsYet />
       )}
-      {error && <ErrorPlaceholder />}
+      {error && <ErrorPlaceholder code={error.code} />}
     </div>
   );
 }

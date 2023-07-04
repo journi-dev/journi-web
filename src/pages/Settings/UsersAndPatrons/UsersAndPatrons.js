@@ -5,8 +5,8 @@ import axios from "axios";
 // import { format } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import UsersActions from "./components/UsersActions";
-import ErrorPlaceholder from "../../Updates/components/ErrorPlaceholder";
 import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
+import ErrorPlaceholder from "../../../components/placeholders/ErrorPlaceholder";
 
 export default function UsersAndPatrons() {
   WattsnTabTitle("Users & Patrons Settings");
@@ -125,7 +125,7 @@ export default function UsersAndPatrons() {
         />
       )}
 
-      {error && <ErrorPlaceholder />}
+      {error && <ErrorPlaceholder code={error.code} />}
 
       <Box sx={{ my: 2 }}>
         <Typography variant="h6">Patrons</Typography>

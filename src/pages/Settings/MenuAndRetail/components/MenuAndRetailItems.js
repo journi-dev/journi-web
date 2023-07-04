@@ -1,46 +1,21 @@
-import {
-  Add,
-  AttachMoney,
-  BarChart,
-  CloudUpload,
-  Edit,
-  FileUpload,
-  MoreVert,
-  Save,
-} from "@mui/icons-material";
+import { AttachMoney, BarChart, MoreVert } from "@mui/icons-material";
 import {
   Box,
   Checkbox,
-  Container,
   Divider,
-  FormControlLabel,
-  FormGroup,
   IconButton,
   Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   Tooltip,
   Typography,
   Zoom,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import { ExcelRenderer } from "react-excel-renderer";
-import { makeStyles } from "tss-react/mui";
-import { fillEmptyValues, usdFormatter } from "../../../utils/Helpers";
-import { CustomButton } from "../../../components/ui/CustomComponents";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import Masonry from "react-masonry-css";
-import MenuCategoryLoadingCard from "./components/MenuCategoryLoadingCard";
-import ErrorPlaceholder from "../../Updates/components/ErrorPlaceholder";
-import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
-
-const useStyles = makeStyles()((theme) => {
-  return {};
-});
+import ErrorPlaceholder from "../../../../components/placeholders/ErrorPlaceholder";
+import { usdFormatter } from "../../../../utils/Helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { setError, setIsLoading } from "../../../../context/features/Settings";
 
 // TODO: Make based on theme with makeStyles
 const breakpoints = {
@@ -49,26 +24,13 @@ const breakpoints = {
   700: 1,
 };
 
-export default function Menu() {
-  WattsnTabTitle("Menu & Retail Settings");
-  const { classes } = useStyles();
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const [dragActive, setDragActive] = useState(false);
-  const [header, setHeader] = useState([]);
-  const [cols, setCols] = useState([]);
+export default function MenuAndRetailItems() {
+  const dispatch = useDispatch();
+  const isEditActive = useSelector((state) => state.settings.isEditActive);
+  const error = useSelector((state) => state.settings.error);
 
   const [menu, setMenu] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [menuData, setMenuData] = useState([]);
-  const [menuItemCount, setMenuItemCount] = useState(0);
-
-  const [overwrite, setOverwrite] = useState(false);
-  const [isEditActive, setIsEditActive] = useState(false);
-
-  const inputRef = useRef(null);
 
   useEffect(() => {
     axios
@@ -77,14 +39,14 @@ export default function Menu() {
         const data = response.data;
         setMenu(data);
         setCategories(getMenu(data, "menuCategory", "itemCategory"));
-        setError(null);
-        setIsLoading(false);
+        dispatch(setError(null));
+        dispatch(setIsLoading(false));
       })
       .catch((err) => {
-        setError(err);
-        setIsLoading(false);
+        dispatch(setError(err));
+        dispatch(setIsLoading(false));
       });
-  }, []);
+  }, [dispatch]);
 
   const getMenu = (menuData, menuKey, itemKey) => {
     const result = [];
@@ -107,121 +69,10 @@ export default function Menu() {
     return result;
   };
 
-  const convertMenuData = (menuData) => {
-    const result = [];
-    const headerRow = menuData[0];
-    for (let i = 1; i < menuData.length; i++) {
-      const menuItem = {
-        name: menuData[i][headerRow.indexOf("Name")],
-        description: menuData[i][headerRow.indexOf("Description")],
-        size1Price: menuData[i][headerRow.indexOf("Size 1 Price")],
-        size2Price: menuData[i][headerRow.indexOf("Size 2 Price")],
-        size3Price: menuData[i][headerRow.indexOf("Size 3 Price")],
-        size4Price: menuData[i][headerRow.indexOf("Size 4 Price")],
-        singleSizePrice: menuData[i][headerRow.indexOf("Single-Size Price")],
-        menuCategory: menuData[i][headerRow.indexOf("Menu Category")],
-        itemCategory: menuData[i][headerRow.indexOf("Item Category")],
-      };
-      result.push(menuItem);
-    }
-    return result;
-  };
-
-  const handleFile = (file) => {
-    ExcelRenderer(file, (err, response) => {
-      if (err) {
-        console.error(err);
-      } else {
-        let rows = response.rows.filter((row) => row.length > 1);
-        rows = fillEmptyValues(rows, null, rows[0].length);
-        setHeader(rows[0]);
-        setCols(rows);
-        setMenuItemCount(rows.length - 1);
-        setMenuData(convertMenuData(rows));
-        console.log(rows);
-        console.log(convertMenuData(rows));
-      }
-    });
-  };
-
-  const handleDrag = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
-    else if (e.type === "dragleave") setDragActive(false);
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFile(e.dataTransfer.files[0]);
-    }
-  };
-
-  const handleSubmit = () => {
-    axios
-      .post("/addMultipleToMenu", menuData)
-      .then((response) => {
-        console.log(response.data.message);
-      })
-      .catch((err) => {
-        console.error("Ruh-roh", err);
-      });
-  };
-
   return (
     <div>
-      {/* Header & Buttons */}
-      <Box className="flex-row-start" sx={{ mb: 2 }}>
-        <Typography variant="h5" component="h1">
-          Menu & Retail
-        </Typography>
-        <Box sx={{ ml: 3 }}>
-          <CustomButton
-            // disableElevation
-            variant="contained"
-            startIcon={<Add />}
-            sx={{ borderRadius: 25, mr: 1 }}
-          >
-            Add
-          </CustomButton>
-          <CustomButton
-            color={isEditActive ? "secondary" : "primary"}
-            // disableElevation
-            variant="contained"
-            startIcon={isEditActive ? <Save /> : <Edit />}
-            sx={{ borderRadius: 25 }}
-            onClick={() => setIsEditActive(!isEditActive)}
-          >
-            {isEditActive ? "Save" : "Edit"}
-          </CustomButton>
-        </Box>
-      </Box>
-
-      {isLoading && (
-        <div>
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            Loading...
-          </Typography>
-          <Masonry
-            breakpointCols={breakpoints}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column"
-          >
-            <MenuCategoryLoadingCard itemCount={3} />
-            <MenuCategoryLoadingCard itemCount={1} />
-            <MenuCategoryLoadingCard itemCount={2} />
-            <MenuCategoryLoadingCard itemCount={2} />
-            <MenuCategoryLoadingCard itemCount={4} />
-            <MenuCategoryLoadingCard itemCount={3} />
-          </Masonry>
-        </div>
-      )}
-
-      {categories.map((category) => (
-        <div>
+      {categories.map((category, i) => (
+        <div key={i}>
           <Typography variant="h6" sx={{ mb: 2 }}>
             {category.menu}
           </Typography>
@@ -229,9 +80,10 @@ export default function Menu() {
             breakpointCols={breakpoints}
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
+            key={i}
           >
-            {category.items.map((itemCategory) => (
-              <Paper sx={{ p: 1.5 }}>
+            {category.items.map((itemCategory, j) => (
+              <Paper sx={{ p: 1.5 }} key={j}>
                 <Box className="flex-row-space" sx={{ alignItems: "center" }}>
                   <Typography variant="subtitle1" sx={{ ml: 2, mb: 1 }}>
                     {itemCategory} (
@@ -255,7 +107,7 @@ export default function Menu() {
                 </Box>
                 {menu
                   .filter((menuItem) => menuItem.itemCategory === itemCategory)
-                  .map((menuItem, i) => (
+                  .map((menuItem, k) => (
                     <Box>
                       {/* Menu Item */}
                       <Box
@@ -373,7 +225,7 @@ export default function Menu() {
                       </Box>
 
                       {/* Divider */}
-                      {i !==
+                      {k !==
                         menu.filter(
                           (menuItem) => menuItem.itemCategory === itemCategory
                         ).length -
@@ -386,94 +238,7 @@ export default function Menu() {
         </div>
       ))}
 
-      {error && <ErrorPlaceholder />}
-
-      <form
-        className={classes.form}
-        onDragEnter={handleDrag}
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <input
-          ref={inputRef}
-          type="file"
-          id="input-file-upload"
-          multiple={false}
-          onChange={(e) => {
-            if (e.target.files && e.target.files[0]) {
-              handleFile(e.target.files[0]);
-            }
-          }}
-          hidden
-        />
-        <label htmlFor="input-file-upload">
-          <Container
-            className={`placeholder-light ${classes.inputContainer} ${
-              dragActive ? classes.dragActive : ""
-            }`}
-          >
-            <FileUpload fontSize="large" />
-            <Typography variant="h6">Drag and drop your file here</Typography>
-            <Typography className="click-here-text">
-              or click here to upload a file
-            </Typography>
-            <Typography variant="caption" display="block" sx={{ mt: 1 }}>
-              Accepted file types: .xlsx, .csv, .tsv
-            </Typography>
-          </Container>
-        </label>
-        {dragActive && (
-          <div
-            id="drag-file-element"
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-          ></div>
-        )}
-      </form>
-
-      {menuItemCount > 0 && (
-        <div>
-          <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
-            <Table sx={{ minWidth: 650 }} stickyHeader>
-              <TableHead>
-                <TableRow>
-                  {header.map((h, i) => (
-                    <TableCell align="center" key={i}>
-                      {h}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {cols.slice(1).map((col, i) => (
-                  <TableRow key={i}>
-                    {col.map((c, i) => (
-                      <TableCell key={i}>{c}</TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox defaultChecked />}
-              label="Overwrite current menu"
-              checked={overwrite}
-              onChange={(e) => setOverwrite(e.target.checked)}
-            />
-          </FormGroup>
-          <CustomButton
-            variant="contained"
-            startIcon={<CloudUpload />}
-            onClick={handleSubmit}
-          >
-            Upload {menuItemCount} item{menuItemCount === 1 ? "" : "s"}
-          </CustomButton>
-        </div>
-      )}
+      {error && <ErrorPlaceholder code={error.code} />}
     </div>
   );
 }

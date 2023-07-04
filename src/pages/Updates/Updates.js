@@ -188,6 +188,7 @@ export default function Updates() {
               variant="contained"
               startIcon={<Add />}
               onClick={handleNewButtonClick}
+              disableElevation
               sx={{ borderRadius: 10 }}
             >
               {t("new")}

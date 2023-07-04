@@ -55,7 +55,6 @@ export const logInUser = (userData, navigate) => (dispatch) => {
   axios
     .post("/login", userData)
     .then((response) => {
-      console.log(response);
       setAuthorizationHeader(response.data.token);
       dispatch(setIsLoading(false));
       dispatch(setAuthenticated(true));
