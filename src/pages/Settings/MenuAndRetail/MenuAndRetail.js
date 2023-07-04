@@ -167,6 +167,14 @@ export default function MenuAndRetail() {
       {/* Menu Cards */}
       <MenuAndRetailItems />
 
+      {/* "Add items manually" Modal */}
+      <Modal
+        open={openIndividualMenuItemsForm}
+        onClose={() => setOpenIndividualMenuItemsForm(false)}
+      >
+        <Box sx={modalStyle}>Coming soon!</Box>
+      </Modal>
+
       {/* "Add items via file upload" Modal */}
       <Modal
         open={openMultipleMenuItemsForm}
