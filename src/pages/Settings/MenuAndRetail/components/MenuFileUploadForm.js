@@ -1,9 +1,15 @@
-import { CloudUpload, FileUpload } from "@mui/icons-material";
 import {
+  Close,
+  CloudUpload,
+  DeleteForever,
+  FileUpload,
+} from "@mui/icons-material";
+import {
+  Box,
   Checkbox,
-  Container,
   FormControlLabel,
   FormGroup,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -25,6 +31,11 @@ const useStyles = makeStyles()((theme) => {
     root: {
       display: "flex",
     },
+    dragActive: {
+      backgroundColor: "rgba(255, 204, 102, 0.25)",
+    },
+    form: { width: "100%" },
+    inputContainer: {},
   };
 });
 
@@ -36,6 +47,7 @@ export default function MenuFileUploadForm() {
   const [header, setHeader] = useState([]);
   const [cols, setCols] = useState([]);
 
+  const [fileName, setFileName] = useState("");
   const [menuData, setMenuData] = useState([]);
   const [menuItemCount, setMenuItemCount] = useState(0);
 
@@ -67,7 +79,8 @@ export default function MenuFileUploadForm() {
         console.error(err);
       } else {
         let rows = response.rows.filter((row) => row.length > 1);
-        rows = fillEmptyValues(rows, null, rows[0].length);
+        rows = fillEmptyValues(rows, "", rows[0].length);
+        setFileName(file.name);
         setHeader(rows[0]);
         setCols(rows);
         setMenuItemCount(rows.length - 1);
@@ -109,99 +122,164 @@ export default function MenuFileUploadForm() {
       className={classes.root}
       sx={{
         p: 3,
-        width: 1000,
-        minHeight: "50vh",
-        maxHeight: "80vh",
+        maxWidth: "80vw",
+        maxHeight: 750,
         overflow: "auto",
       }}
     >
-      <form
-        className={classes.form}
-        onDragEnter={handleDrag}
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <input
-          ref={inputRef}
-          type="file"
-          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-          id="input-file-upload"
-          multiple={false}
-          onChange={(e) => {
-            if (e.target.files && e.target.files[0]) {
-              handleFile(e.target.files[0]);
-            }
-          }}
-          hidden
-        />
-        <label htmlFor="input-file-upload">
-          <Container
-            className={`placeholder-light ${classes.inputContainer} ${
-              dragActive ? classes.dragActive : ""
-            }`}
+      <Box className="flex-col-start" sx={{ width: "100%" }}>
+        <Box className="flex-row-space" sx={{ mb: 1, alignItems: "center" }}>
+          <Typography variant="h5">Add items via file upload</Typography>
+          <IconButton sx={{ ml: 2 }}>
+            <Close />
+          </IconButton>
+        </Box>
+        <Box className="flex-row-space">
+          {/* File Upload */}
+          <Box
+            sx={{
+              width: menuItemCount > 0 ? "25%" : "100%",
+              mr: menuItemCount > 0 ? 2 : 0,
+            }}
           >
-            <FileUpload fontSize="large" />
-            <Typography variant="h6">Drag and drop your file here</Typography>
-            <Typography className="click-here-text">
-              or click here to upload a file
-            </Typography>
-            <Typography variant="caption" display="block" sx={{ mt: 1 }}>
-              Accepted file types: .xlsx, .csv, .tsv
-            </Typography>
-          </Container>
-        </label>
-        {dragActive && (
-          <div
-            id="drag-file-element"
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-          ></div>
-        )}
-      </form>
+            <form
+              className={classes.form}
+              onDragEnter={handleDrag}
+              onSubmit={(e) => e.preventDefault()}
+            >
+              <input
+                ref={inputRef}
+                type="file"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                id="input-file-upload"
+                multiple={false}
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    handleFile(e.target.files[0]);
+                  }
+                }}
+                hidden
+              />
 
-      {menuItemCount > 0 && (
-        <div>
-          <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
-            <Table sx={{ minWidth: 650 }} stickyHeader>
-              <TableHead>
-                <TableRow>
-                  {header.map((h, i) => (
-                    <TableCell align="center" key={i}>
-                      {h}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {cols.slice(1).map((col, i) => (
-                  <TableRow key={i}>
-                    {col.map((c, i) => (
-                      <TableCell key={i}>{c}</TableCell>
+              {dragActive && (
+                <div
+                  id="drag-file-element"
+                  onDragEnter={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDragOver={handleDrag}
+                  onDrop={handleDrop}
+                ></div>
+              )}
+
+              <Box className="flex-row">
+                <label htmlFor="input-file-upload">
+                  <Box
+                    className={`placeholder-light ${classes.inputContainer} ${
+                      dragActive ? classes.dragActive : ""
+                    }`}
+                    sx={{ p: 2, my: 2, textAlign: "center" }}
+                  >
+                    <FileUpload fontSize="large" />
+                    <Typography variant="h6">
+                      Drag and drop your file here
+                    </Typography>
+                    <Typography className="click-here-text">
+                      or click here to upload a file
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      display="block"
+                      sx={{ mt: 1 }}
+                    >
+                      Accepted file types: .xlsx, .csv, .tsv
+                    </Typography>
+                  </Box>
+                </label>
+              </Box>
+
+              {/* Checkbox and Button */}
+              {fileName !== "" && menuItemCount > 0 && (
+                <Box className="flex-col" sx={{ alignItems: "center" }}>
+                  <CustomButton
+                    color="error"
+                    sx={{ borderRadius: 25, height: 35 }}
+                    endIcon={<DeleteForever />}
+                  >
+                    <Typography
+                      color="text.primary"
+                      variant="caption"
+                      display="block"
+                      // fontWeight="bold"
+                    >
+                      Selected file: {fileName}
+                    </Typography>
+                  </CustomButton>
+                  <FormGroup sx={{ height: 35 }}>
+                    <FormControlLabel
+                      control={<Checkbox size="small" />}
+                      label={
+                        <Typography variant="caption">
+                          Overwrite current menu
+                        </Typography>
+                      }
+                      checked={overwrite}
+                      onChange={(e) => setOverwrite(e.target.checked)}
+                    />
+                  </FormGroup>
+                </Box>
+              )}
+
+              {/* Button */}
+              <Box className="flex-row">
+                <CustomButton
+                  sx={{ borderRadius: 25, mt: 2 }}
+                  variant="contained"
+                  startIcon={<CloudUpload />}
+                  onClick={handleSubmit}
+                  disableElevation
+                  disabled={menuItemCount === 0}
+                >
+                  {`Upload${
+                    menuItemCount > 0
+                      ? ` ${menuItemCount} item${
+                          menuItemCount === 1 ? "" : "s"
+                        }`
+                      : ""
+                  }`}
+                </CustomButton>
+              </Box>
+            </form>
+          </Box>
+
+          {/* Table */}
+          {menuItemCount > 0 && (
+            <Box sx={{ width: "75%" }}>
+              <TableContainer component={Paper} sx={{ height: 600 }}>
+                <Table stickyHeader>
+                  <TableHead>
+                    <TableRow>
+                      {header.map((h, i) => (
+                        <TableCell align="center" key={i}>
+                          {h}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {cols.slice(1).map((col, i) => (
+                      <TableRow key={i}>
+                        {col.map((c, i) => (
+                          <TableCell key={i}>{c}</TableCell>
+                        ))}
+                      </TableRow>
                     ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox defaultChecked />}
-              label="Overwrite current menu"
-              checked={overwrite}
-              onChange={(e) => setOverwrite(e.target.checked)}
-            />
-          </FormGroup>
-          <CustomButton
-            variant="contained"
-            startIcon={<CloudUpload />}
-            onClick={handleSubmit}
-          >
-            Upload {menuItemCount} item{menuItemCount === 1 ? "" : "s"}
-          </CustomButton>
-        </div>
-      )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
+          )}
+        </Box>
+      </Box>
     </Paper>
   );
 }
