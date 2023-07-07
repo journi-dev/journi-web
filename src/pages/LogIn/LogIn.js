@@ -9,7 +9,16 @@ import { CustomLoadingButton } from "../../components/ui/CustomComponents";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logInUser } from "../../context/features/User";
-import { Box, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  FormGroup,
+  IconButton,
+} from "@mui/material";
+import { Apple } from "@mui/icons-material";
+import GoogleLogo from "../../components/icons/Google";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -103,9 +112,36 @@ export default function LogIn() {
               disableElevation
               loading={isLoading}
               sx={{ borderRadius: 25, mb: 2, width: 100, mx: "auto" }}
+              disabled={email === "" || password === ""}
             >
               {t("logIn")}
             </CustomLoadingButton>
+
+            <Divider>
+              <Typography>or log in with</Typography>
+            </Divider>
+            <Box className="flex-row" sx={{ my: 2 }}>
+              <IconButton
+                sx={{
+                  bgcolor: "background.default",
+                  height: 50,
+                  width: 50,
+                  mr: 1,
+                }}
+              >
+                <GoogleLogo />
+              </IconButton>
+              <IconButton
+                sx={{
+                  bgcolor: "background.default",
+                  height: 50,
+                  width: 50,
+                  ml: 1,
+                }}
+              >
+                <Apple sx={{ width: "80%", height: "80%" }} />
+              </IconButton>
+            </Box>
             <Link to="/signup" className={classes.link}>
               <Box className={classes.linkContainer}>
                 <Typography variant="caption" display="block">

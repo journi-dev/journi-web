@@ -5,11 +5,16 @@ import { ReactComponent as DoordashIcon } from "../../assets/images/icons/Doorda
 
 const useStyles = makeStyles()((theme) => {
   return {
-    mySvgStyle: {
+    svgWrapper: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    svg: {
       fillColor: theme.palette.primary.main,
-      marginTop: theme.spacing(0.5),
-      marginLeft: theme.spacing(0.5),
-      marginRight: theme.spacing(-1),
+      // marginTop: theme.spacing(0.5),
+      // marginLeft: theme.spacing(0.5),
+      // marginRight: theme.spacing(-1),
     },
   };
 });
@@ -17,8 +22,10 @@ const useStyles = makeStyles()((theme) => {
 export default function Doordash() {
   const { classes } = useStyles();
   return (
-    <SvgIcon className={classes.mySvgStyle}>
-      <DoordashIcon />
-    </SvgIcon>
+    <div className={classes.svgWrapper}>
+      <SvgIcon className={classes.svg}>
+        <DoordashIcon />
+      </SvgIcon>
+    </div>
   );
 }
