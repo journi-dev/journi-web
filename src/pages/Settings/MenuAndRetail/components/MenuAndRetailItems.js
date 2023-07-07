@@ -1,5 +1,13 @@
-import { AttachMoney, BarChart, MoreVert } from "@mui/icons-material";
 import {
+  AttachMoney,
+  BarChart,
+  ExpandMore,
+  MoreVert,
+} from "@mui/icons-material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Checkbox,
   Divider,
@@ -73,168 +81,184 @@ export default function MenuAndRetailItems() {
     <div>
       {categories.map((category, i) => (
         <div key={i}>
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            {category.menu}
-          </Typography>
-          <Masonry
-            breakpointCols={breakpoints}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column"
-            key={i}
-          >
-            {category.items.map((itemCategory, j) => (
-              <Paper sx={{ p: 1.5 }} key={j}>
-                <Box className="flex-row-space" sx={{ alignItems: "center" }}>
-                  <Typography variant="subtitle1" sx={{ ml: 2, mb: 1 }}>
-                    {itemCategory} (
-                    {
-                      menu.filter(
-                        (menuItem) => menuItem.itemCategory === itemCategory
-                      ).length
-                    }{" "}
-                    item
-                    {menu.filter(
-                      (menuItem) => menuItem.itemCategory === itemCategory
-                    ).length === 1
-                      ? ""
-                      : "s"}
-                    )
-                  </Typography>
-                  <IconButton>
-                    {/* To-Do: Rename menu category; Delete menu category */}
-                    <MoreVert />
-                  </IconButton>
-                </Box>
-                {menu
-                  .filter((menuItem) => menuItem.itemCategory === itemCategory)
-                  .map((menuItem, k) => (
-                    <Box>
-                      {/* Menu Item */}
-                      <Box
-                        className="flex-row-space"
-                        sx={{ alignItems: "center", my: 1.25, mx: 1 }}
-                      >
-                        <Box
-                          className="flex-row-start"
-                          sx={{ alignItems: "baseline" }}
-                        >
-                          <Box sx={{ width: 30, height: 30 }}>
-                            {!isEditActive && (
-                              <IconButton>
-                                <MoreVert fontSize="small" />
-                                {/* To-Do: make a menu for favoriting, deleting, editing */}
-                              </IconButton>
-                            )}
-                            {isEditActive && <Checkbox size="small" />}
-                          </Box>
-
-                          {/* Menu Item Name */}
-                          <Tooltip
-                            TransitionComponent={Zoom}
-                            arrow
-                            placement="top"
-                            title={
-                              <Box className="flex-row">
-                                <Typography
-                                  variant="caption"
-                                  color="text.secondary"
-                                  display="flex"
-                                  alignItems="center"
-                                  sx={{ ml: 1, color: "white" }}
-                                >
-                                  <BarChart fontSize="inherit" />
-                                  3.1k
-                                </Typography>
-
-                                <Typography
-                                  variant="caption"
-                                  color="text.secondary"
-                                  display="flex"
-                                  alignItems="center"
-                                  sx={{ ml: 1, color: "white" }}
-                                >
-                                  <AttachMoney fontSize="inherit" />
-                                  $2.3k
-                                </Typography>
-                              </Box>
-                            }
-                          >
-                            <Box sx={{ ml: 1 }}>
-                              <Typography fontSize={14}>
-                                {menuItem.name}
-                              </Typography>
-                              {menuItem.description.length > 0 && (
-                                <Typography variant="caption">
-                                  {menuItem.description}
-                                </Typography>
-                              )}
-                            </Box>
-                          </Tooltip>
-                        </Box>
-
-                        {(menuItem.size1Price > 0 ||
-                          menuItem.size2Price > 0 ||
-                          menuItem.size3Price > 0 ||
-                          menuItem.size4Price > 0) && (
-                          <Box className="flex-row-end">
-                            {menuItem.size1Price > 0 && (
-                              <Box sx={{ textAlign: "center", ml: 3 }}>
-                                <Typography fontSize={14}>
-                                  {usdFormatter.format(menuItem.size1Price)}
-                                </Typography>
-                                <Typography variant="caption">Small</Typography>
-                              </Box>
-                            )}
-
-                            {menuItem.size2Price > 0 && (
-                              <Box sx={{ textAlign: "center", ml: 3 }}>
-                                <Typography fontSize={14}>
-                                  {usdFormatter.format(menuItem.size2Price)}
-                                </Typography>
-                                <Typography variant="caption">
-                                  Medium
-                                </Typography>
-                              </Box>
-                            )}
-
-                            {menuItem.size3Price > 0 && (
-                              <Box sx={{ textAlign: "center", ml: 3 }}>
-                                <Typography fontSize={14}>
-                                  {usdFormatter.format(menuItem.size3Price)}
-                                </Typography>
-                                <Typography variant="caption">Large</Typography>
-                              </Box>
-                            )}
-
-                            {menuItem.size4Price > 0 && (
-                              <Box sx={{ textAlign: "center", ml: 3 }}>
-                                <Typography fontSize={14}>
-                                  {usdFormatter.format(menuItem.size4Price)}
-                                </Typography>
-                                <Typography variant="caption">Jumbo</Typography>
-                              </Box>
-                            )}
-                          </Box>
-                        )}
-
-                        {menuItem.singleSizePrice > 0 && (
-                          <Typography fontSize={14}>
-                            {usdFormatter.format(menuItem.singleSizePrice)}
-                          </Typography>
-                        )}
-                      </Box>
-
-                      {/* Divider */}
-                      {k !==
-                        menu.filter(
+          <Accordion sx={{ mb: i === categories.length - 1 ? 0 : 2 }}>
+            <AccordionSummary expandIcon={<ExpandMore />}>
+              <Typography variant="h6">{category.menu}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Masonry
+                breakpointCols={breakpoints}
+                className="my-masonry-grid"
+                columnClassName="my-masonry-grid_column"
+                key={i}
+              >
+                {category.items.map((itemCategory, j) => (
+                  <Paper sx={{ p: 1.5 }} key={j}>
+                    <Box
+                      className="flex-row-space"
+                      sx={{ alignItems: "center" }}
+                    >
+                      <Typography variant="subtitle1" sx={{ ml: 2, mb: 1 }}>
+                        {itemCategory} (
+                        {
+                          menu.filter(
+                            (menuItem) => menuItem.itemCategory === itemCategory
+                          ).length
+                        }{" "}
+                        item
+                        {menu.filter(
                           (menuItem) => menuItem.itemCategory === itemCategory
-                        ).length -
-                          1 && <Divider sx={{ mx: 0 }} />}
+                        ).length === 1
+                          ? ""
+                          : "s"}
+                        )
+                      </Typography>
+                      <IconButton>
+                        {/* To-Do: Rename menu category; Delete menu category */}
+                        <MoreVert />
+                      </IconButton>
                     </Box>
-                  ))}
-              </Paper>
-            ))}
-          </Masonry>
+                    {menu
+                      .filter(
+                        (menuItem) => menuItem.itemCategory === itemCategory
+                      )
+                      .map((menuItem, k) => (
+                        <Box>
+                          {/* Menu Item */}
+                          <Box
+                            className="flex-row-space"
+                            sx={{ alignItems: "center", my: 1.25, mx: 1 }}
+                          >
+                            <Box
+                              className="flex-row-start"
+                              sx={{ alignItems: "baseline" }}
+                            >
+                              <Box sx={{ width: 30, height: 30 }}>
+                                {!isEditActive && (
+                                  <IconButton>
+                                    <MoreVert fontSize="small" />
+                                    {/* To-Do: make a menu for favoriting, deleting, editing */}
+                                  </IconButton>
+                                )}
+                                {isEditActive && <Checkbox size="small" />}
+                              </Box>
+
+                              {/* Menu Item Name */}
+                              <Tooltip
+                                TransitionComponent={Zoom}
+                                arrow
+                                placement="top"
+                                title={
+                                  <Box className="flex-row">
+                                    <Typography
+                                      variant="caption"
+                                      color="text.secondary"
+                                      display="flex"
+                                      alignItems="center"
+                                      sx={{ ml: 1, color: "white" }}
+                                    >
+                                      <BarChart fontSize="inherit" />
+                                      3.1k
+                                    </Typography>
+
+                                    <Typography
+                                      variant="caption"
+                                      color="text.secondary"
+                                      display="flex"
+                                      alignItems="center"
+                                      sx={{ ml: 1, color: "white" }}
+                                    >
+                                      <AttachMoney fontSize="inherit" />
+                                      $2.3k
+                                    </Typography>
+                                  </Box>
+                                }
+                              >
+                                <Box sx={{ ml: 1 }}>
+                                  <Typography fontSize={14}>
+                                    {menuItem.name}
+                                  </Typography>
+                                  {menuItem.description.length > 0 && (
+                                    <Typography variant="caption">
+                                      {menuItem.description}
+                                    </Typography>
+                                  )}
+                                </Box>
+                              </Tooltip>
+                            </Box>
+
+                            {(menuItem.size1Price > 0 ||
+                              menuItem.size2Price > 0 ||
+                              menuItem.size3Price > 0 ||
+                              menuItem.size4Price > 0) && (
+                              <Box className="flex-row-end">
+                                {menuItem.size1Price > 0 && (
+                                  <Box sx={{ textAlign: "center", ml: 3 }}>
+                                    <Typography fontSize={14}>
+                                      {usdFormatter.format(menuItem.size1Price)}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                      Small
+                                    </Typography>
+                                  </Box>
+                                )}
+
+                                {menuItem.size2Price > 0 && (
+                                  <Box sx={{ textAlign: "center", ml: 3 }}>
+                                    <Typography fontSize={14}>
+                                      {usdFormatter.format(menuItem.size2Price)}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                      Medium
+                                    </Typography>
+                                  </Box>
+                                )}
+
+                                {menuItem.size3Price > 0 && (
+                                  <Box sx={{ textAlign: "center", ml: 3 }}>
+                                    <Typography fontSize={14}>
+                                      {usdFormatter.format(menuItem.size3Price)}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                      Large
+                                    </Typography>
+                                  </Box>
+                                )}
+
+                                {menuItem.size4Price > 0 && (
+                                  <Box sx={{ textAlign: "center", ml: 3 }}>
+                                    <Typography fontSize={14}>
+                                      {usdFormatter.format(menuItem.size4Price)}
+                                    </Typography>
+                                    <Typography variant="caption">
+                                      Jumbo
+                                    </Typography>
+                                  </Box>
+                                )}
+                              </Box>
+                            )}
+
+                            {menuItem.singleSizePrice > 0 && (
+                              <Typography fontSize={14}>
+                                {usdFormatter.format(menuItem.singleSizePrice)}
+                              </Typography>
+                            )}
+                          </Box>
+
+                          {/* Divider */}
+                          {k !==
+                            menu.filter(
+                              (menuItem) =>
+                                menuItem.itemCategory === itemCategory
+                            ).length -
+                              1 && <Divider sx={{ mx: 0 }} />}
+                        </Box>
+                      ))}
+                  </Paper>
+                ))}
+              </Masonry>
+            </AccordionDetails>
+          </Accordion>
         </div>
       ))}
 
