@@ -101,7 +101,7 @@ exports.addMultipleToMenu = (req, res) => {
   batch
     .commit()
     .then(() => {
-      return res.json({ message: "Menu options successfully updated." });
+      return res.json({ message: "Menu options successfully updated!" });
     })
     .catch((err) => {
       return res.status(500).json({ code: err.code });

@@ -25,6 +25,9 @@ import { ExcelRenderer } from "react-excel-renderer";
 import axios from "axios";
 import { fillEmptyValues } from "../../../../utils/Helpers";
 import { makeStyles } from "tss-react/mui";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -41,6 +44,7 @@ const useStyles = makeStyles()((theme) => {
 
 export default function MenuFileUploadForm() {
   const { classes } = useStyles();
+  const isDark = useSelector((state) => state.appearance.value.isDark);
   const inputRef = useRef(null);
 
   const [dragActive, setDragActive] = useState(false);
@@ -105,11 +109,17 @@ export default function MenuFileUploadForm() {
     }
   };
 
+  const notifySuccess = (message) => {
+    toast.success(message, {
+      theme: isDark ? "dark" : "light",
+    });
+  };
+
   const handleSubmit = () => {
     axios
       .post("/addMultipleToMenu", menuData)
       .then((response) => {
-        console.log(response.data.message);
+        notifySuccess(response.data.message);
       })
       .catch((err) => {
         console.error("Ruh-roh", err);
@@ -280,6 +290,8 @@ export default function MenuFileUploadForm() {
           )}
         </Box>
       </Box>
+
+      <ToastContainer theme={isDark ? "dark" : "light"} />
     </Paper>
   );
 }
