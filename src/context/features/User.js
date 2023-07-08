@@ -50,10 +50,10 @@ export const signUpUser = (newUserData, navigate) => (dispatch) => {
     });
 };
 
-export const logInUser = (userData, navigate) => (dispatch) => {
+export const logInWithEmail = (userData, navigate) => (dispatch) => {
   dispatch(setIsLoading(true));
   axios
-    .post("/login", userData)
+    .post("/login/email", userData)
     .then((response) => {
       setAuthorizationHeader(response.data.token);
       dispatch(setIsLoading(false));
@@ -67,13 +67,14 @@ export const logInUser = (userData, navigate) => (dispatch) => {
     });
 };
 
-export const logOutUser = (dispatch) => {
+export const logOutUser = (navigate) => (dispatch) => {
   localStorage.removeItem("FBIdToken");
   delete axios.defaults.headers.common["Authorization"];
   dispatch(setAuthenticated(false));
+  navigate("/");
 };
 
-const setAuthorizationHeader = (token) => {
+export const setAuthorizationHeader = (token) => {
   const FBIdToken = `Bearer ${token}`;
   localStorage.setItem("FBIdToken", FBIdToken);
   axios.defaults.headers.common["Authorization"] = FBIdToken;

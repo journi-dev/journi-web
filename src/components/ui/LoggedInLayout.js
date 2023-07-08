@@ -57,7 +57,7 @@ import {
 import { CustomButton } from "./CustomComponents";
 import { useDispatch, useSelector } from "react-redux";
 import { changeAppearance } from "../../context/features/Appearance";
-// import { logOutUser } from "../utils/redux/features/User";
+import { logOutUser } from "../../context/features/User";
 
 const drawerWidth = 240;
 const footerHeight = 100;
@@ -277,10 +277,10 @@ export default function LoggedInLayout() {
     setAnchorEl3(null);
   };
 
-  /* const handleLogOut = (e) => {
+  const handleLogOut = () => {
     // e.preventDefault();
-    // dispatch(logOutUser());
-  }; */
+    dispatch(logOutUser(navigate));
+  };
 
   // Time
   useEffect(() => {
@@ -394,7 +394,7 @@ export default function LoggedInLayout() {
       path: "/welcome",
       action: () => {
         console.log("Logging out...");
-        // handleLogOut();
+        handleLogOut();
       },
     },
   ];

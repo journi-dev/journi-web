@@ -8,7 +8,13 @@ import { useTranslation } from "react-i18next";
 import { CustomLoadingButton } from "../../components/ui/CustomComponents";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logInUser } from "../../context/features/User";
+import {
+  logInWithEmail,
+  setAuthenticated,
+  setAuthorizationHeader,
+  setErrors,
+  setIsLoading,
+} from "../../context/features/User";
 import {
   Box,
   Checkbox,
@@ -19,6 +25,9 @@ import {
 } from "@mui/material";
 import { Apple } from "@mui/icons-material";
 import GoogleLogo from "../../components/icons/Google";
+
+import { auth, googleProvider } from "../../utils/Firebase";
+import { signInWithPopup } from "firebase/auth";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -56,17 +65,42 @@ export default function LogIn() {
   const isLoading = useSelector((state) => state.user.isLoading);
   const errors = useSelector((state) => state.user.errors);
 
-  const handleLogin = (e) => {
+  const handleEmailLogin = (e) => {
     e.preventDefault();
     const userData = { email, password };
-    dispatch(logInUser(userData, navigate));
+    dispatch(logInWithEmail(userData, navigate));
+  };
+
+  const handleGoogleLogin = async (e) => {
+    e.preventDefault();
+
+    // const provider = new GoogleAuthProvider();
+    dispatch(setIsLoading(true));
+
+    await signInWithPopup(auth, googleProvider)
+      .then((data) => {
+        return data.user.getIdToken();
+      })
+      .then((token) => {
+        setAuthorizationHeader(token);
+        dispatch(setIsLoading(false));
+        dispatch(setAuthenticated(true));
+        navigate("/home");
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch(setErrors(err));
+        dispatch(setIsLoading(false));
+      });
   };
 
   return (
     <div className={classes.root}>
       <Paper className={classes.marginAutoItem} sx={{ width: 500, m: 2, p: 2 }}>
-        <Typography variant="h5">{t("logIn")}</Typography>
-        <form noValidate onSubmit={handleLogin}>
+        <Typography variant="h5" sx={{ my: 2 }}>
+          {t("logIn")}
+        </Typography>
+        <form noValidate onSubmit={handleEmailLogin}>
           <Box className="flex-col">
             <TextField
               id="email"
@@ -122,6 +156,7 @@ export default function LogIn() {
             </Divider>
             <Box className="flex-row" sx={{ my: 2 }}>
               <IconButton
+                onClick={handleGoogleLogin}
                 sx={{
                   bgcolor: "background.default",
                   height: 50,

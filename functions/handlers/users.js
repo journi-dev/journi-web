@@ -1,5 +1,10 @@
 const { initializeApp } = require("firebase/app");
-const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
+const {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} = require("firebase/auth");
 const { adminAuth, db, admin } = require("../util/admin");
 const config = require("../util/config");
 const {
@@ -78,7 +83,7 @@ const generateSequence = (length) => {
   return string;
 };
 
-exports.logIn = (req, res) => {
+exports.logInWithCredentials = (req, res) => {
   const user = {
     email: req.body.email,
     password: req.body.password,
