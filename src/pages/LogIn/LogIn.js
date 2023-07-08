@@ -28,6 +28,7 @@ import GoogleLogo from "../../components/icons/Google";
 
 import { auth, googleProvider } from "../../utils/Firebase";
 import { signInWithPopup } from "firebase/auth";
+import MicrosoftLogo from "../../components/icons/Microsoft";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -161,17 +162,26 @@ export default function LogIn() {
                   bgcolor: "background.default",
                   height: 50,
                   width: 50,
-                  mr: 1,
                 }}
               >
                 <GoogleLogo />
+              </IconButton>
+              <IconButton
+                // onClick={handleGoogleLogin}
+                sx={{
+                  bgcolor: "background.default",
+                  height: 50,
+                  width: 50,
+                  mx: 2,
+                }}
+              >
+                <MicrosoftLogo />
               </IconButton>
               <IconButton
                 sx={{
                   bgcolor: "background.default",
                   height: 50,
                   width: 50,
-                  ml: 1,
                 }}
               >
                 <Apple sx={{ width: "80%", height: "80%" }} />
