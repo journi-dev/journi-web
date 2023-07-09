@@ -158,7 +158,7 @@ exports.deleteMenuItem = (req, res) => {
     });
 };
 
-exports.deleteCategory = (req, res) => {
+exports.deleteMenuItems = (req, res) => {
   let batch = db.batch();
   let menuItems = req.params.menuItems.split("-");
 

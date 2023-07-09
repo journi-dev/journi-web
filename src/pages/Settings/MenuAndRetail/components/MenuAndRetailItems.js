@@ -30,6 +30,7 @@ import {
 } from "../../../../context/features/Settings";
 import ItemMenu from "./ItemMenu";
 import CategoryMenu from "./CategoryMenu";
+import MenuMenu from "./MenuMenu";
 
 // TODO: Make based on theme with makeStyles
 const breakpoints = {
@@ -48,6 +49,7 @@ export default function MenuAndRetailItems() {
 
   const [itemAnchorEl, setItemAnchorEl] = useState(null);
   const [categoryAnchorEl, setCategoryAnchorEl] = useState(null);
+  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
   const [itemId, setItemId] = useState(null);
 
@@ -88,7 +90,7 @@ export default function MenuAndRetailItems() {
     return result;
   };
 
-  const getCurrCategoryMenuItemIds = (menuItems) => {
+  const getItemIds = (menuItems) => {
     let result = "";
     for (let i = 0; i < menuItems.length; i++) {
       result +=
@@ -107,24 +109,46 @@ export default function MenuAndRetailItems() {
 
   return (
     <div>
-      {/* Item Menu Options */}
+      {/* "Item" Menu Options */}
       <ItemMenu
         anchorEl={itemAnchorEl}
         handleClose={(e) => handleClose(e, setItemAnchorEl)}
         itemId={itemId}
       />
 
-      {/* Category Menu Options */}
+      {/* "Category" Menu Options */}
       <CategoryMenu
         anchorEl={categoryAnchorEl}
         handleClose={(e) => handleClose(e, setCategoryAnchorEl)}
+      />
+
+      {/* "Menu" Menu Options */}
+      <MenuMenu
+        anchorEl={menuAnchorEl}
+        handleClose={(e) => handleClose(e, setMenuAnchorEl)}
       />
 
       {categories.map((category, i) => (
         <div key={i}>
           <Accordion sx={{ mb: i === categories.length - 1 ? 0 : 2 }}>
             <AccordionSummary expandIcon={<ExpandMore />}>
-              <Typography variant="h6">{category.menu}</Typography>
+              <Box className="flex-row-start" sx={{ alignItems: "center" }}>
+                <IconButton
+                  onClick={(e) => {
+                    const items = menu.filter(
+                      (item) => item.menuCategory === category.menu
+                    );
+
+                    const itemIds = getItemIds(items);
+                    dispatch(setItemIds(itemIds));
+                    handleClick(e, setMenuAnchorEl);
+                  }}
+                  sx={{ mr: 1 }}
+                >
+                  <MoreVert />
+                </IconButton>
+                <Typography variant="h6">{category.menu}</Typography>
+              </Box>
             </AccordionSummary>
             <AccordionDetails>
               <Masonry
@@ -156,12 +180,11 @@ export default function MenuAndRetailItems() {
                       </Typography>
                       <IconButton
                         onClick={(e) => {
-                          let items = menu.filter(
+                          const items = menu.filter(
                             (item) => item.itemCategory === itemCategory
                           );
 
-                          let itemIds = getCurrCategoryMenuItemIds(items);
-                          console.log(itemIds);
+                          const itemIds = getItemIds(items);
                           dispatch(setItemIds(itemIds));
                           handleClick(e, setCategoryAnchorEl);
                         }}

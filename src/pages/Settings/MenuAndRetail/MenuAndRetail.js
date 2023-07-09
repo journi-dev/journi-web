@@ -9,20 +9,12 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { CustomButton } from "../../../components/ui/CustomComponents";
-import Masonry from "react-masonry-css";
-import MenuCategoryLoadingCard from "./components/MenuCategoryLoadingCard";
 import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
 import MenuAndRetailItems from "./components/MenuAndRetailItems";
 import { useDispatch, useSelector } from "react-redux";
 import MenuFileUploadForm from "./components/MenuFileUploadForm";
 import { setIsEditActive } from "../../../context/features/Settings";
-
-// TODO: Make based on theme with makeStyles
-const breakpoints = {
-  default: 3,
-  1100: 2,
-  700: 1,
-};
+import MenuLoadingAccordion from "./components/MenuLoadingAccordion";
 
 const modalStyle = {
   position: "absolute",
@@ -149,18 +141,9 @@ export default function MenuAndRetail() {
           <Typography variant="h6" sx={{ mb: 2 }}>
             Loading...
           </Typography>
-          <Masonry
-            breakpointCols={breakpoints}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column"
-          >
-            <MenuCategoryLoadingCard itemCount={3} />
-            <MenuCategoryLoadingCard itemCount={1} />
-            <MenuCategoryLoadingCard itemCount={2} />
-            <MenuCategoryLoadingCard itemCount={2} />
-            <MenuCategoryLoadingCard itemCount={4} />
-            <MenuCategoryLoadingCard itemCount={3} />
-          </Masonry>
+          <MenuLoadingAccordion />
+          <MenuLoadingAccordion />
+          <MenuLoadingAccordion />
         </div>
       )}
 
