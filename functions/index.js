@@ -21,7 +21,13 @@ const {
 } = require("./handlers/users");
 const handleFirebaseAuth = require("./util/handleFirebaseAuth");
 const { db } = require("./util/admin");
-const { addMultipleToMenu, getMenu } = require("./handlers/menu");
+const {
+  addMultipleToMenu,
+  getMenu,
+  deleteMenuItem,
+  deleteCategory,
+  renameCategory,
+} = require("./handlers/menu");
 const app = require("express")();
 
 // "Promotions" Routes
@@ -47,6 +53,9 @@ app.get("/users", getUsers);
 // app.post("/addMultipleToMenu", handleFirebaseAuth, addMultipleToMenu);
 app.post("/addMultipleToMenu", addMultipleToMenu);
 app.get("/menu", getMenu);
+app.delete("/menu/:menuItemId", deleteMenuItem);
+app.delete("/menu/:menuItems/delete", deleteCategory);
+app.post("/menu/:category/rename", renameCategory);
 
 exports.api = functions.https.onRequest(app);
 

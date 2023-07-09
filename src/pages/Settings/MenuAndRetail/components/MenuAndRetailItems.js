@@ -23,7 +23,13 @@ import Masonry from "react-masonry-css";
 import ErrorPlaceholder from "../../../../components/placeholders/ErrorPlaceholder";
 import { usdFormatter } from "../../../../utils/Helpers";
 import { useDispatch, useSelector } from "react-redux";
-import { setError, setIsLoading } from "../../../../context/features/Settings";
+import {
+  setError,
+  setIsLoading,
+  setItemIds,
+} from "../../../../context/features/Settings";
+import ItemMenu from "./ItemMenu";
+import CategoryMenu from "./CategoryMenu";
 
 // TODO: Make based on theme with makeStyles
 const breakpoints = {
@@ -39,6 +45,11 @@ export default function MenuAndRetailItems() {
 
   const [menu, setMenu] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  const [itemAnchorEl, setItemAnchorEl] = useState(null);
+  const [categoryAnchorEl, setCategoryAnchorEl] = useState(null);
+
+  const [itemId, setItemId] = useState(null);
 
   useEffect(() => {
     axios
@@ -77,8 +88,38 @@ export default function MenuAndRetailItems() {
     return result;
   };
 
+  const getCurrCategoryMenuItemIds = (menuItems) => {
+    let result = "";
+    for (let i = 0; i < menuItems.length; i++) {
+      result +=
+        i === menuItems.length - 1 ? menuItems[i].id : `${menuItems[i].id}-`;
+    }
+    return result;
+  };
+
+  const handleClick = (e, setAnchor) => {
+    setAnchor(e.currentTarget);
+  };
+
+  const handleClose = (e, setAnchor) => {
+    setAnchor(null);
+  };
+
   return (
     <div>
+      {/* Item Menu Options */}
+      <ItemMenu
+        anchorEl={itemAnchorEl}
+        handleClose={(e) => handleClose(e, setItemAnchorEl)}
+        itemId={itemId}
+      />
+
+      {/* Category Menu Options */}
+      <CategoryMenu
+        anchorEl={categoryAnchorEl}
+        handleClose={(e) => handleClose(e, setCategoryAnchorEl)}
+      />
+
       {categories.map((category, i) => (
         <div key={i}>
           <Accordion sx={{ mb: i === categories.length - 1 ? 0 : 2 }}>
@@ -113,8 +154,18 @@ export default function MenuAndRetailItems() {
                           : "s"}
                         )
                       </Typography>
-                      <IconButton>
-                        {/* To-Do: Rename menu category; Delete menu category */}
+                      <IconButton
+                        onClick={(e) => {
+                          let items = menu.filter(
+                            (item) => item.itemCategory === itemCategory
+                          );
+
+                          let itemIds = getCurrCategoryMenuItemIds(items);
+                          console.log(itemIds);
+                          dispatch(setItemIds(itemIds));
+                          handleClick(e, setCategoryAnchorEl);
+                        }}
+                      >
                         <MoreVert />
                       </IconButton>
                     </Box>
@@ -135,9 +186,13 @@ export default function MenuAndRetailItems() {
                             >
                               <Box sx={{ width: 30, height: 30 }}>
                                 {!isEditActive && (
-                                  <IconButton>
+                                  <IconButton
+                                    onClick={(e) => {
+                                      setItemId(menuItem.id);
+                                      handleClick(e, setItemAnchorEl);
+                                    }}
+                                  >
                                     <MoreVert fontSize="small" />
-                                    {/* To-Do: make a menu for favoriting, deleting, editing */}
                                   </IconButton>
                                 )}
                                 {isEditActive && <Checkbox size="small" />}

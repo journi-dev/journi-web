@@ -4,6 +4,7 @@ const initialState = {
   isLoading: true,
   isEditActive: false,
   error: null,
+  itemIds: [],
 };
 
 export const settingsSlice = createSlice({
@@ -22,9 +23,12 @@ export const settingsSlice = createSlice({
     setError: (state, action) => {
       state.error = action.payload;
     },
+    setItemIds: (state, action) => {
+      state.itemIds = action.payload;
+    },
   },
 });
 
-export const { reset, setIsLoading, setIsEditActive, setError } =
+export const { reset, setIsLoading, setIsEditActive, setError, setItemIds } =
   settingsSlice.actions;
 export default settingsSlice.reducer;

@@ -135,3 +135,45 @@ exports.getMenu = (req, res) => {
       return res.status(500).json({ code: err.code });
     });
 };
+
+exports.deleteMenuItem = (req, res) => {
+  const document = db.doc(
+    `/organizations/uncle-johns/menu/${req.params.menuItemId}`
+  );
+
+  document
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        return res.status(404).json({ error: "Menu item not found." });
+      } else {
+        return document.delete();
+      }
+    })
+    .then(() => {
+      res.json({ message: "Menu item deleted successfully!" });
+    })
+    .catch((err) => {
+      return res.status(500).json({ code: err.name });
+    });
+};
+
+exports.deleteCategory = (req, res) => {
+  let batch = db.batch();
+  let menuItems = req.params.menuItems.split("-");
+
+  menuItems.forEach((menuItem) => {
+    batch.delete(db.doc(`/organizations/uncle-johns/menu/${menuItem}`));
+  });
+
+  batch
+    .commit()
+    .then(() => {
+      return res.json({ message: "Menu options successfully deleted!" });
+    })
+    .catch((err) => {
+      return res.status(500).json({ code: err.name });
+    });
+};
+
+exports.renameCategory = (req, res) => {};

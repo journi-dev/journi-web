@@ -89,7 +89,7 @@ export default function AllSettings() {
       path: "/settings/develop",
     }, */
     {
-      text: "WATTSN",
+      text: "Platform Settings",
       icon: <DisplaySettings fontSize="small" color="itemButton" />,
       path: "/settings/platform-settings",
     },
