@@ -31,6 +31,8 @@ import Developers from "./pages/Settings/Developers";
 import MyAccount from "./pages/Settings/MyAccount";
 import ComingSoon from "./pages/ComingSoon/ComingSoon";
 import WATTSNSettings from "./pages/Settings/WATTSNSettings";
+import { useEffect } from "react";
+import { changeAppearance } from "./context/features/Appearance";
 
 const lightThemeLoggedIn = createTheme({
   palette: {
@@ -272,6 +274,12 @@ function App() {
     : authenticated
     ? lightThemeLoggedIn
     : lightThemeLoggedOut;
+
+  useEffect(() => {
+    const localAppearance = localStorage.getItem("Appearance");
+    if (localAppearance)
+      dispatch(changeAppearance(JSON.parse(localAppearance)));
+  });
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>

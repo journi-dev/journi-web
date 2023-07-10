@@ -1,4 +1,3 @@
-import React from "react";
 import {
   AppBar,
   Box,
@@ -329,8 +328,9 @@ export default function LoggedOutLayout() {
             key={mode}
             type="submit"
             onClick={() => {
-              dispatch(changeAppearance(appearances[mode].name));
-              // newAppearance(appearances[mode].name);
+              const newAppearance = appearances[mode].name;
+              dispatch(changeAppearance(newAppearance));
+              localStorage.setItem("Appearance", JSON.stringify(newAppearance));
               handleClose3();
             }}
           >
@@ -383,10 +383,11 @@ export default function LoggedOutLayout() {
             <CustomButton
               onClick={handleClick2}
               size="small"
-              startIcon={language.icon}
+              startIcon={languages[localStorage.getItem("i18nextLng")].icon}
             >
               <Typography variant="caption" color="text.primary">
-                {t("language")}: {t(language.name)}
+                {t("language")}:{" "}
+                {t(languages[localStorage.getItem("i18nextLng")].name)}
               </Typography>
             </CustomButton>
             <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
