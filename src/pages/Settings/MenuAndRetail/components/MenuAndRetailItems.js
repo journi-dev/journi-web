@@ -75,7 +75,7 @@ export default function MenuAndRetailItems() {
       .then((response) => {
         const data = response.data;
         setMenu(data);
-        setCategories(getMenu(data, "menuCategory", "itemCategory"));
+        setCategories(getMenu(data, "category", "subcategory"));
         dispatch(setError(null));
         dispatch(setIsLoading(false));
       })
@@ -85,16 +85,16 @@ export default function MenuAndRetailItems() {
       });
   }, [dispatch]);
 
-  const getMenu = (menuData, menuKey, itemKey) => {
+  const getMenu = (data, categoryKey, subcategoryKey) => {
     const result = [];
     let map = new Map();
 
-    for (const menuItem of menuData) {
-      const [menu, item] = [menuItem[menuKey], menuItem[itemKey]];
+    for (const menuItem of data) {
+      const [menu, item] = [menuItem[categoryKey], menuItem[subcategoryKey]];
       if (!map.has(menu)) {
         map.set(menu, map.size);
         result.push({
-          menu,
+          name: menu,
           items: [item],
         });
       } else {
@@ -126,8 +126,8 @@ export default function MenuAndRetailItems() {
   const updateMenuItems = async (categoryType) => {
     await axios
       .post(`/menu/${categoryType}/${itemIds}/rename`, {
-        menuCategory: newCategory,
-        itemCategory: newSubcategory,
+        category: newCategory,
+        subcategory: newSubcategory,
       })
       .then(() => {
         dispatch(setActiveCategory(""));
@@ -169,19 +169,19 @@ export default function MenuAndRetailItems() {
                 <IconButton
                   onClick={(e) => {
                     const items = menu.filter(
-                      (item) => item.menuCategory === category.menu
+                      (item) => item.category === category.name
                     );
 
                     dispatch(setItemIds(getItemIds(items)));
                     handleClick(e, setCategoryAnchorEl);
-                    setCategory(category.menu);
-                    setNewCategory(category.menu);
+                    setCategory(category.name);
+                    setNewCategory(category.name);
                   }}
                   sx={{ mr: 1 }}
                 >
                   <MoreVert />
                 </IconButton>
-                {activeCategory === category.menu ? (
+                {activeCategory === category.name ? (
                   <Box>
                     <TextField
                       label=""
@@ -197,7 +197,7 @@ export default function MenuAndRetailItems() {
                           updateMenuItems("category");
                         }}
                         disabled={
-                          newCategory === category.menu || newCategory === ""
+                          newCategory === category.name || newCategory === ""
                         }
                         sx={{ ml: 1 }}
                       >
@@ -218,7 +218,7 @@ export default function MenuAndRetailItems() {
                     </Tooltip>
                   </Box>
                 ) : (
-                  <Typography variant="h6">{category.menu}</Typography>
+                  <Typography variant="h6">{category.name}</Typography>
                 )}
               </Box>
             </AccordionSummary>
@@ -229,13 +229,13 @@ export default function MenuAndRetailItems() {
                 columnClassName="my-masonry-grid_column"
                 key={i}
               >
-                {category.items.map((itemCategory, j) => (
+                {category.items.map((subcategory, j) => (
                   <Paper sx={{ p: 1.5 }} key={j}>
                     <Box
                       className="flex-row-space"
                       sx={{ alignItems: "center" }}
                     >
-                      {activeSubcategory === itemCategory ? (
+                      {activeSubcategory === subcategory ? (
                         <Box>
                           <TextField
                             label=""
@@ -251,7 +251,7 @@ export default function MenuAndRetailItems() {
                                 updateMenuItems("subcategory");
                               }}
                               disabled={
-                                newSubcategory === itemCategory ||
+                                newSubcategory === subcategory ||
                                 newSubcategory === ""
                               }
                               sx={{ ml: 1 }}
@@ -274,16 +274,15 @@ export default function MenuAndRetailItems() {
                         </Box>
                       ) : (
                         <Typography variant="subtitle1" sx={{ ml: 2, mb: 1 }}>
-                          {itemCategory} (
+                          {subcategory} (
                           {
                             menu.filter(
-                              (menuItem) =>
-                                menuItem.itemCategory === itemCategory
+                              (menuItem) => menuItem.subcategory === subcategory
                             ).length
                           }{" "}
                           item
                           {menu.filter(
-                            (menuItem) => menuItem.itemCategory === itemCategory
+                            (menuItem) => menuItem.subcategory === subcategory
                           ).length === 1
                             ? ""
                             : "s"}
@@ -294,13 +293,13 @@ export default function MenuAndRetailItems() {
                       <IconButton
                         onClick={(e) => {
                           const items = menu.filter(
-                            (item) => item.itemCategory === itemCategory
+                            (item) => item.subcategory === subcategory
                           );
 
                           dispatch(setItemIds(getItemIds(items)));
                           handleClick(e, setSubcategoryAnchorEl);
-                          setSubcategory(itemCategory);
-                          setNewSubcategory(itemCategory);
+                          setSubcategory(subcategory);
+                          setNewSubcategory(subcategory);
                         }}
                       >
                         <MoreVert />
@@ -308,7 +307,7 @@ export default function MenuAndRetailItems() {
                     </Box>
                     {menu
                       .filter(
-                        (menuItem) => menuItem.itemCategory === itemCategory
+                        (menuItem) => menuItem.subcategory === subcategory
                       )
                       .map((menuItem, k) => (
                         <Box>
@@ -440,8 +439,7 @@ export default function MenuAndRetailItems() {
                           {/* Divider */}
                           {k !==
                             menu.filter(
-                              (menuItem) =>
-                                menuItem.itemCategory === itemCategory
+                              (menuItem) => menuItem.subcategory === subcategory
                             ).length -
                               1 && <Divider sx={{ mx: 0 }} />}
                         </Box>

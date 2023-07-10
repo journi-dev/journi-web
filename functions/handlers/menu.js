@@ -88,8 +88,8 @@ exports.addMultipleToMenu = (req, res) => {
       size3Price: menuItem.size3Price,
       size4Price: menuItem.size4Price,
       singleSizePrice: menuItem.singleSizePrice,
-      menuCategory: menuItem.menuCategory,
-      itemCategory: menuItem.itemCategory,
+      category: menuItem.category,
+      subcategory: menuItem.subcategory,
     };
 
     const newMenuItemRef = db.doc(
@@ -125,8 +125,8 @@ exports.getMenu = (req, res) => {
           size3Price: doc.data().size3Price,
           size4Price: doc.data().size4Price,
           singleSizePrice: doc.data().singleSizePrice,
-          menuCategory: doc.data().menuCategory,
-          itemCategory: doc.data().itemCategory,
+          category: doc.data().category,
+          subcategory: doc.data().subcategory,
         });
       });
       return res.json(menu);
@@ -180,10 +180,7 @@ exports.renameMenuItems = (req, res) => {
   const menuItems = req.params.menuItems.split("-");
   const categoryType = req.params.categoryType;
 
-  const [menuCategory, itemCategory] = [
-    req.body.menuCategory,
-    req.body.itemCategory,
-  ];
+  const [category, subcategory] = [req.body.category, req.body.subcategory];
   let batch = db.batch();
 
   menuItems.forEach((menuItem) => {
@@ -191,9 +188,9 @@ exports.renameMenuItems = (req, res) => {
     batch.update(
       menuItemRef,
       categoryType === "subcategory"
-        ? { itemCategory }
+        ? { subcategory }
         : categoryType === "category"
-        ? { menuCategory }
+        ? { category }
         : {}
     );
   });
