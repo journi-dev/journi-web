@@ -236,7 +236,7 @@ export default function MenuAndRetailItems() {
                       sx={{ alignItems: "center" }}
                     >
                       {activeSubcategory === subcategory ? (
-                        <Box>
+                        <Box sx={{ ml: 2 }}>
                           <TextField
                             label=""
                             variant="standard"
