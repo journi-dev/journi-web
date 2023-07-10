@@ -26,7 +26,7 @@ const {
   getMenu,
   deleteMenuItem,
   deleteMenuItems,
-  renameCategory,
+  renameMenuItems,
 } = require("./handlers/menu");
 const app = require("express")();
 
@@ -55,7 +55,7 @@ app.post("/addMultipleToMenu", addMultipleToMenu);
 app.get("/menu", getMenu);
 app.delete("/menu/:menuItemId", deleteMenuItem);
 app.delete("/menu/:menuItems/delete", deleteMenuItems);
-app.post("/menu/:category/rename", renameCategory);
+app.post("/menu/:categoryType/:menuItems/rename", renameMenuItems);
 
 exports.api = functions.https.onRequest(app);
 

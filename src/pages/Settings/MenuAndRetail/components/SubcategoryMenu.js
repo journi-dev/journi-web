@@ -1,9 +1,15 @@
 import { Delete, DriveFileRenameOutline } from "@mui/icons-material";
 import { ListItemIcon, Menu, MenuItem } from "@mui/material";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveSubcategory } from "../../../../context/features/Settings";
 
-export default function MenuMenu({ anchorEl, handleClose }) {
+export default function SubcategoryMenu({
+  anchorEl,
+  handleClose,
+  activeSubcategory,
+}) {
+  const dispatch = useDispatch();
   const itemIds = useSelector((state) => state.settings.itemIds);
 
   return (
@@ -44,13 +50,14 @@ export default function MenuMenu({ anchorEl, handleClose }) {
         dense
         key="individual"
         onClick={() => {
+          dispatch(setActiveSubcategory(activeSubcategory));
           handleClose();
         }}
       >
         <ListItemIcon>
           <DriveFileRenameOutline />
         </ListItemIcon>
-        Rename menu
+        Rename subcategory
       </MenuItem>
       <MenuItem
         dense
@@ -63,7 +70,7 @@ export default function MenuMenu({ anchorEl, handleClose }) {
         <ListItemIcon>
           <Delete />
         </ListItemIcon>
-        Delete menu
+        Delete subcategory
       </MenuItem>
     </Menu>
   );

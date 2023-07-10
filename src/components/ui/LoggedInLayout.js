@@ -298,27 +298,27 @@ export default function LoggedInLayout() {
     const getWeather = (lat, lon) => {
       const key = "727b45bf8760b5807a8376e5b36b63b0";
       const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}&units=imperial`;
-      setTimeout(() => {
-        fetch(url)
-          .then((response) => response.json())
-          .then((data) => {
-            // console.log(data);
-            setWeatherTemp(data.main.temp);
-            setWeatherDesc(data.weather[0].description);
-            setWeatherIcon(
-              `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
-            );
-            setIsLoading(false);
-            setError(null);
-          })
-          .catch((err) => {
-            if (err.name === "AbortError") {
-              console.log("fetch aborted");
-            }
-            setError(err.message);
-            setIsLoading(false);
-          });
-      }, 1000);
+      // setTimeout(() => {
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          // console.log(data);
+          setWeatherTemp(data.main.temp);
+          setWeatherDesc(data.weather[0].description);
+          setWeatherIcon(
+            `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+          );
+          setIsLoading(false);
+          setError(null);
+        })
+        .catch((err) => {
+          if (err.name === "AbortError") {
+            console.log("fetch aborted");
+          }
+          setError(err.message);
+          setIsLoading(false);
+        });
+      // }, 1000);
     };
 
     const options = {
@@ -384,16 +384,13 @@ export default function LoggedInLayout() {
       text: "settings",
       icon: <Settings color="primary" />,
       path: "/settings",
-      action: () => {
-        console.log("Settings...");
-      },
+      action: () => {},
     },
     {
       text: "logOut",
       icon: <Logout color="primary" />,
       path: "/welcome",
       action: () => {
-        console.log("Logging out...");
         handleLogOut();
       },
     },

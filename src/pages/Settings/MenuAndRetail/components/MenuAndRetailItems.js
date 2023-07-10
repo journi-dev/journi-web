@@ -1,6 +1,8 @@
 import {
   AttachMoney,
   BarChart,
+  Cancel,
+  CheckCircle,
   ExpandMore,
   MoreVert,
 } from "@mui/icons-material";
@@ -13,6 +15,7 @@ import {
   Divider,
   IconButton,
   Paper,
+  TextField,
   Tooltip,
   Typography,
   Zoom,
@@ -24,13 +27,15 @@ import ErrorPlaceholder from "../../../../components/placeholders/ErrorPlacehold
 import { usdFormatter } from "../../../../utils/Helpers";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setActiveCategory,
+  setActiveSubcategory,
   setError,
   setIsLoading,
   setItemIds,
 } from "../../../../context/features/Settings";
-import ItemMenu from "./ItemMenu";
 import CategoryMenu from "./CategoryMenu";
-import MenuMenu from "./MenuMenu";
+import SubcategoryMenu from "./SubcategoryMenu";
+import ItemMenu from "./ItemMenu";
 
 // TODO: Make based on theme with makeStyles
 const breakpoints = {
@@ -42,14 +47,25 @@ const breakpoints = {
 export default function MenuAndRetailItems() {
   const dispatch = useDispatch();
   const isEditActive = useSelector((state) => state.settings.isEditActive);
+  const activeCategory = useSelector((state) => state.settings.activeCategory);
+  const activeSubcategory = useSelector(
+    (state) => state.settings.activeSubcategory
+  );
+  const itemIds = useSelector((state) => state.settings.itemIds);
   const error = useSelector((state) => state.settings.error);
 
   const [menu, setMenu] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  const [category, setCategory] = useState("");
+  const [subcategory, setSubcategory] = useState("");
+
+  const [newCategory, setNewCategory] = useState("");
+  const [newSubcategory, setNewSubcategory] = useState("");
+
   const [itemAnchorEl, setItemAnchorEl] = useState(null);
+  const [subcategoryAnchorEl, setSubcategoryAnchorEl] = useState(null);
   const [categoryAnchorEl, setCategoryAnchorEl] = useState(null);
-  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
   const [itemId, setItemId] = useState(null);
 
@@ -107,6 +123,21 @@ export default function MenuAndRetailItems() {
     setAnchor(null);
   };
 
+  const updateMenuItems = async (categoryType) => {
+    await axios
+      .post(`/menu/${categoryType}/${itemIds}/rename`, {
+        menuCategory: newCategory,
+        itemCategory: newSubcategory,
+      })
+      .then(() => {
+        dispatch(setActiveCategory(""));
+        dispatch(setActiveSubcategory(""));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   return (
     <div>
       {/* "Item" Menu Options */}
@@ -116,16 +147,18 @@ export default function MenuAndRetailItems() {
         itemId={itemId}
       />
 
+      {/* "Subcategory" Menu Options */}
+      <SubcategoryMenu
+        anchorEl={subcategoryAnchorEl}
+        handleClose={(e) => handleClose(e, setSubcategoryAnchorEl)}
+        activeSubcategory={subcategory}
+      />
+
       {/* "Category" Menu Options */}
       <CategoryMenu
         anchorEl={categoryAnchorEl}
         handleClose={(e) => handleClose(e, setCategoryAnchorEl)}
-      />
-
-      {/* "Menu" Menu Options */}
-      <MenuMenu
-        anchorEl={menuAnchorEl}
-        handleClose={(e) => handleClose(e, setMenuAnchorEl)}
+        activeCategory={category}
       />
 
       {categories.map((category, i) => (
@@ -139,15 +172,54 @@ export default function MenuAndRetailItems() {
                       (item) => item.menuCategory === category.menu
                     );
 
-                    const itemIds = getItemIds(items);
-                    dispatch(setItemIds(itemIds));
-                    handleClick(e, setMenuAnchorEl);
+                    dispatch(setItemIds(getItemIds(items)));
+                    handleClick(e, setCategoryAnchorEl);
+                    setCategory(category.menu);
+                    setNewCategory(category.menu);
                   }}
                   sx={{ mr: 1 }}
                 >
                   <MoreVert />
                 </IconButton>
-                <Typography variant="h6">{category.menu}</Typography>
+                {activeCategory === category.menu ? (
+                  <Box>
+                    <TextField
+                      label=""
+                      variant="standard"
+                      value={newCategory}
+                      onChange={(e) => setNewCategory(e.target.value)}
+                    />
+                    <Tooltip title="Save changes">
+                      <IconButton
+                        size="small"
+                        color="success"
+                        onClick={() => {
+                          updateMenuItems("category");
+                        }}
+                        disabled={
+                          newCategory === category.menu || newCategory === ""
+                        }
+                        sx={{ ml: 1 }}
+                      >
+                        <CheckCircle />
+                      </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title="Cancel">
+                      <IconButton
+                        size="small"
+                        color="error"
+                        onClick={() => {
+                          dispatch(setActiveCategory(""));
+                        }}
+                      >
+                        <Cancel />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                ) : (
+                  <Typography variant="h6">{category.menu}</Typography>
+                )}
               </Box>
             </AccordionSummary>
             <AccordionDetails>
@@ -163,30 +235,72 @@ export default function MenuAndRetailItems() {
                       className="flex-row-space"
                       sx={{ alignItems: "center" }}
                     >
-                      <Typography variant="subtitle1" sx={{ ml: 2, mb: 1 }}>
-                        {itemCategory} (
-                        {
-                          menu.filter(
+                      {activeSubcategory === itemCategory ? (
+                        <Box>
+                          <TextField
+                            label=""
+                            variant="standard"
+                            value={newSubcategory}
+                            onChange={(e) => setNewSubcategory(e.target.value)}
+                          />
+                          <Tooltip title="Save changes">
+                            <IconButton
+                              size="small"
+                              color="success"
+                              onClick={() => {
+                                updateMenuItems("subcategory");
+                              }}
+                              disabled={
+                                newSubcategory === itemCategory ||
+                                newSubcategory === ""
+                              }
+                              sx={{ ml: 1 }}
+                            >
+                              <CheckCircle />
+                            </IconButton>
+                          </Tooltip>
+
+                          <Tooltip title="Cancel">
+                            <IconButton
+                              size="small"
+                              color="error"
+                              onClick={() => {
+                                dispatch(setActiveSubcategory(""));
+                              }}
+                            >
+                              <Cancel />
+                            </IconButton>
+                          </Tooltip>
+                        </Box>
+                      ) : (
+                        <Typography variant="subtitle1" sx={{ ml: 2, mb: 1 }}>
+                          {itemCategory} (
+                          {
+                            menu.filter(
+                              (menuItem) =>
+                                menuItem.itemCategory === itemCategory
+                            ).length
+                          }{" "}
+                          item
+                          {menu.filter(
                             (menuItem) => menuItem.itemCategory === itemCategory
-                          ).length
-                        }{" "}
-                        item
-                        {menu.filter(
-                          (menuItem) => menuItem.itemCategory === itemCategory
-                        ).length === 1
-                          ? ""
-                          : "s"}
-                        )
-                      </Typography>
+                          ).length === 1
+                            ? ""
+                            : "s"}
+                          )
+                        </Typography>
+                      )}
+
                       <IconButton
                         onClick={(e) => {
                           const items = menu.filter(
                             (item) => item.itemCategory === itemCategory
                           );
 
-                          const itemIds = getItemIds(items);
-                          dispatch(setItemIds(itemIds));
-                          handleClick(e, setCategoryAnchorEl);
+                          dispatch(setItemIds(getItemIds(items)));
+                          handleClick(e, setSubcategoryAnchorEl);
+                          setSubcategory(itemCategory);
+                          setNewSubcategory(itemCategory);
                         }}
                       >
                         <MoreVert />

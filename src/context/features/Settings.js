@@ -5,6 +5,8 @@ const initialState = {
   isEditActive: false,
   error: null,
   itemIds: [],
+  activeCategory: "",
+  activeSubcategory: "",
 };
 
 export const settingsSlice = createSlice({
@@ -26,9 +28,22 @@ export const settingsSlice = createSlice({
     setItemIds: (state, action) => {
       state.itemIds = action.payload;
     },
+    setActiveCategory: (state, action) => {
+      state.activeCategory = action.payload;
+    },
+    setActiveSubcategory: (state, action) => {
+      state.activeSubcategory = action.payload;
+    },
   },
 });
 
-export const { reset, setIsLoading, setIsEditActive, setError, setItemIds } =
-  settingsSlice.actions;
+export const {
+  reset,
+  setIsLoading,
+  setIsEditActive,
+  setError,
+  setItemIds,
+  setActiveCategory,
+  setActiveSubcategory,
+} = settingsSlice.actions;
 export default settingsSlice.reducer;

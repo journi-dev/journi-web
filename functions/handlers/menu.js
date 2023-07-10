@@ -176,4 +176,34 @@ exports.deleteMenuItems = (req, res) => {
     });
 };
 
-exports.renameCategory = (req, res) => {};
+exports.renameMenuItems = (req, res) => {
+  const menuItems = req.params.menuItems.split("-");
+  const categoryType = req.params.categoryType;
+
+  const [menuCategory, itemCategory] = [
+    req.body.menuCategory,
+    req.body.itemCategory,
+  ];
+  let batch = db.batch();
+
+  menuItems.forEach((menuItem) => {
+    const menuItemRef = db.doc(`/organizations/uncle-johns/menu/${menuItem}`);
+    batch.update(
+      menuItemRef,
+      categoryType === "subcategory"
+        ? { itemCategory }
+        : categoryType === "category"
+        ? { menuCategory }
+        : {}
+    );
+  });
+
+  batch
+    .commit()
+    .then(() => {
+      return res.json({ message: "Menu category successfully renamed!" });
+    })
+    .catch((err) => {
+      return res.status(500).json({ code: err.name });
+    });
+};
