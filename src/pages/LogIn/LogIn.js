@@ -6,7 +6,7 @@ import { useState } from "react";
 import { makeStyles } from "tss-react/mui";
 import { useTranslation } from "react-i18next";
 import { CustomLoadingButton } from "../../components/ui/CustomComponents";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   logInWithEmail,
@@ -25,7 +25,6 @@ import {
 } from "@mui/material";
 import { Apple } from "@mui/icons-material";
 import GoogleLogo from "../../components/icons/Google";
-
 import { auth, googleProvider } from "../../utils/Firebase";
 import { signInWithPopup } from "firebase/auth";
 import MicrosoftLogo from "../../components/icons/Microsoft";
@@ -59,7 +58,9 @@ export default function LogIn() {
   const { classes } = useStyles();
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const location = useLocation();
   const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/home";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -69,13 +70,12 @@ export default function LogIn() {
   const handleEmailLogin = (e) => {
     e.preventDefault();
     const userData = { email, password };
-    dispatch(logInWithEmail(userData, navigate));
+    dispatch(logInWithEmail(userData, navigate, from));
   };
 
   const handleGoogleLogin = async (e) => {
     e.preventDefault();
 
-    // const provider = new GoogleAuthProvider();
     dispatch(setIsLoading(true));
 
     await signInWithPopup(auth, googleProvider)
@@ -86,7 +86,7 @@ export default function LogIn() {
         setAuthorizationHeader(token);
         dispatch(setIsLoading(false));
         dispatch(setAuthenticated(true));
-        navigate("/home");
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         console.error(err);

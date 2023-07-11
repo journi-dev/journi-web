@@ -33,6 +33,7 @@ import ComingSoon from "./pages/ComingSoon/ComingSoon";
 import WATTSNSettings from "./pages/Settings/WATTSNSettings";
 import { useEffect } from "react";
 import { changeAppearance } from "./context/features/Appearance";
+import RequireAuth from "./components/ui/RequireAuth";
 
 const lightThemeLoggedIn = createTheme({
   palette: {
@@ -293,33 +294,7 @@ function App() {
                 path="/"
                 element={<Layout authenticated={authenticated} />}
               >
-                {/* Logged In Routes */}
-                <Route path="home" element={<Home />} />
-                <Route path="updates" element={<Updates />} />
-                <Route path="analytics" element={<Analytics />} />
-                <Route path="social" element={<Social />} />
-                <Route path="support" element={<Support />} />
-
-                {/* Settings Route and Subroutes */}
-                <Route path="settings" element={<AllSettings />}>
-                  <Route path="business-info" element={<BusinessInfo />} />
-                  <Route path="menu" element={<MenuAndRetail />} />
-                  <Route path="users" element={<UsersAndPatrons />} />
-                  <Route path="my-app" element={<AppAndWebsite />} />
-                  <Route path="integrations" element={<Integrations />} />
-                  <Route path="gift-cards" element={<GiftCards />} />
-                  <Route path="billing" element={<Billing />} />
-                  <Route path="develop" element={<Developers />} />
-                  <Route path="my-account" element={<MyAccount />} />
-                  <Route
-                    path="platform-settings"
-                    element={<WATTSNSettings />}
-                  />
-                  <Route path="help" element={<ComingSoon />} />
-                  <Route path="tasks" element={<ComingSoon />} />
-                </Route>
-
-                {/* Logged Out Routes */}
+                {/* Public Routes */}
                 <Route path="welcome" element={<Welcome />} />
                 <Route path="products" element={<Products />} />
                 <Route path="pricing" element={<Pricing />} />
@@ -328,7 +303,35 @@ function App() {
                 <Route path="signup" element={<SignUp />} />
                 <Route path="demo" element={<Demo />} />
 
-                {/* Not Found Route */}
+                {/* Protected Routes */}
+                <Route element={<RequireAuth />}>
+                  <Route path="home" element={<Home />} />
+                  <Route path="updates" element={<Updates />} />
+                  <Route path="analytics" element={<Analytics />} />
+                  <Route path="social" element={<Social />} />
+                  <Route path="support" element={<Support />} />
+
+                  {/* Settings Route and Subroutes */}
+                  <Route path="settings" element={<AllSettings />}>
+                    <Route path="business-info" element={<BusinessInfo />} />
+                    <Route path="menu" element={<MenuAndRetail />} />
+                    <Route path="users" element={<UsersAndPatrons />} />
+                    <Route path="my-app" element={<AppAndWebsite />} />
+                    <Route path="integrations" element={<Integrations />} />
+                    <Route path="gift-cards" element={<GiftCards />} />
+                    <Route path="billing" element={<Billing />} />
+                    <Route path="develop" element={<Developers />} />
+                    <Route path="my-account" element={<MyAccount />} />
+                    <Route
+                      path="platform-settings"
+                      element={<WATTSNSettings />}
+                    />
+                    <Route path="help" element={<ComingSoon />} />
+                    <Route path="tasks" element={<ComingSoon />} />
+                  </Route>
+                </Route>
+
+                {/* 404 Route */}
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>

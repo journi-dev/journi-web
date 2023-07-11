@@ -50,7 +50,7 @@ export const signUpUser = (newUserData, navigate) => (dispatch) => {
     });
 };
 
-export const logInWithEmail = (userData, navigate) => (dispatch) => {
+export const logInWithEmail = (userData, navigate, from) => (dispatch) => {
   dispatch(setIsLoading(true));
   axios
     .post("/login/email", userData)
@@ -58,7 +58,7 @@ export const logInWithEmail = (userData, navigate) => (dispatch) => {
       setAuthorizationHeader(response.data.token);
       dispatch(setIsLoading(false));
       dispatch(setAuthenticated(true));
-      navigate("/home");
+      navigate(from, { replace: true });
     })
     .catch((err) => {
       console.error(err);
