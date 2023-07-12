@@ -104,7 +104,7 @@ exports.addMultipleToMenu = (req, res) => {
       return res.json({ message: "Menu options successfully updated!" });
     })
     .catch((err) => {
-      return res.status(500).json({ code: err.code });
+      return res.status(500).json({ code: err.name });
     });
 };
 

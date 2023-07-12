@@ -20,14 +20,18 @@ import {
   Typography,
 } from "@mui/material";
 import { useRef, useState } from "react";
-import { CustomButton } from "../../../../components/ui/CustomComponents";
+import {
+  CustomButton,
+  CustomLoadingButton,
+} from "../../../../components/ui/CustomComponents";
 import { ExcelRenderer } from "react-excel-renderer";
 import axios from "axios";
 import { fillEmptyValues } from "../../../../utils/Helpers";
 import { makeStyles } from "tss-react/mui";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsLoading } from "../../../../context/features/Settings";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -44,7 +48,9 @@ const useStyles = makeStyles()((theme) => {
 
 export default function MenuFileUploadForm() {
   const { classes } = useStyles();
+  const dispatch = useDispatch();
   const isDark = useSelector((state) => state.appearance.value.isDark);
+  const isLoading = useSelector((state) => state.settings.isLoading);
   const inputRef = useRef(null);
 
   const [dragActive, setDragActive] = useState(false);
@@ -69,8 +75,8 @@ export default function MenuFileUploadForm() {
         size3Price: menuData[i][headerRow.indexOf("Size 3 Price")],
         size4Price: menuData[i][headerRow.indexOf("Size 4 Price")],
         singleSizePrice: menuData[i][headerRow.indexOf("Single-Size Price")],
-        menuCategory: menuData[i][headerRow.indexOf("Menu Category")],
-        itemCategory: menuData[i][headerRow.indexOf("Item Category")],
+        category: menuData[i][headerRow.indexOf("Menu Category")],
+        subcategory: menuData[i][headerRow.indexOf("Item Category")],
       };
       result.push(menuItem);
     }
@@ -116,13 +122,17 @@ export default function MenuFileUploadForm() {
   };
 
   const handleSubmit = () => {
+    dispatch(setIsLoading(true));
     axios
       .post("/addMultipleToMenu", menuData)
       .then((response) => {
+        dispatch(setIsLoading(false));
         notifySuccess(response.data.message);
       })
       .catch((err) => {
-        console.error("Ruh-roh", err);
+        dispatch(setIsLoading(false));
+        console.log("Error:", err);
+        // dispatch(setError(err));
       });
   };
 
@@ -184,7 +194,9 @@ export default function MenuFileUploadForm() {
               <Box className="flex-row">
                 <label htmlFor="input-file-upload">
                   <Box
-                    className={`placeholder-light ${classes.inputContainer} ${
+                    className={`${
+                      isDark ? "placeholder-dark" : "placeholder-light"
+                    } ${classes.inputContainer} ${
                       dragActive ? classes.dragActive : ""
                     }`}
                     sx={{ p: 2, my: 2, textAlign: "center" }}
@@ -241,13 +253,14 @@ export default function MenuFileUploadForm() {
 
               {/* Button */}
               <Box className="flex-row">
-                <CustomButton
+                <CustomLoadingButton
                   sx={{ borderRadius: 25, mt: 2 }}
                   variant="contained"
                   startIcon={<CloudUpload />}
                   onClick={handleSubmit}
                   disableElevation
-                  disabled={menuItemCount === 0}
+                  disabled={menuItemCount === 0 || isLoading}
+                  loading={isLoading}
                 >
                   {`Upload${
                     menuItemCount > 0
@@ -256,7 +269,7 @@ export default function MenuFileUploadForm() {
                         }`
                       : ""
                   }`}
-                </CustomButton>
+                </CustomLoadingButton>
               </Box>
             </form>
           </Box>
