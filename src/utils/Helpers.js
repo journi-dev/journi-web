@@ -1,3 +1,9 @@
+/**
+ *
+ * @param {*} arr e
+ * @param {*} target
+ * @returns a sorted array including the target if it was not already in the array or excluding the target if it was already in the array
+ */
 export const updateArray = (arr, target) => {
   let set = new Set();
   let allElements = [...arr, target];

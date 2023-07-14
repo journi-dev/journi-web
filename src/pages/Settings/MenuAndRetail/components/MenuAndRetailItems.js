@@ -24,7 +24,7 @@ import axios from "axios";
 import { useState } from "react";
 import Masonry from "react-masonry-css";
 import ErrorPlaceholder from "../../../../components/placeholders/ErrorPlaceholder";
-import { usdFormatter } from "../../../../utils/Helpers";
+import { updateArray, usdFormatter } from "../../../../utils/Helpers";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setActiveCategory,
@@ -68,15 +68,6 @@ export default function MenuAndRetailItems() {
   const [itemId, setItemId] = useState(null);
   const { menu, categories } = useFetchMenu(lastUpdated);
 
-  const getItemIds = (menuItems) => {
-    let result = "";
-    for (let i = 0; i < menuItems.length; i++) {
-      result +=
-        i === menuItems.length - 1 ? menuItems[i].id : `${menuItems[i].id}-`;
-    }
-    return result;
-  };
-
   const handleClick = (e, setAnchor) => {
     setAnchor(e.currentTarget);
   };
@@ -87,7 +78,7 @@ export default function MenuAndRetailItems() {
 
   const updateMenuItems = async (categoryType) => {
     await axios
-      .post(`/menu/${categoryType}/${itemIds}/rename`, {
+      .post(`/menu/${categoryType}/${itemIds.join("-")}/rename`, {
         category: newCategory,
         subcategory: newSubcategory,
       })
@@ -135,7 +126,7 @@ export default function MenuAndRetailItems() {
                       (item) => item.category === category.name
                     );
 
-                    dispatch(setItemIds(getItemIds(items)));
+                    dispatch(setItemIds(items));
                     handleClick(e, setCategoryAnchorEl);
                     setCategory(category.name);
                     setNewCategory(category.name);
@@ -259,7 +250,7 @@ export default function MenuAndRetailItems() {
                             (item) => item.subcategory === subcategory
                           );
 
-                          dispatch(setItemIds(getItemIds(items)));
+                          dispatch(setItemIds(items));
                           handleClick(e, setSubcategoryAnchorEl);
                           setSubcategory(subcategory);
                           setNewSubcategory(subcategory);
@@ -294,7 +285,18 @@ export default function MenuAndRetailItems() {
                                     <MoreVert fontSize="small" />
                                   </IconButton>
                                 )}
-                                {isEditActive && <Checkbox size="small" />}
+                                {isEditActive && (
+                                  <Checkbox
+                                    size="small"
+                                    onChange={(e) => {
+                                      let newArr = updateArray(
+                                        itemIds,
+                                        menuItem.id
+                                      );
+                                      dispatch(setItemIds(newArr));
+                                    }}
+                                  />
+                                )}
                               </Box>
 
                               {/* Menu Item Name */}

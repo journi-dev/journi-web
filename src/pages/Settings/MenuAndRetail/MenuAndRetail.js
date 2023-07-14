@@ -1,10 +1,11 @@
 import {
   Add,
+  Cancel,
+  Delete,
   Edit,
   FileUpload,
   Keyboard,
   Refresh,
-  Save,
 } from "@mui/icons-material";
 import {
   Box,
@@ -23,9 +24,11 @@ import { useDispatch, useSelector } from "react-redux";
 import MenuFileUploadForm from "./components/MenuFileUploadForm";
 import {
   setIsEditActive,
+  setItemIds,
   setLastUpdated,
 } from "../../../context/features/Settings";
 import MenuLoadingAccordion from "./components/MenuLoadingAccordion";
+import axios from "axios";
 
 const modalStyle = {
   position: "absolute",
@@ -42,6 +45,7 @@ export default function MenuAndRetail() {
   const isLoading = useSelector((state) => state.settings.isLoading);
   const isEditActive = useSelector((state) => state.settings.isEditActive);
   const menuCount = useSelector((state) => state.settings.menuCount);
+  const itemIds = useSelector((state) => state.settings.itemIds);
 
   const [openIndividualMenuItemsForm, setOpenIndividualMenuItemsForm] =
     useState(false);
@@ -53,6 +57,7 @@ export default function MenuAndRetail() {
     setAnchorEl(e.currentTarget);
   };
 
+  const handleUpdate = () => dispatch(setLastUpdated(new Date().getTime()));
   const handleClose = () => setAnchorEl(null);
 
   return (
@@ -65,7 +70,7 @@ export default function MenuAndRetail() {
           </Typography>
           <IconButton
             disabled={isLoading}
-            onClick={() => dispatch(setLastUpdated(new Date().getTime()))}
+            onClick={handleUpdate}
             sx={{ ml: 1 }}
           >
             <Refresh />
@@ -82,14 +87,43 @@ export default function MenuAndRetail() {
             Add
           </CustomButton>
           <CustomButton
-            color={isEditActive ? "secondary" : "primary"}
+            color={isEditActive ? "error" : "primary"}
             disableElevation
             variant="contained"
-            startIcon={isEditActive ? <Save /> : <Edit />}
+            startIcon={
+              isEditActive ? (
+                itemIds.length === 0 ? (
+                  <Cancel />
+                ) : (
+                  <Delete />
+                )
+              ) : (
+                <Edit />
+              )
+            }
             sx={{ borderRadius: 25 }}
-            onClick={() => dispatch(setIsEditActive(!isEditActive))}
+            onClick={() => {
+              dispatch(setIsEditActive(!isEditActive));
+              if (itemIds.length > 0) {
+                axios.delete(`/menu/${itemIds.join("-")}/delete`).then(() => {
+                  dispatch(setItemIds([]));
+                  handleUpdate();
+                  dispatch(setIsEditActive(!isEditActive));
+                });
+              }
+            }}
           >
-            {isEditActive ? "Save" : "Edit"}
+            {isEditActive
+              ? itemIds.length === 0
+                ? "Cancel"
+                : `Delete${
+                    itemIds.length > 0
+                      ? ` ${itemIds.length} item${
+                          itemIds.length === 1 ? "" : "s"
+                        }`
+                      : ""
+                  }`
+              : "Edit"}
           </CustomButton>
         </Box>
       </Box>
