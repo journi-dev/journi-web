@@ -21,7 +21,7 @@ import {
   Zoom,
 } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Masonry from "react-masonry-css";
 import ErrorPlaceholder from "../../../../components/placeholders/ErrorPlaceholder";
 import { usdFormatter } from "../../../../utils/Helpers";
@@ -29,13 +29,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setActiveCategory,
   setActiveSubcategory,
-  setError,
-  setIsLoading,
   setItemIds,
+  setLastUpdated,
 } from "../../../../context/features/Settings";
 import CategoryMenu from "./CategoryMenu";
 import SubcategoryMenu from "./SubcategoryMenu";
 import ItemMenu from "./ItemMenu";
+import useFetchMenu from "../../../../hooks/useFetchMenu";
 
 // TODO: Make based on theme with makeStyles
 const breakpoints = {
@@ -53,9 +53,7 @@ export default function MenuAndRetailItems() {
   );
   const itemIds = useSelector((state) => state.settings.itemIds);
   const error = useSelector((state) => state.settings.error);
-
-  const [menu, setMenu] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const lastUpdated = useSelector((state) => state.settings.lastUpdated);
 
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState("");
@@ -68,43 +66,7 @@ export default function MenuAndRetailItems() {
   const [categoryAnchorEl, setCategoryAnchorEl] = useState(null);
 
   const [itemId, setItemId] = useState(null);
-
-  useEffect(() => {
-    axios
-      .get("/menu")
-      .then((response) => {
-        const data = response.data;
-        setMenu(data);
-        setCategories(getMenu(data, "category", "subcategory"));
-        dispatch(setError(null));
-        dispatch(setIsLoading(false));
-      })
-      .catch((err) => {
-        dispatch(setError(err));
-        dispatch(setIsLoading(false));
-      });
-  }, [dispatch]);
-
-  const getMenu = (data, categoryKey, subcategoryKey) => {
-    const result = [];
-    let map = new Map();
-
-    for (const menuItem of data) {
-      const [menu, item] = [menuItem[categoryKey], menuItem[subcategoryKey]];
-      if (!map.has(menu)) {
-        map.set(menu, map.size);
-        result.push({
-          name: menu,
-          items: [item],
-        });
-      } else {
-        result[map.get(menu)].items = [
-          ...new Set([...result[map.get(menu)].items, item]),
-        ];
-      }
-    }
-    return result;
-  };
+  const { menu, categories } = useFetchMenu(lastUpdated);
 
   const getItemIds = (menuItems) => {
     let result = "";
@@ -132,6 +94,7 @@ export default function MenuAndRetailItems() {
       .then(() => {
         dispatch(setActiveCategory(""));
         dispatch(setActiveSubcategory(""));
+        dispatch(setLastUpdated(new Date().getTime()));
       })
       .catch((err) => {
         console.error(err);

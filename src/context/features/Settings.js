@@ -7,6 +7,8 @@ const initialState = {
   itemIds: [],
   activeCategory: "",
   activeSubcategory: "",
+  menuCount: 0,
+  lastUpdated: 0,
 };
 
 export const settingsSlice = createSlice({
@@ -34,6 +36,12 @@ export const settingsSlice = createSlice({
     setActiveSubcategory: (state, action) => {
       state.activeSubcategory = action.payload;
     },
+    setMenuCount: (state, action) => {
+      state.menuCount = action.payload;
+    },
+    setLastUpdated: (state, action) => {
+      state.lastUpdated = action.payload;
+    },
   },
 });
 
@@ -45,5 +53,7 @@ export const {
   setItemIds,
   setActiveCategory,
   setActiveSubcategory,
+  setMenuCount,
+  setLastUpdated,
 } = settingsSlice.actions;
 export default settingsSlice.reducer;

@@ -1,6 +1,14 @@
-import { Add, Edit, FileUpload, Keyboard, Save } from "@mui/icons-material";
+import {
+  Add,
+  Edit,
+  FileUpload,
+  Keyboard,
+  Refresh,
+  Save,
+} from "@mui/icons-material";
 import {
   Box,
+  IconButton,
   ListItemIcon,
   Menu,
   MenuItem,
@@ -13,7 +21,10 @@ import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
 import MenuAndRetailItems from "./components/MenuAndRetailItems";
 import { useDispatch, useSelector } from "react-redux";
 import MenuFileUploadForm from "./components/MenuFileUploadForm";
-import { setIsEditActive } from "../../../context/features/Settings";
+import {
+  setIsEditActive,
+  setLastUpdated,
+} from "../../../context/features/Settings";
 import MenuLoadingAccordion from "./components/MenuLoadingAccordion";
 
 const modalStyle = {
@@ -30,6 +41,7 @@ export default function MenuAndRetail() {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.settings.isLoading);
   const isEditActive = useSelector((state) => state.settings.isEditActive);
+  const menuCount = useSelector((state) => state.settings.menuCount);
 
   const [openIndividualMenuItemsForm, setOpenIndividualMenuItemsForm] =
     useState(false);
@@ -47,9 +59,18 @@ export default function MenuAndRetail() {
     <div>
       {/* Header & Buttons */}
       <Box className="flex-row-space" sx={{ mb: 2 }}>
-        <Typography variant="h5" component="h1">
-          Menu & Retail
-        </Typography>
+        <Box className="flex-row-start" sx={{ alignItems: "center" }}>
+          <Typography variant="h5" component="h1">
+            Menu & Retail
+          </Typography>
+          <IconButton
+            disabled={isLoading}
+            onClick={() => dispatch(setLastUpdated(new Date().getTime()))}
+            sx={{ ml: 1 }}
+          >
+            <Refresh />
+          </IconButton>
+        </Box>
         <Box sx={{ ml: 3 }}>
           <CustomButton
             disableElevation
@@ -136,7 +157,7 @@ export default function MenuAndRetail() {
       </Menu>
 
       {/* Loading Menu Cards */}
-      {isLoading && (
+      {isLoading && menuCount === 0 && (
         <div>
           <Typography variant="h6" sx={{ mb: 2 }}>
             Loading...
