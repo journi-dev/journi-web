@@ -92,6 +92,14 @@ export default function MenuAndRetailItems() {
       });
   };
 
+  const getItemIds = (items) => {
+    const result = [];
+    for (const item of items) {
+      result.push(item.id);
+    }
+    return result;
+  };
+
   return (
     <div>
       {/* "Item" Menu Options */}
@@ -126,7 +134,8 @@ export default function MenuAndRetailItems() {
                       (item) => item.category === category.name
                     );
 
-                    dispatch(setItemIds(items));
+                    const newItemIds = getItemIds(items);
+                    dispatch(setItemIds(newItemIds));
                     handleClick(e, setCategoryAnchorEl);
                     setCategory(category.name);
                     setNewCategory(category.name);
@@ -250,7 +259,8 @@ export default function MenuAndRetailItems() {
                             (item) => item.subcategory === subcategory
                           );
 
-                          dispatch(setItemIds(items));
+                          const newItemIds = getItemIds(items);
+                          dispatch(setItemIds(newItemIds));
                           handleClick(e, setSubcategoryAnchorEl);
                           setSubcategory(subcategory);
                           setNewSubcategory(subcategory);

@@ -2,7 +2,11 @@ import { Delete, DriveFileRenameOutline } from "@mui/icons-material";
 import { ListItemIcon, Menu, MenuItem } from "@mui/material";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveSubcategory } from "../../../../context/features/Settings";
+import {
+  setActiveSubcategory,
+  setItemIds,
+  setLastUpdated,
+} from "../../../../context/features/Settings";
 
 export default function SubcategoryMenu({
   anchorEl,
@@ -11,6 +15,7 @@ export default function SubcategoryMenu({
 }) {
   const dispatch = useDispatch();
   const itemIds = useSelector((state) => state.settings.itemIds);
+  const handleUpdate = () => dispatch(setLastUpdated(new Date().getTime()));
 
   return (
     <Menu
@@ -63,7 +68,10 @@ export default function SubcategoryMenu({
         dense
         key="muliple"
         onClick={() => {
-          axios.delete(`/menu/${itemIds}/delete`);
+          axios.delete(`/menu/${itemIds.join("-")}/delete`).then(() => {
+            handleUpdate();
+            dispatch(setItemIds([]));
+          });
           handleClose();
         }}
       >
