@@ -49,7 +49,7 @@ const useStyles = makeStyles()((theme) => {
   };
 });
 
-export default function MenuFileUploadForm() {
+export default function MenuFileUploadForm({ onClose }) {
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const isDark = useSelector((state) => state.appearance.value.isDark);
@@ -154,7 +154,7 @@ export default function MenuFileUploadForm() {
       <Box className="flex-col-start" sx={{ width: "100%" }}>
         <Box className="flex-row-space" sx={{ mb: 1, alignItems: "center" }}>
           <Typography variant="h5">Add items via file upload</Typography>
-          <IconButton sx={{ ml: 2 }}>
+          <IconButton sx={{ ml: 2 }} onClick={onClose}>
             <Close />
           </IconButton>
         </Box>

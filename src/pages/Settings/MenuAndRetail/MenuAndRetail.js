@@ -29,6 +29,8 @@ import {
 } from "../../../context/features/Settings";
 import MenuLoadingAccordion from "./components/MenuLoadingAccordion";
 import axios from "axios";
+import NoItemsPlaceholder from "./components/NoItemsPlaceholder";
+import { makeStyles } from "tss-react/mui";
 
 const modalStyle = {
   position: "absolute",
@@ -38,11 +40,25 @@ const modalStyle = {
   boxShadow: 24,
 };
 
+const useStyles = makeStyles()((theme) => {
+  return {
+    container: {
+      position: "relative",
+    },
+    stickyHeader: {
+      position: "sticky",
+      top: 0,
+    },
+  };
+});
+
 export default function MenuAndRetail() {
   WattsnTabTitle("Menu & Retail Settings");
+  const { classes } = useStyles();
 
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.settings.isLoading);
+  const error = useSelector((state) => state.settings.error);
   const menuCount = useSelector((state) => state.settings.menuCount);
   const isEditActive =
     useSelector((state) => state.settings.isEditActive) && menuCount > 0; // Needs menuCount so that if mass deletion is started but not finished, the button is not left in a state of "Delete # items".
@@ -60,11 +76,15 @@ export default function MenuAndRetail() {
 
   const handleUpdate = () => dispatch(setLastUpdated(new Date().getTime()));
   const handleClose = () => setAnchorEl(null);
+  const handleModalClose = (e, reason, setState) => {
+    if (reason && reason === "backdropClick") return;
+    setState(false);
+  };
 
   return (
-    <div>
+    <div className={classes.container}>
       {/* Header & Buttons */}
-      <Box className="flex-row-space" sx={{ mb: 2 }}>
+      <Box className={`flex-row-space ${classes.stickyHeader}`} sx={{ mb: 2 }}>
         <Box className="flex-row-start" sx={{ alignItems: "center" }}>
           <Typography variant="h5" component="h1">
             Menu & Retail
@@ -74,7 +94,7 @@ export default function MenuAndRetail() {
             onClick={handleUpdate}
             sx={{ ml: 1 }}
           >
-            <Refresh />
+            <Refresh fontSize="small" />
           </IconButton>
         </Box>
         <Box sx={{ ml: 3 }}>
@@ -127,7 +147,7 @@ export default function MenuAndRetail() {
                         }`
                       : ""
                   }`
-              : "Edit"}
+              : "Select Multiple"}
           </CustomButton>
           {isEditActive && itemIds.length > 0 && (
             <CustomButton
@@ -145,6 +165,24 @@ export default function MenuAndRetail() {
           )}
         </Box>
       </Box>
+
+      {/* Loading Menu Cards */}
+      {isLoading && menuCount === 0 && (
+        <div>
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Loading...
+          </Typography>
+          <MenuLoadingAccordion />
+          <MenuLoadingAccordion />
+          <MenuLoadingAccordion />
+        </div>
+      )}
+
+      {/* Menu Cards */}
+      <MenuAndRetailItems />
+
+      {/* Placeholder */}
+      {menuCount === 0 && !isLoading && !error && <NoItemsPlaceholder />}
 
       {/* Add Button Menu */}
       <Menu
@@ -208,25 +246,13 @@ export default function MenuAndRetail() {
         </MenuItem>
       </Menu>
 
-      {/* Loading Menu Cards */}
-      {isLoading && menuCount === 0 && (
-        <div>
-          <Typography variant="h6" sx={{ mb: 2 }}>
-            Loading...
-          </Typography>
-          <MenuLoadingAccordion />
-          <MenuLoadingAccordion />
-          <MenuLoadingAccordion />
-        </div>
-      )}
-
-      {/* Menu Cards */}
-      <MenuAndRetailItems />
-
       {/* "Add items manually" Modal */}
       <Modal
+        // hideBackdrop
         open={openIndividualMenuItemsForm}
-        onClose={() => setOpenIndividualMenuItemsForm(false)}
+        onClose={(e, reason) =>
+          handleModalClose(e, reason, setOpenIndividualMenuItemsForm)
+        }
       >
         <Box sx={modalStyle}>Coming soon!</Box>
       </Modal>
@@ -234,10 +260,16 @@ export default function MenuAndRetail() {
       {/* "Add items via file upload" Modal */}
       <Modal
         open={openMultipleMenuItemsForm}
-        onClose={() => setOpenMultipleMenuItemsForm(false)}
+        onClose={(e, reason) =>
+          handleModalClose(e, reason, setOpenMultipleMenuItemsForm)
+        }
       >
         <Box sx={modalStyle}>
-          <MenuFileUploadForm />
+          <MenuFileUploadForm
+            onClose={(e, reason) =>
+              handleModalClose(e, reason, setOpenMultipleMenuItemsForm)
+            }
+          />
         </Box>
       </Modal>
     </div>
