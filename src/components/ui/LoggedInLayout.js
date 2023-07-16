@@ -329,17 +329,17 @@ export default function LoggedInLayout() {
     const success = (position) => {
       const coords = position.coords;
       const [lat, lon] = [coords.latitude, coords.longitude];
-      console.log(
+      /* console.log(
         `Location access granted. Using user's coordinates (${lat}, ${lon}).`
-      );
+      ); */
       getWeather(lat, lon);
     };
 
     const error = (err) => {
       const [lat, lon] = [41.8781, -87.6298];
-      console.log(
+      /* console.log(
         `Error Code ${err.code}: ${err.message}. Using default coordinates (${lat}, ${lon}) instead.`
-      );
+      ); */
       getWeather(lat, lon);
     };
 

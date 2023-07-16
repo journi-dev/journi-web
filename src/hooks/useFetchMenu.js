@@ -41,7 +41,6 @@ const useFetchMenu = (lastUpdated) => {
       .then((response) => {
         const data = response.data;
         setMenu(data);
-        console.log(lastUpdated);
         setCategories(getMenu(data, "category", "subcategory"));
         dispatch(setMenuCount(data.length));
         dispatch(setError(null));

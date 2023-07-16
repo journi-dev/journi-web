@@ -31,7 +31,10 @@ import { makeStyles } from "tss-react/mui";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsLoading } from "../../../../context/features/Settings";
+import {
+  setIsLoading,
+  setLastUpdated,
+} from "../../../../context/features/Settings";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -127,6 +130,7 @@ export default function MenuFileUploadForm() {
       .post("/addMultipleToMenu", menuData)
       .then((response) => {
         dispatch(setIsLoading(false));
+        dispatch(setLastUpdated(new Date().getTime()));
         notifySuccess(response.data.message);
       })
       .catch((err) => {

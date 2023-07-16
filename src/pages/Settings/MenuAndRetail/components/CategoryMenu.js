@@ -68,7 +68,7 @@ export default function CategoryMenu({
         dense
         key="muliple"
         onClick={() => {
-          axios.delete(`/menu/${itemIds.join("-")}/delete`).then(() => {
+          axios.delete(`/menu/${itemIds.join("~")}/delete`).then(() => {
             handleUpdate();
             dispatch(setItemIds([]));
           });

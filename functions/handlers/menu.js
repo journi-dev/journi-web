@@ -2,85 +2,27 @@ const { db } = require("../util/admin");
 
 exports.addMultipleToMenu = (req, res) => {
   let batch = db.batch();
+  let d = new Date();
 
-  function generateId(length) {
-    const charArray = [
-      "a",
-      "b",
-      "c",
-      "d",
-      "e",
-      "f",
-      "g",
-      "h",
-      "i",
-      "j",
-      "k",
-      "l",
-      "m",
-      "n",
-      "o",
-      "p",
-      "q",
-      "r",
-      "s",
-      "t",
-      "u",
-      "v",
-      "w",
-      "x",
-      "y",
-      "z",
-      "A",
-      "B",
-      "C",
-      "D",
-      "E",
-      "F",
-      "G",
-      "H",
-      "I",
-      "J",
-      "K",
-      "L",
-      "M",
-      "N",
-      "O",
-      "P",
-      "Q",
-      "R",
-      "S",
-      "T",
-      "U",
-      "V",
-      "W",
-      "X",
-      "Y",
-      "Z",
-      "0",
-      "1",
-      "2",
-      "3",
-      "4",
-      "5",
-      "6",
-      "7",
-      "8",
-      "9",
-    ];
-    let result = "";
-    for (let i = 0; i < length; i++) {
-      const randomChar =
-        charArray[Math.floor(Math.random() * charArray.length)];
-      result += randomChar;
-    }
+  // Generates a document ID with the upload date and name of a given item name.
+  function generateId(date, index) {
+    const indexStr =
+      index < 10
+        ? `000${index}`
+        : index < 100
+        ? `00${index}`
+        : index < 1000
+        ? `0${index}`
+        : `${index}`;
+
+    const result = `${date.getTime()}_${indexStr}`;
     return result;
   }
 
-  req.body.forEach((menuItem) => {
+  req.body.forEach((menuItem, i) => {
     const newMenuItemData = {
-      createdAt: new Date(),
-      id: generateId(4),
+      createdAt: d,
+      id: generateId(d, i),
       name: menuItem.name,
       description: menuItem.description,
       size1Price: menuItem.size1Price,
@@ -160,7 +102,7 @@ exports.deleteMenuItem = (req, res) => {
 
 exports.deleteMenuItems = (req, res) => {
   let batch = db.batch();
-  let menuItems = req.params.menuItems.split("-");
+  let menuItems = req.params.menuItems.split("~");
 
   menuItems.forEach((menuItem) => {
     batch.delete(db.doc(`/organizations/uncle-johns/menu/${menuItem}`));
@@ -177,7 +119,7 @@ exports.deleteMenuItems = (req, res) => {
 };
 
 exports.renameMenuItems = (req, res) => {
-  const menuItems = req.params.menuItems.split("-");
+  const menuItems = req.params.menuItems.split("~");
   const categoryType = req.params.categoryType;
 
   const [category, subcategory] = [req.body.category, req.body.subcategory];

@@ -43,8 +43,9 @@ export default function MenuAndRetail() {
 
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.settings.isLoading);
-  const isEditActive = useSelector((state) => state.settings.isEditActive);
   const menuCount = useSelector((state) => state.settings.menuCount);
+  const isEditActive =
+    useSelector((state) => state.settings.isEditActive) && menuCount > 0; // Needs menuCount so that if mass deletion is started but not finished, the button is not left in a state of "Delete # items".
   const itemIds = useSelector((state) => state.settings.itemIds);
 
   const [openIndividualMenuItemsForm, setOpenIndividualMenuItemsForm] =
@@ -89,7 +90,10 @@ export default function MenuAndRetail() {
           <CustomButton
             color={isEditActive ? "error" : "primary"}
             disableElevation
-            variant="contained"
+            disabled={menuCount === 0}
+            variant={
+              isEditActive && itemIds.length === 0 ? "outlined" : "contained"
+            }
             startIcon={
               isEditActive ? (
                 itemIds.length === 0 ? (
@@ -105,7 +109,7 @@ export default function MenuAndRetail() {
             onClick={() => {
               dispatch(setIsEditActive(!isEditActive));
               if (itemIds.length > 0) {
-                axios.delete(`/menu/${itemIds.join("-")}/delete`).then(() => {
+                axios.delete(`/menu/${itemIds.join("~")}/delete`).then(() => {
                   dispatch(setItemIds([]));
                   handleUpdate();
                   dispatch(setIsEditActive(!isEditActive));
@@ -125,6 +129,20 @@ export default function MenuAndRetail() {
                   }`
               : "Edit"}
           </CustomButton>
+          {isEditActive && itemIds.length > 0 && (
+            <CustomButton
+              color={"error"}
+              disableElevation
+              variant="outlined"
+              startIcon={<Cancel />}
+              sx={{ borderRadius: 25, ml: 1 }}
+              onClick={() => {
+                dispatch(setIsEditActive(false));
+              }}
+            >
+              Cancel
+            </CustomButton>
+          )}
         </Box>
       </Box>
 

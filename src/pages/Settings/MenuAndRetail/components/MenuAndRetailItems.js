@@ -78,7 +78,7 @@ export default function MenuAndRetailItems() {
 
   const updateMenuItems = async (categoryType) => {
     await axios
-      .post(`/menu/${categoryType}/${itemIds.join("-")}/rename`, {
+      .post(`/menu/${categoryType}/${itemIds.join("~")}/rename`, {
         category: newCategory,
         subcategory: newSubcategory,
       })
