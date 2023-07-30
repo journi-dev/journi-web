@@ -8,7 +8,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Paper,
   Divider,
   CircularProgress,
   Menu,
@@ -21,7 +20,7 @@ import {
 import { makeStyles } from "tss-react/mui";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import format from "date-fns/format";
-import { enUS, es /* , zhCN, pl */ } from "date-fns/locale";
+// import { enUS, es /* , zhCN, pl */ } from "date-fns/locale";
 import {
   Home,
   BarChart,
@@ -29,17 +28,10 @@ import {
   Help,
   Logout,
   Settings,
-  /* Notifications, */ NotificationsNoneOutlined,
-  LightMode,
+  NotificationsNoneOutlined,
   Language,
-  Favorite,
-  Code,
   ManageAccounts,
   Edit,
-  BugReport,
-  DarkMode,
-  SettingsBrightness,
-  // MenuRounded,
   ChevronLeft,
   ChevronRight,
   Campaign,
@@ -47,16 +39,9 @@ import {
 import { Box, IconButton } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  AmericanFlag,
-  // ChineseFlag,
-  // PolishFlag,
-  SpanishFlag,
-} from "../icons/CircleFlags";
-import { CustomButton } from "./CustomComponents";
 import { useDispatch, useSelector } from "react-redux";
-import { changeAppearance } from "../../context/features/Appearance";
 import { logOutUser } from "../../context/features/User";
+import Footer from "./Footer";
 
 const drawerWidth = 240;
 const footerHeight = 100;
@@ -130,6 +115,7 @@ const useStyles = makeStyles()((theme) => {
       flex: `0 1 ${footerHeight}px`,
       flexDirection: "column",
       justifyContent: "center",
+      // backgroundColor: "#1f2124",
     },
     root: {
       display: "flex",
@@ -194,42 +180,6 @@ export default function LoggedInLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const appearance = useSelector((state) => state.appearance.value.mode);
-
-  const languages = {
-    en: {
-      name: "english",
-      nativeName: "English",
-      icon: <AmericanFlag />,
-      locale: enUS,
-    },
-    es: {
-      name: "spanish",
-      nativeName: "Spanish",
-      icon: <SpanishFlag />,
-      locale: es,
-    },
-    /* pl: {
-      name: "polish",
-      nativeName: "Polish",
-      icon: <PolishFlag />,
-      locale: pl,
-    },
-    cn: {
-      name: "chinese",
-      nativeName: "Chinese",
-      icon: <ChineseFlag />,
-      locale: zhCN,
-    }, */
-  };
-  const appearances = {
-    light: { name: "light", icon: <LightMode color="action" /> },
-    dark: { name: "dark", icon: <DarkMode color="action" /> },
-    system: {
-      name: "system",
-      icon: <SettingsBrightness color="action" />,
-    },
-  };
 
   const [time, setTime] = useState(new Date());
   const [weatherTemp, setWeatherTemp] = useState(0);
@@ -238,42 +188,15 @@ export default function LoggedInLayout() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [language, setLanguage] = useState(languages["en"]);
-
   const [anchorEl1, setAnchorEl1] = useState(null);
-  const [anchorEl2, setAnchorEl2] = useState(null);
-  const [anchorEl3, setAnchorEl3] = useState(null);
-
   const [isDrawerExpanded, setIsDrawerExpanded] = useState(false);
-
-  // const [appearance, setAppearance] = useState("system");
-
-  const open1 = Boolean(anchorEl1);
-  const open2 = Boolean(anchorEl2);
-  const open3 = Boolean(anchorEl3);
 
   const handleClick1 = (e) => {
     setAnchorEl1(e.currentTarget);
   };
 
-  const handleClick2 = (e) => {
-    setAnchorEl2(e.currentTarget);
-  };
-
-  const handleClick3 = (e) => {
-    setAnchorEl3(e.currentTarget);
-  };
-
   const handleClose1 = (e) => {
     setAnchorEl1(null);
-  };
-
-  const handleClose2 = (e) => {
-    setAnchorEl2(null);
-  };
-
-  const handleClose3 = (e) => {
-    setAnchorEl3(null);
   };
 
   const handleLogOut = () => {
@@ -348,7 +271,8 @@ export default function LoggedInLayout() {
     // return () => abortCont.abort();
   }, []); // time, Make it every 5 minutes instead?
 
-  const { t, i18n } = useTranslation();
+  const language = useSelector((state) => state.language.selectedLanguage);
+  const { t } = useTranslation();
 
   const menuItems = [
     {
@@ -443,7 +367,7 @@ export default function LoggedInLayout() {
       {/* Profile Menu */}
       <Menu
         anchorEl={anchorEl1}
-        open={open1}
+        open={Boolean(anchorEl1)}
         onClose={handleClose1}
         onClick={handleClose1}
         PaperProps={{
@@ -530,112 +454,6 @@ export default function LoggedInLayout() {
           </ListItemIcon>
           {t("logOut")}
         </MenuItem>
-      </Menu>
-
-      {/* Language Menu */}
-      <Menu
-        anchorEl={anchorEl2}
-        open={open2}
-        onClose={handleClose2}
-        onClick={handleClose2}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        {Object.keys(languages).map((lang) => (
-          <MenuItem
-            dense
-            key={languages[lang].name}
-            sx={{
-              fontWeight: i18n.resolvedLanguage === lang ? "bold" : "normal",
-            }}
-            type="submit"
-            onClick={() => {
-              i18n.changeLanguage(lang);
-              handleClose2();
-              setLanguage(languages[lang]);
-            }}
-          >
-            <ListItemIcon>{languages[lang].icon}</ListItemIcon>
-            {t(languages[lang].name)}
-          </MenuItem>
-        ))}
-      </Menu>
-
-      {/* Appearance Menu */}
-      <Menu
-        anchorEl={anchorEl3}
-        open={open3}
-        onClose={handleClose3}
-        onClick={handleClose3}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        {Object.keys(appearances).map((mode) => (
-          <MenuItem
-            dense
-            key={mode}
-            type="submit"
-            onClick={() => {
-              const newAppearance = appearances[mode].name;
-              dispatch(changeAppearance(newAppearance));
-              localStorage.setItem("Appearance", JSON.stringify(newAppearance));
-              handleClose3();
-            }}
-          >
-            <ListItemIcon>{appearances[mode].icon}</ListItemIcon>
-            {t(appearances[mode].name)}
-          </MenuItem>
-        ))}
       </Menu>
 
       {/* Side Drawer */}
@@ -761,62 +579,7 @@ export default function LoggedInLayout() {
         </div>
 
         {/* Footer */}
-        <Paper className={classes.footer} elevation={0} sx={{ mt: 1 }}>
-          {/* Footer Menu */}
-          <Box className={classes.flexRow}>
-            <CustomButton size="small">
-              <Typography variant="caption" color="text.primary">
-                {t("termsOfService")}
-              </Typography>
-            </CustomButton>
-            <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-            <CustomButton size="small">
-              <Typography variant="caption" color="text.primary">
-                {t("privacyPolicy")}
-              </Typography>
-            </CustomButton>
-            <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-            <CustomButton startIcon={<BugReport color="action" />} size="small">
-              <Typography variant="caption" color="text.primary">
-                {t("reportABug")}
-              </Typography>
-            </CustomButton>
-            <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-            <CustomButton
-              onClick={handleClick2}
-              size="small"
-              startIcon={languages[localStorage.getItem("i18nextLng")].icon}
-            >
-              <Typography variant="caption" color="text.primary">
-                {t("language")}:{" "}
-                {t(languages[localStorage.getItem("i18nextLng")].name)}
-              </Typography>
-            </CustomButton>
-            <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-            <CustomButton
-              onClick={handleClick3}
-              size="small"
-              startIcon={appearances[appearance].icon}
-            >
-              <Typography variant="caption" color="text.primary">
-                {t("appearance")}: {t(appearance)}
-              </Typography>
-            </CustomButton>
-          </Box>
-
-          {/* Company Details */}
-          <Box className={classes.flexRow} sx={{ userSelect: "none" }}>
-            <Typography variant="caption" sx={{ mr: 1 }}>
-              &#169; {format(time, "yyyy")} Journi R&D
-            </Typography>
-            {/* <Divider orientation="vertical" flexItem sx={{ mx: 1 }} /> */}
-            <Code fontSize="small" sx={{ ml: 1 }} />
-            <Typography variant="caption" sx={{ mx: 1 }}>
-              {t("with")}
-            </Typography>
-            <Favorite fontSize="small" />
-          </Box>
-        </Paper>
+        <Footer />
       </div>
     </div>
   );

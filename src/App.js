@@ -67,79 +67,7 @@ const lightThemeLoggedIn = createTheme({
       main: "#ffebd2",
     },
     appBarButtonColor: {
-      main: "#fff",
-    },
-    iconButton: {
-      main: "#fff",
-    },
-  },
-  typography: {
-    fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    h1: {
-      fontFamily: "'avenir_nextheavy', 'Arial', 'sans-serif'",
-    },
-    h2: {
-      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
-    },
-    h3: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    h4: {
-      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
-    },
-    /* h5: {
-      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    },
-    h6: {
-      fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
-    }, */
-    h5: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    h6: {
-      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
-    },
-    subtitle1: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    caption: {
-      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    },
-    appBarText: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-      color: "#000",
-    },
-  },
-});
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#fc6",
-      light: "#fc6",
-      dark: "#fc6",
-    },
-    secondary: {
-      // main: "#fe8a7e",
-      main: "#ffc1b2",
-    },
-    tertiary: {
-      main: "#3399ff",
-    },
-    quaternary: {
-      main: "#c1554d",
-    },
-    welcomeAppBar: {
-      main: "#000000",
-    },
-    customBackgroundColor: {
-      main: "#2a2a2a",
-    },
-    placeholderColor: {
-      main: "#2a2a2a",
-    },
-    appBarButtonColor: {
-      main: "#fff",
+      main: "#ff0000",
     },
     iconButton: {
       main: "#fff",
@@ -203,7 +131,7 @@ const lightThemeLoggedOut = createTheme({
       main: "#c1554d",
     },
     welcomeAppBar: {
-      main: "#000000",
+      main: "#fff",
     },
     customBackgroundColor: {
       main: "#e7e7e7",
@@ -212,6 +140,150 @@ const lightThemeLoggedOut = createTheme({
       main: "#ffebd2",
     },
     appBarButtonColor: {
+      main: "#000",
+    },
+  },
+  typography: {
+    fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
+    h1: {
+      fontFamily: "'avenir_nextheavy', 'Arial', 'sans-serif'",
+    },
+    h2: {
+      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+    },
+    h3: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+    },
+    h4: {
+      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
+    },
+    /* h5: {
+      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
+    },
+    h6: {
+      fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
+    }, */
+    h5: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+    },
+    h6: {
+      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
+    },
+    subtitle1: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+    },
+    caption: {
+      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
+    },
+    appBarText: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+      color: "#000",
+    },
+  },
+});
+const darkThemeLoggedIn = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#fc6",
+      light: "#fc6",
+      dark: "#fc6",
+    },
+    secondary: {
+      // main: "#fe8a7e",
+      main: "#ffc1b2",
+    },
+    tertiary: {
+      main: "#3399ff",
+    },
+    quaternary: {
+      main: "#c1554d",
+    },
+    welcomeAppBar: {
+      main: "#0d0d0d",
+    },
+    customBackgroundColor: {
+      main: "#2a2a2a",
+    },
+    placeholderColor: {
+      main: "#2a2a2a",
+    },
+    appBarButtonColor: {
+      main: "#fff",
+    },
+    iconButton: {
+      main: "#fff",
+    },
+  },
+  typography: {
+    fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
+    h1: {
+      fontFamily: "'avenir_nextheavy', 'Arial', 'sans-serif'",
+    },
+    h2: {
+      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+    },
+    h3: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+    },
+    h4: {
+      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
+    },
+    /* h5: {
+      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
+    },
+    h6: {
+      fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
+    }, */
+    h5: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+    },
+    h6: {
+      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
+    },
+    subtitle1: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+    },
+    caption: {
+      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
+    },
+    appBarText: {
+      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+      color: "#000",
+    },
+  },
+});
+const darkThemeLoggedOut = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#fc6",
+      light: "#fc6",
+      dark: "#fc6",
+    },
+    secondary: {
+      // main: "#fe8a7e",
+      main: "#ffc1b2",
+    },
+    tertiary: {
+      main: "#3399ff",
+    },
+    quaternary: {
+      main: "#c1554d",
+    },
+    welcomeAppBar: {
+      main: "#0d0d0d",
+    },
+    customBackgroundColor: {
+      main: "#2a2a2a",
+    },
+    placeholderColor: {
+      main: "#2a2a2a",
+    },
+    appBarButtonColor: {
+      main: "#fff",
+    },
+    iconButton: {
       main: "#fff",
     },
   },
@@ -271,7 +343,9 @@ function App() {
 
   const isDark = useSelector((state) => state.appearance.value.isDark);
   const theme = isDark
-    ? darkTheme
+    ? authenticated
+      ? darkThemeLoggedIn
+      : darkThemeLoggedOut
     : authenticated
     ? lightThemeLoggedIn
     : lightThemeLoggedOut;

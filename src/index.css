@@ -70,34 +70,50 @@ body {
   text-transform: none;
 }
 
-.logo-compressed {
-  background: url("./assets/images/logo/boltLogo192.png") no-repeat;
-  width: 30px;
-}
-
-.logo-expanded {
-  background: url("./assets/images/logo/fullLogoFilled192.png") no-repeat;
+.logo-expanded-dark {
+  background: url("./assets/images/logo/fullLogoColor512.png") no-repeat;
   width: 240px;
 }
 
+.logo-expanded-light {
+  background: url("./assets/images/logo/fullLogoBlack512.png") no-repeat;
+  width: 240px;
+}
+
+.logo-compressed {
+  background: url("./assets/images/logo/boltLogoColor512.png") no-repeat;
+  width: 30px;
+}
+
 .logo-compressed,
-.logo-expanded {
+.logo-expanded-dark,
+.logo-expanded-light {
   height: 30px;
   margin-top: 20px;
   margin-bottom: 20px;
-  /* min-width: 100px; */
   background-size: contain;
   background-position: center;
   display: flex;
 }
 
-.toolbar-button:hover,
-.toolbar-button-active {
-  border-bottom: 4px solid #ffc1b2;
+.toolbar-button-light:hover {
+  border-bottom: 2px solid #00000080;
+}
+
+.toolbar-button-light-active {
+  border-bottom: 2px solid #000;
+}
+
+.toolbar-button-dark:hover {
+  border-bottom: 2px solid #ffffff80;
+}
+
+.toolbar-button-dark-active {
+  border-bottom: 2px solid #fff;
 }
 
 .toolbar-button {
-  border-bottom: 4px solid #ffc1b200;
+  border-bottom: 2px solid #ffc1b200;
 }
 
 .my-masonry-grid {
@@ -128,7 +144,6 @@ body {
 .placeholder-light {
   background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='%23FFEBD2FF' stroke-width='7' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e");
   border-radius: 20px;
-  /* margin: 1em 0px; */
   padding: 2em 0px;
 }
 
@@ -161,7 +176,6 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  /* margin-bottom: 15px; */
 }
 
 .flex-row-start {
@@ -180,7 +194,6 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* margin-bottom: 15px; */
 }
 
 .margin-auto-container {
