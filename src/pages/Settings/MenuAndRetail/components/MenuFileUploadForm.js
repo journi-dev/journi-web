@@ -52,7 +52,7 @@ const useStyles = makeStyles()((theme) => {
 export default function MenuFileUploadForm({ onClose }) {
   const { classes } = useStyles();
   const dispatch = useDispatch();
-  const isDark = useSelector((state) => state.appearance.value.isDark);
+  const isDark = useSelector((state) => state.appearance.isDark);
   const isLoading = useSelector((state) => state.settings.isLoading);
   const inputRef = useRef(null);
 

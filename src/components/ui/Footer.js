@@ -35,8 +35,8 @@ export default function Footer() {
   const { classes } = useStyles();
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
-  const isDark = useSelector((state) => state.appearance.value.isDark);
-  const appearance = useSelector((state) => state.appearance.value.mode);
+  const isDark = useSelector((state) => state.appearance.isDark);
+  const appearance = useSelector((state) => state.appearance.mode);
 
   const [anchorEl2, setAnchorEl2] = useState(null);
   const [anchorEl3, setAnchorEl3] = useState(null);

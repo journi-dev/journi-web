@@ -1,23 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialStateValue = { mode: "light", isDark: false };
+const initialState = {
+  mode: "light",
+  isDark: false,
+  isDrawerExpanded: false,
+};
 
 export const appearanceSlice = createSlice({
   name: "appearance",
-  initialState: { value: initialStateValue },
+  initialState,
   reducers: {
     changeAppearance: (state, action) => {
-      state.value = {
-        ...state,
-        mode: action.payload,
-        isDark:
-          (window.matchMedia("(prefers-color-scheme:dark)").matches &&
-            action.payload === "system") ||
-          action.payload === "dark",
-      };
+      state.mode = action.payload;
+      state.isDark =
+        (window.matchMedia("(prefers-color-scheme:dark)").matches &&
+          action.payload === "system") ||
+        action.payload === "dark";
+    },
+    toggleDrawer: (state, action) => {
+      state.isDrawerExpanded = action.payload;
     },
   },
 });
 
-export const { changeAppearance } = appearanceSlice.actions;
+export const { changeAppearance, toggleDrawer } = appearanceSlice.actions;
 export default appearanceSlice.reducer;

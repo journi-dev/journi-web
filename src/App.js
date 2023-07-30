@@ -32,86 +32,10 @@ import MyAccount from "./pages/Settings/MyAccount";
 import ComingSoon from "./pages/ComingSoon/ComingSoon";
 import WATTSNSettings from "./pages/Settings/WATTSNSettings";
 import { useEffect } from "react";
-import { changeAppearance } from "./context/features/Appearance";
+import { changeAppearance, toggleDrawer } from "./context/features/Appearance";
 import RequireAuth from "./components/ui/RequireAuth";
 
-const lightThemeLoggedIn = createTheme({
-  palette: {
-    mode: "light",
-    background: {
-      default: "#fff8f0",
-      paper: "#fff",
-    },
-    primary: {
-      main: "#fc6",
-      light: "#fc6",
-      dark: "#fc6",
-    },
-    secondary: {
-      // main: "#fe8a7e",
-      main: "#ffc1b2",
-    },
-    tertiary: {
-      main: "#3399ff",
-    },
-    quaternary: {
-      main: "#c1554d",
-    },
-    welcomeAppBar: {
-      main: "#000000",
-    },
-    customBackgroundColor: {
-      main: "#e7e7e7",
-    },
-    placeholderColor: {
-      main: "#ffebd2",
-    },
-    appBarButtonColor: {
-      main: "#ff0000",
-    },
-    iconButton: {
-      main: "#fff",
-    },
-  },
-  typography: {
-    fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    h1: {
-      fontFamily: "'avenir_nextheavy', 'Arial', 'sans-serif'",
-    },
-    h2: {
-      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
-    },
-    h3: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    h4: {
-      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
-    },
-    /* h5: {
-      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    },
-    h6: {
-      fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
-    }, */
-    h5: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    h6: {
-      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
-    },
-    subtitle1: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    caption: {
-      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    },
-    appBarText: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-      color: "#000",
-    },
-  },
-});
-const lightThemeLoggedOut = createTheme({
+const lightTheme = createTheme({
   palette: {
     mode: "light",
     background: {
@@ -142,77 +66,11 @@ const lightThemeLoggedOut = createTheme({
     appBarButtonColor: {
       main: "#000",
     },
-  },
-  typography: {
-    fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    h1: {
-      fontFamily: "'avenir_nextheavy', 'Arial', 'sans-serif'",
-    },
-    h2: {
-      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
-    },
-    h3: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    h4: {
-      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
-    },
-    /* h5: {
-      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    },
-    h6: {
-      fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
-    }, */
-    h5: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    h6: {
-      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
-    },
-    subtitle1: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    caption: {
-      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    },
-    appBarText: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-      color: "#000",
-    },
-  },
-});
-const darkThemeLoggedIn = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#fc6",
-      light: "#fc6",
-      dark: "#fc6",
-    },
-    secondary: {
-      // main: "#fe8a7e",
-      main: "#ffc1b2",
-    },
-    tertiary: {
-      main: "#3399ff",
-    },
-    quaternary: {
-      main: "#c1554d",
-    },
-    welcomeAppBar: {
-      main: "#0d0d0d",
-    },
-    customBackgroundColor: {
-      main: "#2a2a2a",
-    },
-    placeholderColor: {
-      main: "#2a2a2a",
-    },
-    appBarButtonColor: {
-      main: "#fff",
+    sideDrawerIconColor: {
+      main: "#000",
     },
     iconButton: {
-      main: "#fff",
+      main: "#ff0000",
     },
   },
   typography: {
@@ -253,7 +111,7 @@ const darkThemeLoggedIn = createTheme({
     },
   },
 });
-const darkThemeLoggedOut = createTheme({
+const darkTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
@@ -282,6 +140,9 @@ const darkThemeLoggedOut = createTheme({
     },
     appBarButtonColor: {
       main: "#fff",
+    },
+    sideDrawerIconColor: {
+      main: "#fc6",
     },
     iconButton: {
       main: "#fff",
@@ -341,19 +202,16 @@ function App() {
     }
   }
 
-  const isDark = useSelector((state) => state.appearance.value.isDark);
-  const theme = isDark
-    ? authenticated
-      ? darkThemeLoggedIn
-      : darkThemeLoggedOut
-    : authenticated
-    ? lightThemeLoggedIn
-    : lightThemeLoggedOut;
+  const isDark = useSelector((state) => state.appearance.isDark);
+  const theme = isDark ? darkTheme : lightTheme;
 
   useEffect(() => {
     const localAppearance = localStorage.getItem("Appearance");
+    const localIsDrawerExpanded = localStorage.getItem("isDrawerExpanded");
     if (localAppearance)
       dispatch(changeAppearance(JSON.parse(localAppearance)));
+    if (localIsDrawerExpanded)
+      dispatch(toggleDrawer(JSON.parse(localIsDrawerExpanded)));
   });
 
   return (

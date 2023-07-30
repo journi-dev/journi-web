@@ -42,6 +42,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser } from "../../context/features/User";
 import Footer from "./Footer";
+import { toggleDrawer } from "../../context/features/Appearance";
 
 const drawerWidth = 240;
 const footerHeight = 100;
@@ -189,7 +190,6 @@ export default function LoggedInLayout() {
   const [error, setError] = useState(null);
 
   const [anchorEl1, setAnchorEl1] = useState(null);
-  const [isDrawerExpanded, setIsDrawerExpanded] = useState(false);
 
   const handleClick1 = (e) => {
     setAnchorEl1(e.currentTarget);
@@ -271,47 +271,51 @@ export default function LoggedInLayout() {
     // return () => abortCont.abort();
   }, []); // time, Make it every 5 minutes instead?
 
+  const isDark = useSelector((state) => state.appearance.isDark);
+  const isDrawerExpanded = useSelector(
+    (state) => state.appearance.isDrawerExpanded
+  );
   const language = useSelector((state) => state.language.selectedLanguage);
   const { t } = useTranslation();
 
   const menuItems = [
     {
       text: "home",
-      icon: <Home color="primary" />,
+      icon: <Home color="sideDrawerIconColor" />,
       path: "/home",
       path2: "/",
     },
     {
       text: "updates",
-      icon: <Campaign color="primary" />,
+      icon: <Campaign color="sideDrawerIconColor" />,
       path: "/updates",
     },
     {
       text: "analytics",
-      icon: <BarChart color="primary" />,
+      icon: <BarChart color="sideDrawerIconColor" />,
       path: "/analytics",
     },
     {
       text: "social",
-      icon: <Share color="primary" />,
+      icon: <Share color="sideDrawerIconColor" />,
       path: "/social",
     },
     {
       text: "support",
-      icon: <Help color="primary" />,
+      icon: <Help color="sideDrawerIconColor" />,
       path: "/support",
     },
   ];
   const footerMenuItems = [
     {
       text: "settings",
-      icon: <Settings color="primary" />,
+      icon: <Settings color="sideDrawerIconColor" />,
       path: "/settings",
       action: () => {},
     },
     {
       text: "logOut",
-      icon: <Logout color="primary" />,
+      icon: <Logout color="sideDrawerIconColor" />,
       path: "/welcome",
       action: () => {
         handleLogOut();
@@ -323,7 +327,9 @@ export default function LoggedInLayout() {
     <div className={classes.root}>
       {/* Header */}
       <AppBar
+        enableColorOnDark
         className={isDrawerExpanded ? classes.appBarOpen : classes.appBarClose}
+        color="welcomeAppBar"
         elevation={0}
       >
         <Toolbar>
@@ -332,7 +338,13 @@ export default function LoggedInLayout() {
             edge="start"
             color="inherit"
             aria-label="menu"
-            onClick={() => setIsDrawerExpanded(!isDrawerExpanded)}
+            onClick={() => {
+              dispatch(toggleDrawer(!isDrawerExpanded));
+              localStorage.setItem(
+                "isDrawerExpanded",
+                JSON.stringify(!isDrawerExpanded)
+              );
+            }}
             sx={{ mr: 1 }}
           >
             {isDrawerExpanded ? <ChevronLeft /> : <ChevronRight />}
@@ -469,9 +481,17 @@ export default function LoggedInLayout() {
             : classes.drawerPaperClose,
         }}
       >
-        <Link to="/">
+        <Link to="/home">
           <Container
-            className={isDrawerExpanded ? "logo-expanded" : "logo-compressed"}
+            className={
+              isDrawerExpanded
+                ? isDark
+                  ? "logo-expanded-dark"
+                  : "logo-expanded-light"
+                : isDark
+                ? "logo-compressed-dark"
+                : "logo-compressed-light"
+            }
             alt="Journi Logo"
           />
         </Link>

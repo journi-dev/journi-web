@@ -71,7 +71,7 @@ export default function LoggedOutLayout() {
   const { classes } = useStyles();
   const navigate = useNavigate();
   const location = useLocation();
-  const isDark = useSelector((state) => state.appearance.value.isDark);
+  const isDark = useSelector((state) => state.appearance.isDark);
 
   const { t } = useTranslation();
 

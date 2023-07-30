@@ -70,24 +70,30 @@ body {
   text-transform: none;
 }
 
-.logo-expanded-dark {
-  background: url("./assets/images/logo/fullLogoColor512.png") no-repeat;
-  width: 240px;
-}
-
 .logo-expanded-light {
   background: url("./assets/images/logo/fullLogoBlack512.png") no-repeat;
   width: 240px;
 }
 
-.logo-compressed {
+.logo-expanded-dark {
+  background: url("./assets/images/logo/fullLogoColor512.png") no-repeat;
+  width: 240px;
+}
+
+.logo-compressed-light {
+  background: url("./assets/images/logo/boltLogoBlack512.png") no-repeat;
+  width: 30px;
+}
+
+.logo-compressed-dark {
   background: url("./assets/images/logo/boltLogoColor512.png") no-repeat;
   width: 30px;
 }
 
-.logo-compressed,
-.logo-expanded-dark,
-.logo-expanded-light {
+.logo-compressed-light,
+.logo-compressed-dark,
+.logo-expanded-light,
+.logo-expanded-dark {
   height: 30px;
   margin-top: 20px;
   margin-bottom: 20px;

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
 export default function ErrorPlaceholder({ code }) {
-  const isDark = useSelector((state) => state.appearance.value.isDark);
+  const isDark = useSelector((state) => state.appearance.isDark);
   const { t } = useTranslation();
   return (
     <Container
