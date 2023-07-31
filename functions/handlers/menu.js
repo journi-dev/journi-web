@@ -118,6 +118,31 @@ exports.deleteMenuItems = (req, res) => {
     });
 };
 
+/* exports.deleteAllMenuItems = (req, res) => {
+  let batch = db.batch();
+
+  db.collection("organizations/uncle-johns/menu")
+    .get()
+    .then((data) => {
+      console.log("Data", data);
+      data.forEach((doc) => {
+        batch.delete(db.doc(`/organizations/uncle-johns/menu/${doc.id}`));
+      });
+    })
+    .catch((err) => {
+      return res.status(500).json({ code: err.name });
+    });
+
+  batch
+    .commit()
+    .then(() => {
+      return res.json({ message: "All menu options successfully deleted!" });
+    })
+    .catch((err) => {
+      return res.status(500).json({ code: err.name });
+    });
+}; */
+
 exports.renameMenuItems = (req, res) => {
   const menuItems = req.params.menuItems.split("~");
   const categoryType = req.params.categoryType;

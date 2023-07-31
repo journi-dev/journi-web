@@ -6,9 +6,6 @@ import {
 } from "@mui/icons-material";
 import {
   Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
   IconButton,
   Paper,
   Table,
@@ -63,8 +60,6 @@ export default function MenuFileUploadForm({ onClose }) {
   const [fileName, setFileName] = useState("");
   const [menuData, setMenuData] = useState([]);
   const [menuItemCount, setMenuItemCount] = useState(0);
-
-  const [overwrite, setOverwrite] = useState(false);
 
   const convertMenuData = (menuData) => {
     const result = [];
@@ -240,18 +235,6 @@ export default function MenuFileUploadForm({ onClose }) {
                       Selected file: {fileName}
                     </Typography>
                   </CustomButton>
-                  <FormGroup sx={{ height: 35 }}>
-                    <FormControlLabel
-                      control={<Checkbox size="small" />}
-                      label={
-                        <Typography variant="caption">
-                          Overwrite current menu
-                        </Typography>
-                      }
-                      checked={overwrite}
-                      onChange={(e) => setOverwrite(e.target.checked)}
-                    />
-                  </FormGroup>
                 </Box>
               )}
 

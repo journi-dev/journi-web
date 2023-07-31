@@ -43,11 +43,7 @@ const modalStyle = {
 const useStyles = makeStyles()((theme) => {
   return {
     container: {
-      position: "relative",
-    },
-    stickyHeader: {
-      position: "sticky",
-      top: 0,
+      // position: "relative",
     },
   };
 });
@@ -81,10 +77,28 @@ export default function MenuAndRetail() {
     setState(false);
   };
 
+  const sentinelEl = document.querySelector(".sentinel");
+  const stickyEl = document.querySelector(".stickyHeader");
+
+  const handler = (entries) => {
+    console.log(entries);
+    // entries is an array of observed dom nodes
+    // we're only interested in the first one at [0]
+    // because that's our .sentinal node.
+    // Here observe whether or not that node is in the viewport
+    if (!entries[0].isIntersecting) stickyEl.classList.add("enabled");
+    else stickyEl.classList.remove("enabled");
+  };
+
+  const observer = new window.IntersectionObserver(handler);
+  observer.observe(sentinelEl);
+
   return (
     <div className={classes.container}>
+      <div class="sentinel"></div>
+
       {/* Header & Buttons */}
-      <Box className={`flex-row-space ${classes.stickyHeader}`} sx={{ mb: 2 }}>
+      <Box className={`flex-row-space stickyHeader`} sx={{ mb: 2 }}>
         <Box className="flex-row-start" sx={{ alignItems: "center" }}>
           <Typography variant="h5" component="h1">
             Menu & Retail

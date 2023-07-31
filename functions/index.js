@@ -27,6 +27,7 @@ const {
   deleteMenuItem,
   deleteMenuItems,
   renameMenuItems,
+  deleteAllMenuItems,
 } = require("./handlers/menu");
 const app = require("express")();
 
@@ -53,6 +54,7 @@ app.get("/users", getUsers);
 // app.post("/addMultipleToMenu", handleFirebaseAuth, addMultipleToMenu);
 app.post("/addMultipleToMenu", addMultipleToMenu);
 app.get("/menu", getMenu);
+// app.delete("/deleteAllMenuItems", deleteAllMenuItems);
 app.delete("/menu/:menuItemId", deleteMenuItem);
 app.delete("/menu/:menuItems/delete", deleteMenuItems);
 app.post("/menu/:categoryType/:menuItems/rename", renameMenuItems);

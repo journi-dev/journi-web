@@ -24,9 +24,6 @@ const useStyles = makeStyles()((theme) => {
     root: {
       width: "100%",
     },
-    menu: {
-      position: "relative",
-    },
     menuLink: {
       textDecoration: "none",
     },

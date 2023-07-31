@@ -246,3 +246,26 @@ body {
   bottom: 0px;
   left: 0px;
 }
+
+.stickyHeader {
+  position: sticky;
+  top: 75px;
+  z-index: 1;
+  transition: all 0.125s ease-in-out;
+}
+
+.stickyHeader.enabled {
+  background-color: #121212;
+  color: white;
+  padding: 10px 10px;
+  margin: 0 15px;
+  border-radius: 150px;
+}
+
+.sentinel {
+  height: 3rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
