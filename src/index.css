@@ -257,7 +257,7 @@ body {
 .stickyHeader.enabled {
   background-color: #121212;
   color: white;
-  padding: 10px 10px;
+  padding: 10px 20px;
   margin: 0 15px;
   border-radius: 150px;
 }
