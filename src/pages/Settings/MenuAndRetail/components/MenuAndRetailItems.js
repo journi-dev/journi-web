@@ -55,6 +55,8 @@ export default function MenuAndRetailItems() {
   const error = useSelector((state) => state.settings.error);
   const lastUpdated = useSelector((state) => state.settings.lastUpdated);
 
+  const [expanded, setExpanded] = useState(null);
+
   const [category, setCategory] = useState("");
   const [subcategory, setSubcategory] = useState("");
 
@@ -123,9 +125,14 @@ export default function MenuAndRetailItems() {
         activeCategory={category}
       />
 
-      {categories.map((category, i) => (
-        <div key={i}>
-          <Accordion sx={{ mb: i === categories.length - 1 ? 0 : 2 }}>
+      <div>
+        {categories.map((category, i) => (
+          <Accordion
+            expanded={expanded === `panel${i + 1}`}
+            onChange={() =>
+              setExpanded(expanded !== `panel${i + 1}` ? `panel${i + 1}` : null)
+            }
+          >
             <AccordionSummary expandIcon={<ExpandMore />}>
               <Box className="flex-row-start" sx={{ alignItems: "center" }}>
                 <IconButton
@@ -133,6 +140,9 @@ export default function MenuAndRetailItems() {
                     const items = menu.filter(
                       (item) => item.category === category.categoryName
                     );
+
+                    e.stopPropagation();
+                    e.preventDefault();
 
                     const newItemIds = getItemIds(items);
                     dispatch(setItemIds(newItemIds));
@@ -150,17 +160,24 @@ export default function MenuAndRetailItems() {
                       label=""
                       variant="standard"
                       value={newCategory}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                      }}
                       onChange={(e) => setNewCategory(e.target.value)}
                     />
                     <Tooltip title="Save changes">
                       <IconButton
                         size="small"
                         color="success"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
                           updateMenuItems("category");
                         }}
                         disabled={
-                          newCategory === category.categoryName || newCategory === ""
+                          newCategory === category.categoryName ||
+                          newCategory === ""
                         }
                         sx={{ ml: 1 }}
                       >
@@ -172,7 +189,9 @@ export default function MenuAndRetailItems() {
                       <IconButton
                         size="small"
                         color="error"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
                           dispatch(setActiveCategory(""));
                         }}
                       >
@@ -424,8 +443,8 @@ export default function MenuAndRetailItems() {
               </Masonry>
             </AccordionDetails>
           </Accordion>
-        </div>
-      ))}
+        ))}
+      </div>
 
       {error && <ErrorPlaceholder code={error.code} />}
     </div>
