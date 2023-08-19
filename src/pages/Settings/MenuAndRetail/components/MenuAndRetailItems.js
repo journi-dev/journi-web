@@ -131,20 +131,20 @@ export default function MenuAndRetailItems() {
                 <IconButton
                   onClick={(e) => {
                     const items = menu.filter(
-                      (item) => item.category === category.name
+                      (item) => item.category === category.categoryName
                     );
 
                     const newItemIds = getItemIds(items);
                     dispatch(setItemIds(newItemIds));
                     handleClick(e, setCategoryAnchorEl);
-                    setCategory(category.name);
-                    setNewCategory(category.name);
+                    setCategory(category.categoryName);
+                    setNewCategory(category.categoryName);
                   }}
                   sx={{ mr: 1 }}
                 >
                   <MoreVert />
                 </IconButton>
-                {activeCategory === category.name ? (
+                {activeCategory === category.categoryName ? (
                   <Box>
                     <TextField
                       label=""
@@ -160,7 +160,7 @@ export default function MenuAndRetailItems() {
                           updateMenuItems("category");
                         }}
                         disabled={
-                          newCategory === category.name || newCategory === ""
+                          newCategory === category.categoryName || newCategory === ""
                         }
                         sx={{ ml: 1 }}
                       >
@@ -181,7 +181,7 @@ export default function MenuAndRetailItems() {
                     </Tooltip>
                   </Box>
                 ) : (
-                  <Typography variant="h6">{category.name}</Typography>
+                  <Typography variant="h6">{category.categoryName}</Typography>
                 )}
               </Box>
             </AccordionSummary>
@@ -192,7 +192,7 @@ export default function MenuAndRetailItems() {
                 columnClassName="my-masonry-grid_column"
                 key={i}
               >
-                {category.items.map((subcategory, j) => (
+                {category.subcategories.map((subcategory, j) => (
                   <Paper sx={{ p: 1.5 }} key={j}>
                     <Box
                       className="flex-row-space"

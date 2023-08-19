@@ -64,10 +64,10 @@ const lightTheme = createTheme({
       main: "#ffebd2",
     },
     appBarButtonColor: {
-      main: "#000",
+      main: "#121212",
     },
     sideDrawerIconColor: {
-      main: "#000",
+      main: "#121212",
     },
     iconButton: {
       main: "#ff0000",

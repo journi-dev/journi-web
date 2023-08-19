@@ -11,7 +11,7 @@ export default function Pricing() {
       <Box className="flex-row">
         <Paper className="flex-col" sx={{ width: "23em", p: 2, mx: 2 }}>
           <Box sx={{ mb: 2 }}>
-            <Typography variant="h5">Lite</Typography>
+            <Typography variant="h5">Base</Typography>
             <Typography variant="caption">
               Keep up with the times while keeping costs low. Serve your patrons
               who already know you.
@@ -24,9 +24,9 @@ export default function Pricing() {
           </ul>
           <Typography variant="subtitle1">What you get...</Typography>
           <ul>
-            <li>A custom-built website full content customization</li>
+            <li>A custom-built website with full content customization</li>
             <li>
-              Full access to Journi's X1 platform to track orders, patrons, and
+              Full access to Journi's WATTSN platform to track orders, patrons, and
               more
             </li>
             <li>

@@ -16,7 +16,7 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CustomButton } from "../../../components/ui/CustomComponents";
 import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
 import MenuAndRetailItems from "./components/MenuAndRetailItems";
@@ -31,6 +31,7 @@ import MenuLoadingAccordion from "./components/MenuLoadingAccordion";
 import axios from "axios";
 import NoItemsPlaceholder from "./components/NoItemsPlaceholder";
 import { makeStyles } from "tss-react/mui";
+import MenuItemAddForm from "./components/MenuItemAddForm";
 
 const modalStyle = {
   position: "absolute",
@@ -53,6 +54,7 @@ export default function MenuAndRetail() {
   const { classes } = useStyles();
 
   const dispatch = useDispatch();
+  const isDark = useSelector((state) => state.appearance.isDark);
   const isLoading = useSelector((state) => state.settings.isLoading);
   const error = useSelector((state) => state.settings.error);
   const menuCount = useSelector((state) => state.settings.menuCount);
@@ -77,21 +79,18 @@ export default function MenuAndRetail() {
     setState(false);
   };
 
-  const sentinelEl = document.querySelector(".sentinel");
-  const stickyEl = document.querySelector(".stickyHeader");
+  useEffect(() => {
+    const sentinelEl = document.querySelector(".sentinel");
+    const stickyEl = document.querySelector(".stickyHeader");
+    const handler = (entries) => {
+      if (!entries[0].isIntersecting)
+        stickyEl.classList.add(`enabled-${isDark ? "dark" : "light"}`);
+      else stickyEl.classList.remove(`enabled-${isDark ? "dark" : "light"}`);
+    };
 
-  const handler = (entries) => {
-    console.log(entries);
-    // entries is an array of observed dom nodes
-    // we're only interested in the first one at [0]
-    // because that's our .sentinal node.
-    // Here observe whether or not that node is in the viewport
-    if (!entries[0].isIntersecting) stickyEl.classList.add("enabled");
-    else stickyEl.classList.remove("enabled");
-  };
-
-  const observer = new window.IntersectionObserver(handler);
-  observer.observe(sentinelEl);
+    const observer = new window.IntersectionObserver(handler);
+    observer.observe(sentinelEl);
+  });
 
   return (
     <div className={classes.container}>
@@ -268,7 +267,13 @@ export default function MenuAndRetail() {
           handleModalClose(e, reason, setOpenIndividualMenuItemsForm)
         }
       >
-        <Box sx={modalStyle}>Coming soon!</Box>
+        <Box sx={modalStyle}>
+          <MenuItemAddForm
+            onClose={(e, reason) =>
+              handleModalClose(e, reason, setOpenIndividualMenuItemsForm)
+            }
+          />
+        </Box>
       </Modal>
 
       {/* "Add items via file upload" Modal */}

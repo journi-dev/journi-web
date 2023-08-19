@@ -1,8 +1,11 @@
 import { Delete, Edit } from "@mui/icons-material";
 import { ListItemIcon, Menu, MenuItem } from "@mui/material";
 import axios from "axios";
+import { setLastUpdated } from "../../../../context/features/Settings";
+import { useDispatch } from "react-redux";
 
 export default function ItemMenu({ anchorEl, handleClose, itemId }) {
+  const dispatch = useDispatch();
   return (
     <Menu
       anchorEl={anchorEl}
@@ -39,7 +42,7 @@ export default function ItemMenu({ anchorEl, handleClose, itemId }) {
     >
       <MenuItem
         dense
-        key="individual"
+        key="edit"
         onClick={() => {
           handleClose();
         }}
@@ -51,10 +54,11 @@ export default function ItemMenu({ anchorEl, handleClose, itemId }) {
       </MenuItem>
       <MenuItem
         dense
-        key="muliple"
-        onClick={() => {
-          axios.delete(`/menu/${itemId}`);
-          handleClose();
+        key="delete"
+        onClick={async () => {
+          await axios.delete(`/menu/${itemId}`);
+          await dispatch(setLastUpdated(new Date().getTime()));
+          await handleClose();
         }}
       >
         <ListItemIcon>

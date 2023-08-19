@@ -1,5 +1,51 @@
 const { db } = require("../util/admin");
 
+exports.createMenuItem = (req, res) => {
+  let d = new Date();
+
+  // Generates a document ID with the upload date and name of a given item name.
+  function generateId(date, index) {
+    const indexStr =
+      index < 10
+        ? `000${index}`
+        : index < 100
+        ? `00${index}`
+        : index < 1000
+        ? `0${index}`
+        : `${index}`;
+
+    const result = `${date.getTime()}_${indexStr}`;
+    return result;
+  }
+
+  if (req.body.name.trim() === "")
+    return res.status(400).json({ name: "Item name field must not be empty." });
+
+  const newMenuItem = {
+    category: req.body.category,
+    createdAt: d,
+    description: req.body.description,
+    id: generateId(d, 1),
+    name: req.body.name,
+    singleSizePrice: req.body.singleSizePrice,
+    size1Price: req.body.size1Price,
+    size2Price: req.body.size2Price,
+    size3Price: req.body.size3Price,
+    size4Price: req.body.size4Price,
+    subcategory: req.body.subcategory,
+  };
+
+  db.doc(`/organizations/uncle-johns/menu/${newMenuItem.id}`)
+    .set(newMenuItem)
+    .then((doc) => {
+      return res.status(200).json(newMenuItem);
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({ error: "Something went wrong." });
+    });
+};
+
 exports.addMultipleToMenu = (req, res) => {
   let batch = db.batch();
   let d = new Date();
@@ -22,7 +68,7 @@ exports.addMultipleToMenu = (req, res) => {
   req.body.forEach((menuItem, i) => {
     const newMenuItemData = {
       createdAt: d,
-      id: generateId(d, i),
+      id: generateId(d, i + 1),
       name: menuItem.name,
       description: menuItem.description,
       size1Price: menuItem.size1Price,
@@ -117,31 +163,6 @@ exports.deleteMenuItems = (req, res) => {
       return res.status(500).json({ code: err.name });
     });
 };
-
-/* exports.deleteAllMenuItems = (req, res) => {
-  let batch = db.batch();
-
-  db.collection("organizations/uncle-johns/menu")
-    .get()
-    .then((data) => {
-      console.log("Data", data);
-      data.forEach((doc) => {
-        batch.delete(db.doc(`/organizations/uncle-johns/menu/${doc.id}`));
-      });
-    })
-    .catch((err) => {
-      return res.status(500).json({ code: err.name });
-    });
-
-  batch
-    .commit()
-    .then(() => {
-      return res.json({ message: "All menu options successfully deleted!" });
-    })
-    .catch((err) => {
-      return res.status(500).json({ code: err.name });
-    });
-}; */
 
 exports.renameMenuItems = (req, res) => {
   const menuItems = req.params.menuItems.split("~");

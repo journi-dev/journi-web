@@ -13,24 +13,30 @@ const useFetchMenu = (lastUpdated) => {
   const [categories, setCategories] = useState([]);
 
   function getMenu(data, categoryKey, subcategoryKey) {
-    const result = [];
+    const categories = [];
     let map = new Map();
 
     for (const menuItem of data) {
-      const [menu, item] = [menuItem[categoryKey], menuItem[subcategoryKey]];
-      if (!map.has(menu)) {
-        map.set(menu, map.size);
-        result.push({
-          name: menu,
-          items: [item],
+      const [categoryName, subcategory] = [
+        menuItem[categoryKey],
+        menuItem[subcategoryKey],
+      ];
+      if (!map.has(categoryName)) {
+        map.set(categoryName, map.size);
+        categories.push({
+          categoryName,
+          subcategories: [subcategory],
         });
       } else {
-        result[map.get(menu)].items = [
-          ...new Set([...result[map.get(menu)].items, item]),
+        categories[map.get(categoryName)].subcategories = [
+          ...new Set([
+            ...categories[map.get(categoryName)].subcategories,
+            subcategory,
+          ]),
         ];
       }
     }
-    return result;
+    return categories;
   }
 
   useEffect(() => {

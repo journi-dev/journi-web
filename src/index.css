@@ -254,16 +254,27 @@ body {
   transition: all 0.125s ease-in-out;
 }
 
-.stickyHeader.enabled {
-  background-color: #121212;
-  color: white;
+.stickyHeader.enabled-light,
+.stickyHeader.enabled-dark {
   padding: 10px 20px;
   margin: 0 15px;
   border-radius: 150px;
 }
 
+.stickyHeader.enabled-light {
+  background-color: #fff;
+  border: 2px solid #121212;
+  box-shadow: 3px 3px #121212;
+}
+
+.stickyHeader.enabled-dark {
+  background-color: #121212;
+  border: 2px solid #121212;
+  box-shadow: 3px 3px #ffffff80;
+}
+
 .sentinel {
-  height: 3rem;
+  height: 2rem;
   position: absolute;
   top: 0;
   left: 0;
