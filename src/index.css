@@ -280,3 +280,11 @@ body {
   left: 0;
   right: 0;
 }
+
+.icon-button {
+  opacity: 0;
+}
+
+.hover-container:hover > .icon-button {
+  opacity: 1;
+}

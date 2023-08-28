@@ -79,6 +79,10 @@ export const abbreviateString = (string) => {
   return result;
 };
 
+export const capitalizeString = (string) => {
+  return string[0].toUpperCase() + string.substring(1);
+};
+
 export const usdFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",

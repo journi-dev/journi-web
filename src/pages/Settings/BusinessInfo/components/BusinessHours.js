@@ -1,17 +1,16 @@
-import { ContentCopy } from "@mui/icons-material";
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormGroup,
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@mui/material";
-import { TimePicker } from "@mui/x-date-pickers";
-import { useState } from "react";
+import { Box, Paper, Typography } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
+import HourComponent from "./HourComponent";
+import { capitalizeString } from "../../../../utils/Helpers";
+import {
+  setFriday,
+  setMonday,
+  setSaturday,
+  setSunday,
+  setThursday,
+  setTuesday,
+  setWednesday,
+} from "../../../../context/features/Hours";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -24,133 +23,43 @@ const useStyles = makeStyles()((theme) => {
 export default function BusinessHours() {
   const { classes } = useStyles();
   const daysOfWeek = [
-    { id: 1, day: "Mon" },
-    { id: 2, day: "Tue" },
-    { id: 3, day: "Wed" },
-    { id: 4, day: "Thu" },
-    { id: 5, day: "Fri" },
-    { id: 6, day: "Sat" },
-    { id: 7, day: "Sun" },
+    { id: 0, name: "sunday", setDay: setSunday },
+    { id: 1, name: "monday", setDay: setMonday },
+    { id: 2, name: "tuesday", setDay: setTuesday },
+    { id: 3, name: "wednesday", setDay: setWednesday },
+    { id: 4, name: "thursday", setDay: setThursday },
+    { id: 5, name: "friday", setDay: setFriday },
+    { id: 6, name: "saturday", setDay: setSaturday },
   ];
 
-  const [checkedList, setCheckedList] = useState(uncheckAll(daysOfWeek));
-  const [anchor, setAnchor] = useState(null);
-
-  const handleCopyButtonClick = (e) => {
-    setAnchor(e.currentTarget);
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    boxShadow: 24,
   };
-
-  const handleCopyButtonClose = () => setAnchor(null);
-
-  function uncheckAll(options) {
-    return options.map((option) => ({
-      ...option,
-      checked: false,
-    }));
-  }
-
-  function toggleOption(options, id, checked) {
-    return options.map((option) =>
-      option.id === id ? { ...option, checked } : option
-    );
-  }
-
-  function changeList(id, checked) {
-    setCheckedList((checkedList) => toggleOption(checkedList, id, checked));
-  }
 
   return (
     <div className={classes.root}>
-      {/* New Button Menu */}
-      <Menu
-        anchorEl={anchor}
-        open={Boolean(anchor)}
-        onClose={handleCopyButtonClose}
-        onClick={handleCopyButtonClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <MenuItem dense onClick={() => {}}>
-          Copy hours to all weekdays
-        </MenuItem>
-        <MenuItem dense onClick={() => {}}>
-          Copy hours to weekend
-        </MenuItem>
-        <MenuItem dense onClick={() => {}}>
-          Copy hours to all days
-        </MenuItem>
-      </Menu>
-      <Box
-        className="flex-col-start"
-        sx={{
-          borderWidth: "1px",
-          borderStyle: "solid",
-          borderColor: "text.secondary",
-          borderRadius: 5,
-          p: 2,
-        }}
-      >
-        <Typography variant="h6">Business Hours</Typography>
-        {checkedList.map(({ id, day, checked }) => (
-          <Box className="flex-row" sx={{ mb: 2, alignItems: "center" }}>
-            <IconButton
-              size="small"
-              sx={{ mr: 1 }}
-              onClick={handleCopyButtonClick}
-            >
-              {/* To-Do: copy to other week(days/end days), copy to all */}
-              <ContentCopy fontSize="inherit" />
-            </IconButton>
-            <Typography
-              sx={{
-                width: 50,
-                display: "flex",
-                mr: 0.5,
-                fontWeight: "bold",
-              }}
-            >
-              {day}:
+      <Box sx={modalStyle}>
+        <Paper>
+          <Box className="flex-col-start">
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              Business Hours
             </Typography>
-            <TimePicker label="Open" sx={{ width: "9em", mr: 2 }} />
-            <TimePicker label="Close" sx={{ width: "9em" }} />
-            <FormGroup row sx={{ ml: 2 }}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked}
-                    onChange={(e) => changeList(id, e.target.checked)}
-                  />
-                }
-                label="Closed"
+
+            {daysOfWeek.map((day, i) => (
+              <HourComponent
+                dayOfWeek={capitalizeString(day.name)}
+                key={day.id}
+                id={day.name}
+                setDay={day.setDay}
+                isLast={i + 1 === daysOfWeek.length}
               />
-            </FormGroup>
+            ))}
           </Box>
-        ))}
+        </Paper>
       </Box>
     </div>
   );
