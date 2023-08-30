@@ -583,8 +583,7 @@ export default function LoggedInLayout() {
           {/* Time */}
           {isDrawerExpanded && (
             <Typography sx={{ userSelect: "none" }}>
-              {format(time, "h:mm")}{" "}
-              {Number(format(time, "H")) < 12 ? "AM" : "PM"}
+              {format(time, "h:mm a")}
             </Typography>
           )}
         </Box>

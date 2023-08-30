@@ -1,6 +1,6 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Paper, Typography } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
-import HourComponent from "./HourComponent";
+import HourEditComponent from "./HourEditComponent";
 import { capitalizeString } from "../../../../utils/Helpers";
 import {
   setFriday,
@@ -11,6 +11,9 @@ import {
   setTuesday,
   setWednesday,
 } from "../../../../context/features/Hours";
+import { CustomButton } from "../../../../components/ui/CustomComponents";
+import { Close } from "@mui/icons-material";
+import HourTextComponent from "./HourTextComponent";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -20,7 +23,7 @@ const useStyles = makeStyles()((theme) => {
   };
 });
 
-export default function BusinessHours() {
+export default function BusinessHours({ handleClose }) {
   const { classes } = useStyles();
   const daysOfWeek = [
     { id: 0, name: "sunday", setDay: setSunday },
@@ -41,26 +44,83 @@ export default function BusinessHours() {
   };
 
   return (
-    <div className={classes.root}>
-      <Box sx={modalStyle}>
-        <Paper>
-          <Box className="flex-col-start">
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              Business Hours
-            </Typography>
-
-            {daysOfWeek.map((day, i) => (
-              <HourComponent
-                dayOfWeek={capitalizeString(day.name)}
-                key={day.id}
-                id={day.name}
-                setDay={day.setDay}
-                isLast={i + 1 === daysOfWeek.length}
-              />
-            ))}
+    <Box sx={modalStyle}>
+      <Paper
+        elevation={1}
+        className={classes.root}
+        sx={{
+          p: 3,
+          maxWidth: "80vw",
+          maxHeight: 750,
+          overflow: "auto",
+        }}
+      >
+        <Box className="flex-col-start">
+          {/* Header */}
+          <Box className="flex-row-space" sx={{ mb: 2, alignItems: "center" }}>
+            <Typography variant="h6">Edit Business Hours</Typography>
+            <IconButton onClick={handleClose}>
+              <Close />
+            </IconButton>
           </Box>
-        </Paper>
-      </Box>
-    </div>
+
+          <Box className="flex-row-space">
+            {/* Hour Edit Component */}
+            <Box>
+              {daysOfWeek.map((day, i) => (
+                <HourEditComponent
+                  dayOfWeek={capitalizeString(day.name)}
+                  key={day.id}
+                  name={day.name}
+                  setDay={day.setDay}
+                  isLast={i + 1 === daysOfWeek.length}
+                />
+              ))}
+            </Box>
+
+            {/* Hour Text Component and Buttons */}
+            <Box className="flex-col-start">
+              {/* Hour Text Component */}
+              <Box sx={{ mx: 2 }}>
+                <Typography variant="h6" sx={{ textAlign: "center" }}>
+                  Your Hours
+                </Typography>
+                <Divider sx={{ mb: 1 }} />
+                {daysOfWeek.map((day, i) => (
+                  <HourTextComponent
+                    dayOfWeek={capitalizeString(day.name)}
+                    key={day.id}
+                    name={day.name}
+                  />
+                ))}
+              </Box>
+
+              {/* Buttons */}
+              <Box className="flex-row" sx={{ mt: 2 }}>
+                <CustomButton
+                  variant="outlined"
+                  color="error"
+                  sx={{ mr: 1 }}
+                  onClick={() => {
+                    handleClose();
+                  }}
+                >
+                  Cancel
+                </CustomButton>
+                <CustomButton
+                  variant="contained"
+                  sx={{ ml: 1 }}
+                  onClick={() => {
+                    handleClose();
+                  }}
+                >
+                  Save
+                </CustomButton>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Paper>
+    </Box>
   );
 }

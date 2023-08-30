@@ -19,7 +19,7 @@ const breakpoints = {
 
 export default function MenuLoadingAccordion() {
   return (
-    <Accordion sx={{ mb: 2 }}>
+    <Accordion>
       <AccordionSummary expandIcon={<ExpandMore />}>
         <Box className="flex-row-start" sx={{ alignItems: "center" }}>
           <IconButton sx={{ mr: 1 }}>

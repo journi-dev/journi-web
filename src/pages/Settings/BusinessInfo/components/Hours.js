@@ -15,11 +15,11 @@ export default function Hours() {
       </Typography>
       <Box className="flex-row-space">
         {/* Business Hours */}
-        <Box className="flex-col-start" sx={{ width: "50%", px: 1 }}>
-          <Box
-            className="flex-row-start hover-container"
-            sx={{ mb: 1, alignItems: "center" }}
-          >
+        <Box
+          className="flex-col-start hover-container"
+          sx={{ width: "50%", px: 1 }}
+        >
+          <Box className="flex-row-start" sx={{ mb: 1, alignItems: "center" }}>
             <Typography sx={{ mr: 1 }}>Business Hours</Typography>
             <IconButton
               size="small"
@@ -122,7 +122,7 @@ export default function Hours() {
       </Box>
 
       <Modal open={openBusinessHours} onClose={handleClose}>
-        <BusinessHours />
+        <BusinessHours handleClose={handleClose} />
       </Modal>
     </div>
   );

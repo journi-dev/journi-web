@@ -285,6 +285,6 @@ body {
   opacity: 0;
 }
 
-.hover-container:hover > .icon-button {
+.hover-container:hover >* .icon-button {
   opacity: 1;
 }
