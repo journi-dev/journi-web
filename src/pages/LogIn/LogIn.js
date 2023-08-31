@@ -5,7 +5,10 @@ import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { makeStyles } from "tss-react/mui";
 import { useTranslation } from "react-i18next";
-import { CustomLoadingButton } from "../../components/ui/CustomComponents";
+import {
+  CustomButton,
+  CustomLoadingButton,
+} from "../../components/ui/CustomComponents";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,15 +18,7 @@ import {
   setErrors,
   setIsLoading,
 } from "../../context/features/User";
-import {
-  Box,
-  Checkbox,
-  Divider,
-  FormControlLabel,
-  FormGroup,
-  IconButton,
-} from "@mui/material";
-import { Apple } from "@mui/icons-material";
+import { Box, Divider } from "@mui/material";
 import GoogleLogo from "../../components/icons/Google";
 import { auth, googleProvider } from "../../utils/Firebase";
 import { signInWithPopup } from "firebase/auth";
@@ -135,57 +130,48 @@ export default function LogIn() {
               {errors.credentials}
             </Typography>
 
-            <Box className={classes.loginComponent}>
-              <FormGroup>
-                <FormControlLabel control={<Checkbox />} label="Remember me" />
-              </FormGroup>
-            </Box>
-
             <CustomLoadingButton
               type="submit"
               variant="contained"
               disableElevation
               loading={isLoading}
-              sx={{ borderRadius: 25, mb: 2, width: 100, mx: "auto" }}
+              sx={{ borderRadius: 25, my: 2, width: 100, mx: "auto" }}
               disabled={email === "" || password === ""}
             >
               {t("logIn")}
             </CustomLoadingButton>
 
             <Divider>
-              <Typography>or log in with</Typography>
+              <Typography>or</Typography>
             </Divider>
             <Box className="flex-row" sx={{ my: 2 }}>
-              <IconButton
+              <CustomButton
                 onClick={handleGoogleLogin}
                 sx={{
                   bgcolor: "background.default",
-                  height: 50,
-                  width: 50,
+                  color: "text.primary",
+                  mr: 1,
+                  py: 1,
+                  px: 2,
                 }}
+                startIcon={<GoogleLogo />}
               >
-                <GoogleLogo />
-              </IconButton>
-              <IconButton
+                Sign in with Google
+              </CustomButton>
+
+              <CustomButton
                 // onClick={handleGoogleLogin}
                 sx={{
                   bgcolor: "background.default",
-                  height: 50,
-                  width: 50,
-                  mx: 2,
+                  color: "text.primary",
+                  ml: 1,
+                  py: 1,
+                  px: 2,
                 }}
+                startIcon={<MicrosoftLogo />}
               >
-                <MicrosoftLogo />
-              </IconButton>
-              <IconButton
-                sx={{
-                  bgcolor: "background.default",
-                  height: 50,
-                  width: 50,
-                }}
-              >
-                <Apple sx={{ width: "80%", height: "80%" }} />
-              </IconButton>
+                Sign in with Microsoft
+              </CustomButton>
             </Box>
             <Link to="/signup" className={classes.link}>
               <Box className={classes.linkContainer}>

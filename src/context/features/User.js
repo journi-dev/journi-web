@@ -71,7 +71,7 @@ export const logOutUser = (navigate) => (dispatch) => {
   localStorage.removeItem("FBIdToken");
   delete axios.defaults.headers.common["Authorization"];
   dispatch(setAuthenticated(false));
-  navigate("/");
+  navigate("/login");
 };
 
 export const setAuthorizationHeader = (token) => {
