@@ -205,8 +205,12 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
           {!open24Hours && (
             <Box>
               {reduxRanges.map((range, i) => (
-                <Box className="flex-row" key={i} sx={{ alignItems: "center" }}>
-                  {/* Hours */}
+                <Box
+                  className="flex-row"
+                  key={i}
+                  sx={{ mb: i !== reduxRanges.length - 1 ? 2 : 0 }}
+                >
+                  {/* Opens at */}
                   <Box className="flex-col-start">
                     <TimePicker
                       label="Opens at"
@@ -245,25 +249,63 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                     </Link>
                   </Box>
 
+                  {/* Closes at */}
                   <Box className="flex-col-start">
-                    <TimePicker
-                      label="Closes at"
-                      sx={{ width: "9em" }}
-                      value={range[1] === null ? range[1] : new Date(range[1])}
-                      disabled={closed}
-                      onChange={async (e) => {
-                        const newRanges =
-                          e === null
-                            ? await updateRanges(reduxRanges, i, 1, null)
-                            : await updateRanges(
-                                reduxRanges,
-                                i,
-                                1,
-                                e.toString()
-                              );
-                        await dispatch(setDay(newRanges));
-                      }}
-                    />
+                    <Box
+                      className="flex-row"
+                      key={i}
+                      sx={{ alignItems: "center" }}
+                    >
+                      <TimePicker
+                        label="Closes at"
+                        sx={{ width: "9em" }}
+                        value={
+                          range[1] === null ? range[1] : new Date(range[1])
+                        }
+                        disabled={closed}
+                        onChange={async (e) => {
+                          const newRanges =
+                            e === null
+                              ? await updateRanges(reduxRanges, i, 1, null)
+                              : await updateRanges(
+                                  reduxRanges,
+                                  i,
+                                  1,
+                                  e.toString()
+                                );
+                          await dispatch(setDay(newRanges));
+                        }}
+                      />
+
+                      {/* Add/Remove hours Icon Button */}
+                      {i === 0 ? (
+                        <IconButton
+                          sx={{ ml: 1 }}
+                          disabled={closed}
+                          onClick={async () => {
+                            const newRanges = [...reduxRanges, [null, null]];
+                            await dispatch(setDay(newRanges));
+                          }}
+                        >
+                          <Add />
+                        </IconButton>
+                      ) : (
+                        <IconButton
+                          sx={{ ml: 1 }}
+                          disabled={closed}
+                          onClick={async () => {
+                            const newRanges = await removeElement(
+                              reduxRanges,
+                              i
+                            );
+                            await dispatch(setDay(newRanges));
+                          }}
+                        >
+                          <Delete />
+                        </IconButton>
+                      )}
+                    </Box>
+
                     <Link
                       disabled={closed}
                       onClick={async () => {
@@ -282,31 +324,6 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                       </Typography>
                     </Link>
                   </Box>
-
-                  {/* Add/Remove hours */}
-                  {i === 0 ? (
-                    <IconButton
-                      sx={{ ml: 1 }}
-                      disabled={closed}
-                      onClick={async () => {
-                        const newRanges = [...reduxRanges, [null, null]];
-                        await dispatch(setDay(newRanges));
-                      }}
-                    >
-                      <Add />
-                    </IconButton>
-                  ) : (
-                    <IconButton
-                      sx={{ ml: 1 }}
-                      disabled={closed}
-                      onClick={async () => {
-                        const newRanges = await removeElement(reduxRanges, i);
-                        await dispatch(setDay(newRanges));
-                      }}
-                    >
-                      <Delete />
-                    </IconButton>
-                  )}
                 </Box>
               ))}
             </Box>

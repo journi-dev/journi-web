@@ -102,12 +102,20 @@ body {
   display: flex;
 }
 
+.toolbar-button-light {
+  border-bottom: 2px solid #00000000;
+}
+
 .toolbar-button-light:hover {
   border-bottom: 2px solid #00000080;
 }
 
 .toolbar-button-light-active {
   border-bottom: 2px solid #000;
+}
+
+.toolbar-button-dark {
+  border-bottom: 2px solid #00000000;
 }
 
 .toolbar-button-dark:hover {
@@ -285,6 +293,6 @@ body {
   opacity: 0;
 }
 
-.hover-container:hover >* .icon-button {
+.hover-container:hover > * .icon-button {
   opacity: 1;
 }
