@@ -1,13 +1,45 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  sunday: [[null, null]],
-  monday: [[null, null]],
-  tuesday: [[null, null]],
-  wednesday: [[null, null]],
-  thursday: [[null, null]],
-  friday: [[null, null]],
-  saturday: [[null, null]],
+  sunday: {
+    ranges: { 0: [null, null] },
+    isClosed: false,
+    isOpen24Hours: false,
+  },
+  monday: {
+    ranges: { 0: [null, null] },
+    isClosed: false,
+    isOpen24Hours: false,
+  },
+  tuesday: {
+    ranges: { 0: [null, null] },
+    isClosed: false,
+    isOpen24Hours: false,
+  },
+  wednesday: {
+    ranges: { 0: [null, null] },
+    isClosed: false,
+    isOpen24Hours: false,
+  },
+  thursday: {
+    ranges: { 0: [null, null] },
+    isClosed: false,
+    isOpen24Hours: false,
+  },
+  friday: {
+    ranges: { 0: [null, null] },
+    isClosed: false,
+    isOpen24Hours: false,
+  },
+  saturday: {
+    ranges: { 0: [null, null] },
+    isClosed: false,
+    isOpen24Hours: false,
+  },
+  error: null,
+  isLoading: true,
+  isUpdating: false,
+  lastUpdated: 0,
 };
 
 export const hoursSlice = createSlice({
@@ -35,6 +67,18 @@ export const hoursSlice = createSlice({
     setSaturday: (state, action) => {
       state.saturday = action.payload;
     },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
+    setIsUpdating: (state, action) => {
+      state.isUpdating = action.payload;
+    },
+    setLastUpdated: (state, action) => {
+      state.lastUpdated = action.payload;
+    },
   },
 });
 
@@ -47,5 +91,9 @@ export const {
   setThursday,
   setFriday,
   setSaturday,
+  setError,
+  setIsLoading,
+  setIsUpdating,
+  setLastUpdated,
 } = hoursSlice.actions;
 export default hoursSlice.reducer;

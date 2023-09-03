@@ -46,7 +46,7 @@ exports.createMenuItem = (req, res) => {
     });
 };
 
-exports.addMultipleToMenu = (req, res) => {
+exports.createMenuItems = (req, res) => {
   let batch = db.batch();
   let d = new Date();
 
@@ -98,7 +98,7 @@ exports.addMultipleToMenu = (req, res) => {
 
 exports.getMenu = (req, res) => {
   db.collection("organizations/uncle-johns/menu")
-    .orderBy("createdAt", "desc")
+    .orderBy("category", "desc")
     .get()
     .then((data) => {
       const menu = [];

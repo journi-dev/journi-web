@@ -22,14 +22,14 @@ const {
 const handleFirebaseAuth = require("./util/handleFirebaseAuth");
 const { db } = require("./util/admin");
 const {
-  addMultipleToMenu,
+  createMenuItems,
   getMenu,
   deleteMenuItem,
   deleteMenuItems,
   renameMenuItems,
-  deleteAllMenuItems,
   createMenuItem,
 } = require("./handlers/menu");
+const { updateHours, getHours } = require("./handlers/hours");
 const app = require("express")();
 
 // "Promotions" Routes
@@ -52,14 +52,16 @@ app.get("/notifications", handleFirebaseAuth, markNotificationsRead);
 app.get("/users", getUsers);
 
 // "Menu" Routes
-// app.post("/addMultipleToMenu", handleFirebaseAuth, addMultipleToMenu);
 app.post("/createMenuItem", createMenuItem);
-app.post("/addMultipleToMenu", addMultipleToMenu);
+app.post("/createMenuItems", createMenuItems);
 app.get("/menu", getMenu);
-// app.delete("/deleteAllMenuItems", deleteAllMenuItems);
 app.delete("/menu/:menuItemId", deleteMenuItem);
 app.delete("/menu/:menuItems/delete", deleteMenuItems);
 app.post("/menu/:categoryType/:menuItems/rename", renameMenuItems);
+
+// "Hours" Routes
+app.get("/hours/:hoursType", getHours);
+app.post("/hours/:hoursType/update", updateHours);
 
 exports.api = functions.https.onRequest(app);
 

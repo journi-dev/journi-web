@@ -8,10 +8,12 @@ export const CustomButton = styled(Button)({
 
 export const CustomLoadingButton = styled(LoadingButton)({
   textTransform: "none",
+  borderRadius: 100,
 });
 
 export const CustomToggleButton = styled(ToggleButton)({
   textTransform: "none",
+  borderRadius: 100,
 });
 
 export const CustomToggleButtonGroup = styled(ToggleButtonGroup)(

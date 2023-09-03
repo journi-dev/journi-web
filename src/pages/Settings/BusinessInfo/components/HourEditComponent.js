@@ -23,6 +23,7 @@ import {
   setTuesday,
   setWednesday,
 } from "../../../../context/features/Hours";
+import { convertObjToArr } from "../../../../utils/Helpers";
 
 export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
   const [closed, setClosed] = useState(false);
@@ -31,9 +32,14 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
   const handleClose = () => setAnchor(null);
 
   const dispatch = useDispatch();
-  const reduxRanges = useSelector((state) => state.hours[name]);
+  const ranges = convertObjToArr(
+    useSelector((state) => state.hours[name].ranges)
+  );
+  const isClosed = useSelector((state) => state.hours[name].isClosed);
+  const isOpen24Hours = useSelector((state) => state.hours[name].isOpen24Hours);
+  const hoursObj = { ranges, isClosed, isOpen24Hours };
 
-  function updateRanges(arr, index, subIndex, newVal) {
+  /* function updateRanges(arr, index, subIndex, newVal) {
     const newArr = [];
     for (let i = 0; i < arr.length; i++) {
       if (i === index) {
@@ -42,14 +48,31 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
       } else newArr.push(arr[i]);
     }
     return newArr;
-  }
+  } */
 
-  function removeElement(arr, indexToRemove) {
+  /* function removeElement(arr, indexToRemove) {
     const newArr = [];
     for (let i = 0; i < arr.length; i++) {
       if (i !== indexToRemove) newArr.push(arr[i]);
     }
     return newArr;
+  } */
+
+  function updateRanges(obj, objIndex, arrIndex, newVal) {
+    const newObj = { ...obj }; // Copies object to avoid mutation
+    let arr = newObj[objIndex]; // Position reference
+    let newArr = arrIndex === 0 ? [newVal, arr[1]] : [arr[0], newVal]; // New array value
+    newObj[objIndex] = newArr; // Updates value in copied object
+    return newObj;
+  }
+
+  function removeElement(obj, indexToRemove) {
+    const newObj = {}; // Initialize an empty object
+    // Loop through the length of the object and add each element to new object if it is not located at the index to remove.
+    for (let i = 0; i < Object.keys(obj).length; i++) {
+      if (i !== indexToRemove) newObj[Object.keys(newObj).length] = obj[i];
+    }
+    return newObj;
   }
 
   const weekdayArr = [false, true, true, true, true, true, false];
@@ -109,7 +132,7 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                 weekdayArr[i],
                 copyDayArr[i],
               ];
-              if (isDayToCopy) dispatch(setDayToCopy(reduxRanges));
+              if (isDayToCopy) dispatch(setDayToCopy(hoursObj));
             }
           }}
         >
@@ -123,7 +146,7 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                 weekendArr[i],
                 copyDayArr[i],
               ];
-              if (isDayToCopy) dispatch(setDayToCopy(reduxRanges));
+              if (isDayToCopy) dispatch(setDayToCopy(hoursObj));
             }
           }}
         >
@@ -137,7 +160,7 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                 allDaysArr[i],
                 copyDayArr[i],
               ];
-              if (isDayToCopy) dispatch(setDayToCopy(reduxRanges));
+              if (isDayToCopy) dispatch(setDayToCopy(hoursObj));
             }
           }}
         >
@@ -178,7 +201,24 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                     key="Closed"
                     onClick={(e) => {
                       setClosed(e.target.checked);
-                      if (e.target.checked) dispatch(setDay([[null, null]]));
+                      if (e.target.checked) {
+                        setOpen24Hours(false);
+                        dispatch(
+                          setDay({
+                            ranges: [[null, null]],
+                            isClosed: e.target.checked,
+                            isOpen24Hours: false,
+                          })
+                        );
+                      } else {
+                        dispatch(
+                          setDay({
+                            ranges,
+                            isClosed: e.target.checked,
+                            isOpen24Hours: open24Hours,
+                          })
+                        );
+                      }
                     }}
                   />
                 }
@@ -190,9 +230,26 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                     checked={open24Hours}
                     size="small"
                     key="24 hours"
+                    disabled={closed}
                     onClick={(e) => {
                       setOpen24Hours(e.target.checked);
-                      if (e.target.checked) dispatch(setDay([[null, null]]));
+                      if (e.target.checked) {
+                        dispatch(
+                          setDay({
+                            ranges: [[null, null]],
+                            isClosed: closed,
+                            isOpen24Hours: e.target.checked,
+                          })
+                        );
+                      } else {
+                        dispatch(
+                          setDay({
+                            ranges,
+                            isClosed: closed,
+                            isOpen24Hours: e.target.checked,
+                          })
+                        );
+                      }
                     }}
                   />
                 }
@@ -204,11 +261,11 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
           {/* Hours */}
           {!open24Hours && (
             <Box>
-              {reduxRanges.map((range, i) => (
+              {ranges.map((range, i) => (
                 <Box
                   className="flex-row"
                   key={i}
-                  sx={{ mb: i !== reduxRanges.length - 1 ? 2 : 0 }}
+                  sx={{ mb: i !== ranges.length - 1 ? 2 : 0 }}
                 >
                   {/* Opens at */}
                   <Box className="flex-col-start">
@@ -220,26 +277,33 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                       onChange={async (e) => {
                         const newRanges =
                           e === null
-                            ? await updateRanges(reduxRanges, i, 0, null)
-                            : await updateRanges(
-                                reduxRanges,
-                                i,
-                                0,
-                                e.toString()
-                              );
-                        await dispatch(setDay(newRanges));
+                            ? await updateRanges(ranges, i, 0, null)
+                            : await updateRanges(ranges, i, 0, e.toString());
+                        await dispatch(
+                          setDay({
+                            ranges: newRanges,
+                            isClosed: closed,
+                            isOpen24Hours: open24Hours,
+                          })
+                        );
                       }}
                     />
                     <Link
                       disabled={closed}
                       onClick={async () => {
                         const newRanges = await updateRanges(
-                          reduxRanges,
+                          ranges,
                           i,
                           0,
                           null
                         );
-                        await dispatch(setDay(newRanges));
+                        await dispatch(
+                          setDay({
+                            ranges: newRanges,
+                            isClosed: closed,
+                            isOpen24Hours: open24Hours,
+                          })
+                        );
                       }}
                       underline="hover"
                     >
@@ -249,7 +313,7 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                     </Link>
                   </Box>
 
-                  {/* Closes at */}
+                  {/* Closes at & Add/Remove hours Icon Button */}
                   <Box className="flex-col-start">
                     <Box
                       className="flex-row"
@@ -266,14 +330,15 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                         onChange={async (e) => {
                           const newRanges =
                             e === null
-                              ? await updateRanges(reduxRanges, i, 1, null)
-                              : await updateRanges(
-                                  reduxRanges,
-                                  i,
-                                  1,
-                                  e.toString()
-                                );
-                          await dispatch(setDay(newRanges));
+                              ? await updateRanges(ranges, i, 1, null)
+                              : await updateRanges(ranges, i, 1, e.toString());
+                          await dispatch(
+                            setDay({
+                              ranges: newRanges,
+                              isClosed: closed,
+                              isOpen24Hours: open24Hours,
+                            })
+                          );
                         }}
                       />
 
@@ -283,8 +348,14 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                           sx={{ ml: 1 }}
                           disabled={closed}
                           onClick={async () => {
-                            const newRanges = [...reduxRanges, [null, null]];
-                            await dispatch(setDay(newRanges));
+                            const newRanges = [...ranges, [null, null]];
+                            await dispatch(
+                              setDay({
+                                ranges: newRanges,
+                                isClosed: closed,
+                                isOpen24Hours: open24Hours,
+                              })
+                            );
                           }}
                         >
                           <Add />
@@ -294,11 +365,14 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                           sx={{ ml: 1 }}
                           disabled={closed}
                           onClick={async () => {
-                            const newRanges = await removeElement(
-                              reduxRanges,
-                              i
+                            const newRanges = await removeElement(ranges, i);
+                            await dispatch(
+                              setDay({
+                                ranges: newRanges,
+                                isClosed: closed,
+                                isOpen24Hours: open24Hours,
+                              })
                             );
-                            await dispatch(setDay(newRanges));
                           }}
                         >
                           <Delete />
@@ -310,12 +384,18 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
                       disabled={closed}
                       onClick={async () => {
                         const newRanges = await updateRanges(
-                          reduxRanges,
+                          ranges,
                           i,
                           1,
                           null
                         );
-                        await dispatch(setDay(newRanges));
+                        await dispatch(
+                          setDay({
+                            ranges: newRanges,
+                            isClosed: closed,
+                            isOpen24Hours: open24Hours,
+                          })
+                        );
                       }}
                       underline="hover"
                     >

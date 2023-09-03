@@ -83,6 +83,15 @@ export const capitalizeString = (string) => {
   return string[0].toUpperCase() + string.substring(1);
 };
 
+export const convertObjToArr = (obj) => {
+  const result = []; // Initialize an empty array
+  // For each key, push its value to the result array.
+  Object.keys(obj).forEach((key) => {
+    result.push(obj[key]);
+  });
+  return result;
+};
+
 export const usdFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",

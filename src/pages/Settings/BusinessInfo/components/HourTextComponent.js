@@ -1,23 +1,31 @@
 import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import format from "date-fns/format";
+import { convertObjToArr } from "../../../../utils/Helpers";
 
 export default function HourTextComponent({ dayOfWeek, name }) {
-  const reduxRanges = useSelector((state) => state.hours[name]);
+  const ranges = convertObjToArr(
+    useSelector((state) => state.hours[name].ranges)
+  );
+  const isClosed = useSelector((state) => state.hours[name].isClosed);
+  const isOpen24Hours = useSelector((state) => state.hours[name].isOpen24Hours);
 
   function convertRangeToText() {
     const resultArr = [];
     let isAllNullValues = true;
     let result = "";
-    if (
-      reduxRanges.length === 1 &&
-      reduxRanges[0][0] === null &&
-      reduxRanges[0][1] === null
+
+    if (isClosed) return "Closed";
+    else if (isOpen24Hours) return "Open all day";
+    else if (
+      ranges.length === 1 &&
+      ranges[0][0] === null &&
+      ranges[0][1] === null
     )
       return "Hours not set";
 
-    for (let i = 0; i < reduxRanges.length; i++) {
-      const range = reduxRanges[i];
+    for (let i = 0; i < ranges.length; i++) {
+      const range = ranges[i];
       const [time1, time2] = [
         range[0] === null ? "" : new Date(range[0]),
         range[1] === null ? "" : new Date(range[1]),

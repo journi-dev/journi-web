@@ -618,7 +618,7 @@ export default function MenuItemAddForm({ onClose }) {
             {/* Submit Button */}
             <Box className="flex-row">
               <CustomLoadingButton
-                sx={{ borderRadius: 25, mt: 2 }}
+                sx={{ mt: 2 }}
                 variant="contained"
                 startIcon={<CloudUpload />}
                 onClick={handleSubmit}

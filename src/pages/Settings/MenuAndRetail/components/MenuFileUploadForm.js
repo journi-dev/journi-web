@@ -122,7 +122,7 @@ export default function MenuFileUploadForm({ onClose }) {
   const handleSubmit = () => {
     dispatch(setIsLoading(true));
     axios
-      .post("/addMultipleToMenu", menuData)
+      .post("/createMenuItems", menuData)
       .then((response) => {
         dispatch(setIsLoading(false));
         dispatch(setLastUpdated(new Date().getTime()));
