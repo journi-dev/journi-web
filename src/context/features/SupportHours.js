@@ -42,7 +42,7 @@ const initialState = {
   lastUpdated: 0,
 };
 
-export const hoursSlice = createSlice({
+export const supportHoursSlice = createSlice({
   name: "hours",
   initialState,
   reducers: {
@@ -95,5 +95,5 @@ export const {
   setIsLoading,
   setIsUpdating,
   setLastUpdated,
-} = hoursSlice.actions;
-export default hoursSlice.reducer;
+} = supportHoursSlice.actions;
+export default supportHoursSlice.reducer;

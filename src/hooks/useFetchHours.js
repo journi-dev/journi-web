@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setError, setIsLoading } from "../context/features/Hours";
+import { setError, setIsLoading } from "../context/features/BusinessHours";
 import { convertObjToArr } from "../utils/Helpers";
 
-const useFetchHours = (lastUpdated) => {
+const useFetchHours = (hoursType, lastUpdated) => {
   const dispatch = useDispatch();
-  const [businessHours, setBusinessHours] = useState([]);
+  const [hours, setHours] = useState([]);
 
   function getHours(obj) {
     const keys = [
@@ -38,10 +38,10 @@ const useFetchHours = (lastUpdated) => {
     dispatch(setIsLoading(true));
 
     axios
-      .get("/hours/business")
+      .get(`/hours/${hoursType}`)
       .then((response) => {
         const data = response.data;
-        setBusinessHours(getHours(data));
+        setHours(getHours(data));
         dispatch(setError(null));
         dispatch(setIsLoading(false));
       })
@@ -49,9 +49,9 @@ const useFetchHours = (lastUpdated) => {
         dispatch(setError(err));
         dispatch(setIsLoading(false));
       });
-  }, [dispatch, lastUpdated]);
+  }, [dispatch, hoursType, lastUpdated]);
 
-  return { businessHours };
+  return hours;
 };
 
 export default useFetchHours;

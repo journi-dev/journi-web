@@ -3,12 +3,14 @@ import { useSelector } from "react-redux";
 import format from "date-fns/format";
 import { convertObjToArr } from "../../../../utils/Helpers";
 
-export default function HourTextComponent({ dayOfWeek, name }) {
+export default function HourTextComponent({ hoursType, dayOfWeek, name }) {
   const ranges = convertObjToArr(
-    useSelector((state) => state.hours[name].ranges)
+    useSelector((state) => state[hoursType][name].ranges)
   );
-  const isClosed = useSelector((state) => state.hours[name].isClosed);
-  const isOpen24Hours = useSelector((state) => state.hours[name].isOpen24Hours);
+  const isClosed = useSelector((state) => state[hoursType][name].isClosed);
+  const isOpen24Hours = useSelector(
+    (state) => state[hoursType][name].isOpen24Hours
+  );
 
   function convertRangeToText() {
     const resultArr = [];

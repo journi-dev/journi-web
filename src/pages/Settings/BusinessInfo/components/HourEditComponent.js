@@ -22,10 +22,16 @@ import {
   setThursday,
   setTuesday,
   setWednesday,
-} from "../../../../context/features/Hours";
+} from "../../../../context/features/BusinessHours";
 import { convertObjToArr } from "../../../../utils/Helpers";
 
-export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
+export default function HourEditComponent({
+  hoursType,
+  dayOfWeek,
+  name,
+  setDay,
+  isLast,
+}) {
   const [closed, setClosed] = useState(false);
   const [open24Hours, setOpen24Hours] = useState(false);
   const [anchor, setAnchor] = useState(null);
@@ -33,30 +39,13 @@ export default function HourEditComponent({ dayOfWeek, name, setDay, isLast }) {
 
   const dispatch = useDispatch();
   const ranges = convertObjToArr(
-    useSelector((state) => state.hours[name].ranges)
+    useSelector((state) => state[hoursType][name].ranges)
   );
-  const isClosed = useSelector((state) => state.hours[name].isClosed);
-  const isOpen24Hours = useSelector((state) => state.hours[name].isOpen24Hours);
+  const isClosed = useSelector((state) => state[hoursType][name].isClosed);
+  const isOpen24Hours = useSelector(
+    (state) => state[hoursType][name].isOpen24Hours
+  );
   const hoursObj = { ranges, isClosed, isOpen24Hours };
-
-  /* function updateRanges(arr, index, subIndex, newVal) {
-    const newArr = [];
-    for (let i = 0; i < arr.length; i++) {
-      if (i === index) {
-        const otherVal = subIndex === 0 ? arr[i][1] : arr[i][0];
-        newArr.push(subIndex === 0 ? [newVal, otherVal] : [otherVal, newVal]);
-      } else newArr.push(arr[i]);
-    }
-    return newArr;
-  } */
-
-  /* function removeElement(arr, indexToRemove) {
-    const newArr = [];
-    for (let i = 0; i < arr.length; i++) {
-      if (i !== indexToRemove) newArr.push(arr[i]);
-    }
-    return newArr;
-  } */
 
   function updateRanges(obj, objIndex, arrIndex, newVal) {
     const newObj = { ...obj }; // Copies object to avoid mutation

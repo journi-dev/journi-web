@@ -3,16 +3,27 @@ import { makeStyles } from "tss-react/mui";
 import HourEditComponent from "./HourEditComponent";
 import { capitalizeString } from "../../../../utils/Helpers";
 import {
-  setFriday,
-  setIsUpdating,
-  setLastUpdated,
-  setMonday,
-  setSaturday,
-  setSunday,
-  setThursday,
-  setTuesday,
-  setWednesday,
-} from "../../../../context/features/Hours";
+  setFriday as setFridayBusiness,
+  setIsUpdating as setIsUpdatingBusiness,
+  setLastUpdated as setLastUpdatedBusiness,
+  setMonday as setMondayBusiness,
+  setSaturday as setSaturdayBusiness,
+  setSunday as setSundayBusiness,
+  setThursday as setThursdayBusiness,
+  setTuesday as setTuesdayBusiness,
+  setWednesday as setWednesdayBusiness,
+} from "../../../../context/features/BusinessHours";
+import {
+  setFriday as setFridaySupport,
+  setIsUpdating as setIsUpdatingSupport,
+  setLastUpdated as setLastUpdatedSupport,
+  setMonday as setMondaySupport,
+  setSaturday as setSaturdaySupport,
+  setSunday as setSundaySupport,
+  setThursday as setThursdaySupport,
+  setTuesday as setTuesdaySupport,
+  setWednesday as setWednesdaySupport,
+} from "../../../../context/features/SupportHours";
 import {
   CustomButton,
   CustomLoadingButton,
@@ -30,32 +41,71 @@ const useStyles = makeStyles()((theme) => {
   };
 });
 
-export default function BusinessHours({ handleClose }) {
+export default function EditHoursModal({ hoursType, handleClose }) {
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const daysOfWeek = [
-    { id: 0, name: "sunday", setDay: setSunday },
-    { id: 1, name: "monday", setDay: setMonday },
-    { id: 2, name: "tuesday", setDay: setTuesday },
-    { id: 3, name: "wednesday", setDay: setWednesday },
-    { id: 4, name: "thursday", setDay: setThursday },
-    { id: 5, name: "friday", setDay: setFriday },
-    { id: 6, name: "saturday", setDay: setSaturday },
+    {
+      id: 0,
+      name: "sunday",
+      setDay: hoursType === "support" ? setSundaySupport : setSundayBusiness,
+    },
+    {
+      id: 1,
+      name: "monday",
+      setDay: hoursType === "support" ? setMondaySupport : setMondayBusiness,
+    },
+    {
+      id: 2,
+      name: "tuesday",
+      setDay: hoursType === "support" ? setTuesdaySupport : setTuesdayBusiness,
+    },
+    {
+      id: 3,
+      name: "wednesday",
+      setDay:
+        hoursType === "support" ? setWednesdaySupport : setWednesdayBusiness,
+    },
+    {
+      id: 4,
+      name: "thursday",
+      setDay:
+        hoursType === "support" ? setThursdaySupport : setThursdayBusiness,
+    },
+    {
+      id: 5,
+      name: "friday",
+      setDay: hoursType === "support" ? setFridaySupport : setFridayBusiness,
+    },
+    {
+      id: 6,
+      name: "saturday",
+      setDay:
+        hoursType === "support" ? setSaturdaySupport : setSaturdayBusiness,
+    },
   ];
 
-  const sunday = useSelector((state) => state.hours.sunday);
-  const monday = useSelector((state) => state.hours.monday);
-  const tuesday = useSelector((state) => state.hours.tuesday);
-  const wednesday = useSelector((state) => state.hours.wednesday);
-  const thursday = useSelector((state) => state.hours.thursday);
-  const friday = useSelector((state) => state.hours.friday);
-  const saturday = useSelector((state) => state.hours.saturday);
+  const sunday = useSelector((state) => state[`${hoursType}Hours`].sunday);
+  const monday = useSelector((state) => state[`${hoursType}Hours`].monday);
+  const tuesday = useSelector((state) => state[`${hoursType}Hours`].tuesday);
+  const wednesday = useSelector(
+    (state) => state[`${hoursType}Hours`].wednesday
+  );
+  const thursday = useSelector((state) => state[`${hoursType}Hours`].thursday);
+  const friday = useSelector((state) => state[`${hoursType}Hours`].friday);
+  const saturday = useSelector((state) => state[`${hoursType}Hours`].saturday);
 
-  const isUpdating = useSelector((state) => state.hours.isUpdating);
+  const isUpdating = useSelector(
+    (state) => state[`${hoursType}Hours`].isUpdating
+  );
 
   const handleSubmit = () => {
-    dispatch(setIsUpdating(true));
-    const businessHours = {
+    dispatch(
+      hoursType === "support"
+        ? setIsUpdatingSupport(true)
+        : setIsUpdatingBusiness(true)
+    );
+    const hours = {
       sunday: { id: 0, ...sunday, ranges: { ...sunday.ranges } },
       monday: { id: 1, ...monday, ranges: { ...monday.ranges } },
       tuesday: { id: 2, ...tuesday, ranges: { ...tuesday.ranges } },
@@ -66,14 +116,26 @@ export default function BusinessHours({ handleClose }) {
     };
 
     axios
-      .post("/hours/business/update", businessHours)
+      .post(`/hours/${hoursType}/update`, hours)
       .then((res) => {
-        dispatch(setIsUpdating(false));
-        dispatch(setLastUpdated(new Date().getTime()));
+        dispatch(
+          hoursType === "support"
+            ? setIsUpdatingSupport(false)
+            : setIsUpdatingBusiness(false)
+        );
+        dispatch(
+          hoursType === "support"
+            ? setLastUpdatedSupport(new Date().getTime())
+            : setLastUpdatedBusiness(new Date().getTime())
+        );
         handleClose();
       })
       .catch((err) => {
-        dispatch(setIsUpdating(false));
+        dispatch(
+          hoursType === "support"
+            ? setIsUpdatingSupport(false)
+            : setIsUpdatingBusiness(false)
+        );
         console.error(err);
       });
   };
@@ -101,7 +163,7 @@ export default function BusinessHours({ handleClose }) {
         <Box className="flex-col-start">
           {/* Header */}
           <Box className="flex-row-space" sx={{ mb: 2, alignItems: "center" }}>
-            <Typography variant="h6">Edit Business Hours</Typography>
+            <Typography variant="h6">Edit {hoursType} hours</Typography>
             <IconButton onClick={handleClose}>
               <Close />
             </IconButton>
@@ -112,6 +174,7 @@ export default function BusinessHours({ handleClose }) {
             <Box>
               {daysOfWeek.map((day, i) => (
                 <HourEditComponent
+                  hoursType={`${hoursType}Hours`}
                   dayOfWeek={capitalizeString(day.name)}
                   key={day.id}
                   name={day.name}
@@ -131,6 +194,7 @@ export default function BusinessHours({ handleClose }) {
                 <Divider sx={{ mb: 1 }} />
                 {daysOfWeek.map((day, i) => (
                   <HourTextComponent
+                    hoursType={`${hoursType}Hours`}
                     dayOfWeek={capitalizeString(day.name)}
                     key={day.id}
                     name={day.name}
