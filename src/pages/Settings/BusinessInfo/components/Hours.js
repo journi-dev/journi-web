@@ -22,6 +22,63 @@ export default function Hours() {
     "Saturday",
   ];
   const { businessHours } = useFetchHours(lastUpdated);
+  const groupedBusinessHours = groupById(businessHours);
+
+  function groupById(arr) {
+    let idMap = new Map();
+    const strArr = [];
+    const result = [];
+
+    for (const el of arr) {
+      const id = el[3];
+      const str = [el[0], el[1], el[2]].toString();
+      const strIndex = strArr.indexOf(str);
+
+      if (strIndex === -1) {
+        idMap.set(strArr.length, [id]);
+        strArr.push(str);
+      } else {
+        const otherIds = idMap.get(strIndex);
+        idMap.set(strIndex, [...otherIds, id]);
+      }
+    }
+
+    idMap.forEach((val) => {
+      result.push(val);
+    });
+    return result;
+  }
+
+  function listDays(arr) {
+    function listify(str) {
+      const ranges = str.split(", ");
+      const resultArr = [];
+
+      for (const range of ranges) {
+        const days = range.split(" & ");
+        const [firstDay, lastDay] = [days[0], days[days.length - 1]];
+
+        if (days.length === 1) resultArr.push(firstDay);
+        else if (days.length === 2) resultArr.push(days.join(" & "));
+        else resultArr.push(`${firstDay}-${lastDay}`);
+      }
+      return resultArr.join(", ");
+    }
+
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    let str = "";
+
+    for (let i = 0; i < arr.length; i++) {
+      const [prev, curr] = [arr[i - 1], arr[i]];
+      const day = days[curr];
+
+      if (i === 0) str += day;
+      else if (curr - prev === 1 || arr.length <= 2) str += ` & ${day}`;
+      else if (curr - prev === 6) str = `${day} & ${str}`;
+      else if (curr - prev > 1) str += `, ${day}`;
+    }
+    return listify(str);
+  }
 
   function convertArrToText(arr) {
     const [ranges, isClosed, isOpen24Hours] = [arr[0], arr[1], arr[2]];
@@ -89,19 +146,17 @@ export default function Hours() {
               <Edit fontSize="inherit" />
             </IconButton>
           </Box>
-          {businessHours.map((day, i) => (
+          {groupedBusinessHours.map((group, i) => (
             <Box
               className="flex-row-space"
-              sx={{ mb: i !== businessHours.length - 1 ? 0.5 : 0 }}
+              sx={{ mb: i !== groupedBusinessHours.length - 1 ? 0.5 : 0 }}
             >
               <Typography variant="caption" fontWeight="bold" display="block">
-                {/* ID is located at index 3 of each day's array */}
-                {daysOfWeek[day[3]]}
-                {/* {daysOfWeek[day[3]].substring(0, 4)} */}
+                {listDays(group)}
               </Typography>
 
               <Box className="flex-col-start">
-                {convertArrToText(day).map((range) => (
+                {convertArrToText(businessHours[group[0]]).map((range) => (
                   <Typography
                     variant="caption"
                     display="block"
