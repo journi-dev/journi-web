@@ -39,3 +39,11 @@ exports.getHours = (req, res) => {
       return res.status(500).json({ error: "Something went wrong." });
     });
 };
+
+exports.addSpecialHours = (req, res) => {};
+
+exports.removeSpecialHours = (req, res) => {};
+
+exports.updateSpecialHours = (req, res) => {};
+
+exports.getSpecialHours = (req, res) => {};

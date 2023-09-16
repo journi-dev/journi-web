@@ -3,6 +3,7 @@ import appearanceReducer from "./features/Appearance";
 import businessHoursReducer from "./features/BusinessHours";
 import languageReducer from "./features/Language";
 import settingsReducer from "./features/Settings";
+import specialAndTempHoursReducer from "./features/SpecialAndTempHours";
 import supportHoursReducer from "./features/SupportHours";
 import userReducer from "./features/User";
 
@@ -12,6 +13,7 @@ export default configureStore({
     businessHours: businessHoursReducer,
     language: languageReducer,
     settings: settingsReducer,
+    specialAndTempHours: specialAndTempHoursReducer,
     supportHours: supportHoursReducer,
     user: userReducer,
   },

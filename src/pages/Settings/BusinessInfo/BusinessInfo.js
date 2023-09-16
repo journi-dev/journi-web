@@ -60,8 +60,6 @@ export default function BusinessInfo() {
         </Grid>
       </Grid>
 
-      <Typography>Special hours</Typography>
-      <Typography>Temporary hours</Typography>
       <Typography>Delivery Settings</Typography>
       <Typography>Enable delivery chekbox</Typography>
       <Typography>

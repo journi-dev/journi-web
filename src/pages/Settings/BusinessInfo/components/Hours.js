@@ -5,10 +5,12 @@ import useFetchHours from "../../../../hooks/useFetchHours";
 import { useSelector } from "react-redux";
 import format from "date-fns/format";
 import EditHoursModal from "./EditHoursModal";
+import SpecialHours from "./SpecialHours";
 
 export default function Hours() {
   const [openBusinessHours, setOpenBusinessHours] = useState(false);
   const [openSupportHours, setOpenSupportHours] = useState(false);
+
   const [businessHourslastUpdated, supportHourslastUpdated] = [
     useSelector((state) => state.businessHours.lastUpdated),
     useSelector((state) => state.supportHours.lastUpdated),
@@ -217,9 +219,12 @@ export default function Hours() {
         </Box>
 
         {/* Special Hours */}
+        <SpecialHours />
+
+        {/* Temporary Hours */}
         <Box className="flex-col-start hover-container" sx={{ px: 1, mt: 2 }}>
           <Box className="flex-row-start" sx={{ mb: 1, alignItems: "center" }}>
-            <Typography sx={{ mr: 1 }}>Special Hours</Typography>
+            <Typography sx={{ mr: 1 }}>Temporary Hours</Typography>
             <IconButton size="small" className="icon-button" onClick={() => {}}>
               <Edit fontSize="inherit" />
             </IconButton>
