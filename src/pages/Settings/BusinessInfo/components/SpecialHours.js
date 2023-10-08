@@ -22,7 +22,7 @@ export default function SpecialHours() {
   return (
     <Box>
       {/* Special Hours */}
-      <Box className="flex-col-start hover-container" sx={{ px: 1, mt: 2 }}>
+      <Box className="flex-col-start hover-container" sx={{ mt: 2 }}>
         <Box className="flex-row-start" sx={{ mb: 1, alignItems: "center" }}>
           <Typography sx={{ mr: 1 }}>Special Hours</Typography>
           <IconButton
@@ -40,8 +40,11 @@ export default function SpecialHours() {
           sx={{ overflowX: "scroll", pb: 3, alignItems: "center" }}
         >
           <Box className="flex-row">
-            {specialHours.map((specialEl) => (
-              <Box sx={{ mr: 2 }} key={specialEl.id}>
+            {specialHours.map((specialEl, i) => (
+              <Box
+                sx={{ mr: i === specialHours.length - 1 ? 0 : 2 }}
+                key={specialEl.id}
+              >
                 <SpecialHoursCard
                   date={specialEl.date}
                   dateLabel={specialEl.dateLabel}

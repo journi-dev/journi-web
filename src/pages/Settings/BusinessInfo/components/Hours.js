@@ -1,5 +1,5 @@
 import { Edit } from "@mui/icons-material";
-import { Box, IconButton, Modal, Typography } from "@mui/material";
+import { Box, IconButton, Link, Modal, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import useFetchHours from "../../../../hooks/useFetchHours";
 import { useSelector } from "react-redux";
@@ -134,102 +134,126 @@ export default function Hours() {
         {/* Business & Support Hours */}
         <Box className="flex-row-space">
           {/* Business Hours */}
-          <Box
+          <Paper
+            elevation={3}
             className="flex-col-start hover-container"
-            sx={{ width: "50%", px: 1 }}
+            sx={{ width: "50%", px: 2, py: 1, mr: 1 }}
           >
-            <Box
-              className="flex-row-start"
-              sx={{ mb: 1, alignItems: "center" }}
-            >
-              <Typography sx={{ mr: 1 }}>Business Hours</Typography>
-              <IconButton
-                size="small"
-                className="icon-button"
-                onClick={() => setOpenBusinessHours(true)}
-              >
-                <Edit fontSize="inherit" />
-              </IconButton>
-            </Box>
-            {groupedBusinessHours.map((group, i) => (
-              <Box
-                className="flex-row-space"
-                sx={{ mb: i !== groupedBusinessHours.length - 1 ? 0.5 : 0 }}
-              >
-                <Typography variant="caption" fontWeight="bold" display="block">
-                  {listDays(group)}
-                </Typography>
-
-                <Box className="flex-col-start">
-                  {convertArrToText(businessHours[group[0]]).map((range) => (
+            <Box className="flex-col-space" sx={{ flexGrow: 1 }}>
+              <Box>
+                <Box
+                  className="flex-row-start"
+                  sx={{ mb: 1, alignItems: "center" }}
+                >
+                  <Typography>Business Hours</Typography>
+                  <IconButton
+                    size="small"
+                    className="icon-button"
+                    onClick={() => setOpenBusinessHours(true)}
+                  >
+                    <Edit fontSize="inherit" />
+                  </IconButton>
+                </Box>
+                {groupedBusinessHours.map((group, i) => (
+                  <Box
+                    className="flex-row-space"
+                    sx={{ mb: i !== groupedBusinessHours.length - 1 ? 0.5 : 0 }}
+                  >
                     <Typography
                       variant="caption"
+                      fontWeight="bold"
                       display="block"
-                      textAlign="right"
                     >
-                      {truncateText(range, 15)}
+                      {listDays(group)}
                     </Typography>
-                  ))}
-                </Box>
+
+                    <Box className="flex-col-start">
+                      {convertArrToText(businessHours[group[0]]).map(
+                        (range) => (
+                          <Typography
+                            variant="caption"
+                            display="block"
+                            textAlign="right"
+                          >
+                            {truncateText(range, 15)}
+                          </Typography>
+                        )
+                      )}
+                    </Box>
+                  </Box>
+                ))}
               </Box>
-            ))}
-          </Box>
+              <Box sx={{ m: "0 auto", mt: 0.5 }}>
+                <Link onClick={() => {}} underline="hover">
+                  <Typography color="text.secondary" variant="caption">
+                    Add Temporary Hours
+                  </Typography>
+                </Link>
+              </Box>
+            </Box>
+          </Paper>
 
           {/* Support Hours */}
-          <Box
+          <Paper
+            elevation={3}
             className="flex-col-start hover-container"
-            sx={{ width: "50%", px: 1 }}
+            sx={{ width: "50%", px: 2, py: 1, ml: 1 }}
           >
-            <Box
-              className="flex-row-start"
-              sx={{ mb: 1, alignItems: "center" }}
-            >
-              <Typography sx={{ mr: 1 }}>Support Hours</Typography>
-              <IconButton
-                size="small"
-                className="icon-button"
-                onClick={() => setOpenSupportHours(true)}
-              >
-                <Edit fontSize="inherit" />
-              </IconButton>
-            </Box>
-            {groupedSupportHours.map((group, i) => (
-              <Box
-                className="flex-row-space"
-                sx={{ mb: i !== groupedSupportHours.length - 1 ? 0.5 : 0 }}
-              >
-                <Typography variant="caption" fontWeight="bold" display="block">
-                  {listDays(group)}
-                </Typography>
-
-                <Box className="flex-col-start">
-                  {convertArrToText(supportHours[group[0]]).map((range) => (
+            <Box className="flex-col-space" sx={{ flexGrow: 1 }}>
+              <Box>
+                <Box
+                  className="flex-row-start"
+                  sx={{ mb: 1, alignItems: "center" }}
+                >
+                  <Typography>Support Hours</Typography>
+                  <IconButton
+                    size="small"
+                    className="icon-button"
+                    onClick={() => setOpenSupportHours(true)}
+                  >
+                    <Edit fontSize="inherit" />
+                  </IconButton>
+                </Box>
+                {groupedSupportHours.map((group, i) => (
+                  <Box
+                    className="flex-row-space"
+                    sx={{ mb: i !== groupedSupportHours.length - 1 ? 0.5 : 0 }}
+                  >
                     <Typography
                       variant="caption"
+                      fontWeight="bold"
                       display="block"
-                      textAlign="right"
                     >
-                      {truncateText(range, 15)}
+                      {listDays(group)}
                     </Typography>
-                  ))}
-                </Box>
+
+                    <Box className="flex-col-start">
+                      {convertArrToText(supportHours[group[0]]).map((range) => (
+                        <Typography
+                          variant="caption"
+                          display="block"
+                          textAlign="right"
+                        >
+                          {truncateText(range, 15)}
+                        </Typography>
+                      ))}
+                    </Box>
+                  </Box>
+                ))}
               </Box>
-            ))}
-          </Box>
+              <Box sx={{ m: "0 auto", mt: 0.5 }}>
+                <Link onClick={() => {}} underline="hover">
+                  <Typography color="text.secondary" variant="caption">
+                    Add Temporary Hours
+                  </Typography>
+                </Link>
+              </Box>
+            </Box>
+          </Paper>
         </Box>
 
         {/* Special Hours */}
         <SpecialHours />
-
-        {/* Temporary Hours */}
-        <Box className="flex-col-start hover-container" sx={{ px: 1, mt: 2 }}>
-          <Box className="flex-row-start" sx={{ mb: 1, alignItems: "center" }}>
-            <Typography sx={{ mr: 1 }}>Temporary Hours</Typography>
-            <IconButton size="small" className="icon-button" onClick={() => {}}>
-              <Edit fontSize="inherit" />
-            </IconButton>
-          </Box>
-        </Box>
       </Box>
 
       {/* Business Hours Modal */}
