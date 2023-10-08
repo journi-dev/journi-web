@@ -1,7 +1,7 @@
 import { Box, Divider, IconButton, Paper, Typography } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 import HourEditComponent from "./HourEditComponent";
-import { capitalizeString } from "../../../../utils/Helpers";
+import { capitalizeString } from "../../../../../utils/Helpers";
 import {
   setFriday as setFridayBusiness,
   setIsUpdating as setIsUpdatingBusiness,
@@ -12,7 +12,7 @@ import {
   setThursday as setThursdayBusiness,
   setTuesday as setTuesdayBusiness,
   setWednesday as setWednesdayBusiness,
-} from "../../../../context/features/BusinessHours";
+} from "../../../../../context/features/BusinessHours";
 import {
   setFriday as setFridaySupport,
   setIsUpdating as setIsUpdatingSupport,
@@ -23,11 +23,11 @@ import {
   setThursday as setThursdaySupport,
   setTuesday as setTuesdaySupport,
   setWednesday as setWednesdaySupport,
-} from "../../../../context/features/SupportHours";
+} from "../../../../../context/features/SupportHours";
 import {
   CustomButton,
   CustomLoadingButton,
-} from "../../../../components/ui/CustomComponents";
+} from "../../../../../components/ui/CustomComponents";
 import { Close } from "@mui/icons-material";
 import HourTextComponent from "./HourTextComponent";
 import axios from "axios";

@@ -22,8 +22,8 @@ import {
   setThursday,
   setTuesday,
   setWednesday,
-} from "../../../../context/features/BusinessHours";
-import { convertObjToArr } from "../../../../utils/Helpers";
+} from "../../../../../context/features/BusinessHours";
+import { convertObjToArr } from "../../../../../utils/Helpers";
 
 export default function HourEditComponent({
   hoursType,

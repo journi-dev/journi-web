@@ -1,5 +1,5 @@
 import { Paper, Typography } from "@mui/material";
-import { languages } from "../../../../utils/UIObjects";
+import { languages } from "../../../../../utils/UIObjects";
 import { useSelector } from "react-redux";
 import format from "date-fns/format";
 

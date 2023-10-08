@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import format from "date-fns/format";
-import { convertObjToArr } from "../../../../utils/Helpers";
+import { convertObjToArr } from "../../../../../utils/Helpers";
 
 export default function HourTextComponent({ hoursType, dayOfWeek, name }) {
   const ranges = convertObjToArr(

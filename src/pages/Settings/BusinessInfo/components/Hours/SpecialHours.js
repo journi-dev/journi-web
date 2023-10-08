@@ -3,9 +3,9 @@ import { Box, IconButton, Modal, Typography } from "@mui/material";
 import SpecialHoursCard from "./SpecialHoursCard";
 import { useState } from "react";
 import SpecialHoursModal from "./SpecialHoursModal";
-import useFetchSpecialHours from "../../../../hooks/useFetchSpecialHours";
+import useFetchSpecialHours from "../../../../../hooks/useFetchSpecialHours";
 import { useSelector } from "react-redux";
-import { sortArrOfObjs } from "../../../../utils/Helpers";
+import { sortArrOfObjs } from "../../../../../utils/Helpers";
 
 export default function SpecialHours() {
   const [open, setOpen] = useState(false);

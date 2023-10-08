@@ -1,7 +1,7 @@
 import { Edit } from "@mui/icons-material";
 import { Box, IconButton, Link, Modal, Paper, Typography } from "@mui/material";
 import { useState } from "react";
-import useFetchHours from "../../../../hooks/useFetchHours";
+import useFetchHours from "../../../../../hooks/useFetchHours";
 import { useSelector } from "react-redux";
 import format from "date-fns/format";
 import EditHoursModal from "./EditHoursModal";
