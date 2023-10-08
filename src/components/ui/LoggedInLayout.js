@@ -43,6 +43,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logOutUser } from "../../context/features/User";
 import Footer from "./Footer";
 import { toggleDrawer } from "../../context/features/Appearance";
+import { languages } from "../../utils/UIObjects";
 
 const drawerWidth = 240;
 const footerHeight = 100;
@@ -351,7 +352,7 @@ export default function LoggedInLayout() {
           </IconButton>
 
           <Typography className={classes.date}>
-            {format(time, "PPPP", { locale: language.locale })}
+            {format(time, "PPPP", { locale: languages[language].locale })}
           </Typography>
 
           <Typography sx={{ mr: 2 }}>

@@ -118,24 +118,18 @@ export default function EditHoursModal({ hoursType, handleClose }) {
     axios
       .post(`/hours/${hoursType}/update`, hours)
       .then((res) => {
-        dispatch(
-          hoursType === "support"
-            ? setIsUpdatingSupport(false)
-            : setIsUpdatingBusiness(false)
-        );
-        dispatch(
-          hoursType === "support"
-            ? setLastUpdatedSupport(new Date().getTime())
-            : setLastUpdatedBusiness(new Date().getTime())
-        );
+        if (hoursType === "support") {
+          dispatch(setIsUpdatingSupport(false));
+          dispatch(setLastUpdatedSupport(new Date().getTime()));
+        } else {
+          dispatch(setIsUpdatingBusiness(false));
+          dispatch(setLastUpdatedBusiness(new Date().getTime()));
+        }
         handleClose();
       })
       .catch((err) => {
-        dispatch(
-          hoursType === "support"
-            ? setIsUpdatingSupport(false)
-            : setIsUpdatingBusiness(false)
-        );
+        if (hoursType === "support") dispatch(setIsUpdatingSupport(false));
+        else dispatch(setIsUpdatingBusiness(false));
         console.error(err);
       });
   };

@@ -123,7 +123,6 @@ export default function LoggedOutLayout() {
                     ? "primary"
                     : "appBarButtonColor"
                 }
-                disableElevation
               >
                 <Box
                   className={`${classes.menuItem} ${

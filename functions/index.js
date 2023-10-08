@@ -29,7 +29,7 @@ const {
   renameMenuItems,
   createMenuItem,
 } = require("./handlers/menu");
-const { updateHours, getHours } = require("./handlers/hours");
+const { updateHours, getHours, addSpecialHours } = require("./handlers/hours");
 const app = require("express")();
 
 // "Promotions" Routes
@@ -62,6 +62,7 @@ app.post("/menu/:categoryType/:menuItems/rename", renameMenuItems);
 // "Hours" Routes
 app.get("/hours/:hoursType", getHours);
 app.post("/hours/:hoursType/update", updateHours);
+app.post("/hours/special/:dateString", addSpecialHours);
 
 exports.api = functions.https.onRequest(app);
 

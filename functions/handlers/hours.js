@@ -14,14 +14,12 @@ exports.updateHours = (req, res) => {
 
   db.doc(`/organizations/uncle-johns/businessInfo/${req.params.hoursType}Hours`)
     .set(newHours)
-    .then((doc) => {
+    .then(() => {
       return res.status(200).json(newHours);
     })
     .catch((err) => {
       console.error(err);
-      return res
-        .status(500)
-        .json({ error: "Something went wrong.", body: newHours });
+      return res.status(500).json({ error: "Something went wrong." });
     });
 };
 
@@ -40,10 +38,29 @@ exports.getHours = (req, res) => {
     });
 };
 
-exports.addSpecialHours = (req, res) => {};
+exports.addSpecialHours = (req, res) => {
+  const date = new Date();
+  const newSpecialDates = req.body.specialDates;
+  newSpecialDates.push({ ...req.body.newSpecialDates });
 
-exports.removeSpecialHours = (req, res) => {};
+  const data = {
+    lastUpdated: date,
+    specialDates: newSpecialDates,
+  };
+
+  db.doc("/organizations/uncle-johns/businessInfo/specialHours")
+    .set(data)
+    .then(() => {
+      return res
+        .status(200)
+        .json({ message: "Special hours successfully updated!" });
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).json({ message: "Something went wrong." });
+    });
+};
 
 exports.updateSpecialHours = (req, res) => {};
 
-exports.getSpecialHours = (req, res) => {};
+exports.removeSpecialHours = (req, res) => {};

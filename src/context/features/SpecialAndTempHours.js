@@ -51,6 +51,9 @@ export const specialAndTempHoursSlice = createSlice({
   name: "hours",
   initialState,
   reducers: {
+    resetSpecialAndTempHours: (state) => {
+      state = initialState;
+    },
     setSpecialHours: (state, action) => {
       state.specialHours = action.payload;
     },
@@ -91,7 +94,7 @@ export const specialAndTempHoursSlice = createSlice({
 });
 
 export const {
-  reset,
+  resetSpecialAndTempHours,
   setSpecialHours,
   setSunday,
   setMonday,

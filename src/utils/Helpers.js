@@ -92,6 +92,21 @@ export const convertObjToArr = (obj) => {
   return result;
 };
 
+export function sortArrOfObjs(arr, key) {
+  const result = [];
+  let map = new Map();
+
+  // Add each object to the map
+  for (let i = 0; i < arr.length; i++) {
+    const obj = arr[i];
+    map.set(obj[key], obj);
+  }
+
+  map = new Map([...map.entries()].sort()); // Sort the map by key
+  for (const el of map) result.push(el[1]); // Iterate through the map and push each value to an array
+  return result; // Return the result array
+}
+
 export const usdFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",

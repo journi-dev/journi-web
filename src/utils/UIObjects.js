@@ -1,11 +1,22 @@
 import { DarkMode, LightMode, SettingsBrightness } from "@mui/icons-material";
 import { AmericanFlag, SpanishFlag } from "../components/icons/CircleFlags";
+import { enUS, es } from "date-fns/locale";
 
 export const languages = {
-  en: { name: "english", nativeName: "English", icon: <AmericanFlag /> },
-  es: { name: "spanish", nativeName: "Spanish", icon: <SpanishFlag /> },
-  // pl: { name: "polish", nativeName: "Polish", icon: <PolishFlag /> },
-  // cn: { name: "chinese", nativeName: "Chinese", icon: <ChineseFlag /> },
+  "en-US": {
+    code: "en-US",
+    icon: <AmericanFlag />,
+    locale: enUS,
+    name: "english",
+  },
+  es: {
+    code: "es",
+    icon: <SpanishFlag />,
+    locale: es,
+    name: "spanish",
+  },
+  // "pl": { code: "pl", name: "polish", nativeName: "Polish", icon: <PolishFlag /> },
+  // "cn": { code: "cn", name: "chinese", nativeName: "Chinese", icon: <ChineseFlag /> },
 };
 export const appearances = {
   light: { name: "light", icon: <LightMode color="action" /> },

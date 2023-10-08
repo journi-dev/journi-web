@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { languages } from "../../utils/UIObjects";
 
 const initialState = {
-  selectedLanguage: languages["en"],
+  selectedLanguage: "en-US",
 };
 
 export const languageSlice = createSlice({

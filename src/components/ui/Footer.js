@@ -98,13 +98,14 @@ export default function Footer() {
             dense
             key={languages[lang].name}
             sx={{
-              fontWeight: i18n.resolvedLanguage === lang ? "bold" : "normal",
+              fontWeight:
+                i18n.resolvedLanguage === lang.code ? "bold" : "normal",
             }}
             type="submit"
             onClick={() => {
-              i18n.changeLanguage(lang);
+              i18n.changeLanguage(languages[lang].code);
               handleClose2();
-              dispatch(setLanguage(languages[lang]));
+              dispatch(setLanguage(languages[lang].code));
             }}
           >
             <ListItemIcon>{languages[lang].icon}</ListItemIcon>
@@ -150,7 +151,7 @@ export default function Footer() {
         {Object.keys(appearances).map((mode) => (
           <MenuItem
             dense
-            key={mode}
+            key={appearances[mode].name}
             type="submit"
             onClick={() => {
               const newAppearance = appearances[mode].name;

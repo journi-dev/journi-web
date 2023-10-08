@@ -16,7 +16,12 @@ import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import { useState } from "react";
 import { convertObjToArr } from "../../../../utils/Helpers";
 import { useDispatch, useSelector } from "react-redux";
-import { setSpecialHours } from "../../../../context/features/SpecialAndTempHours";
+import {
+  setIsUpdating,
+  setLastUpdated,
+  setSpecialHours,
+} from "../../../../context/features/SpecialAndTempHours";
+import axios from "axios";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -52,6 +57,7 @@ export default function SpecialHoursModal({ handleClose }) {
   ];
 
   const [date, setDate] = useState(null);
+  const [dateLabel, setDateLabel] = useState("");
 
   const dispatch = useDispatch();
   const ranges = convertObjToArr(
@@ -63,7 +69,6 @@ export default function SpecialHoursModal({ handleClose }) {
   const isOpen24Hours = useSelector(
     (state) => state.specialAndTempHours.specialHours.isOpen24Hours
   );
-  // const hoursObj = { ranges, isClosed, isOpen24Hours };
 
   function updateRanges(obj, objIndex, arrIndex, newVal) {
     const newObj = { ...obj }; // Copies object to avoid mutation
@@ -81,6 +86,55 @@ export default function SpecialHoursModal({ handleClose }) {
     }
     return newObj;
   }
+
+  function convertDateToStr(date) {
+    const [m, d, y] = [
+      date.getMonth() + 1 < 10
+        ? `0${date.getMonth() + 1}`
+        : date.getMonth() + 1,
+      date.getDate() < 10 ? `0${date.getDate()}` : date.getDate(),
+      date.getFullYear(),
+    ];
+    return `${m}${d}${y}`;
+  }
+
+  const handleSubmit = () => {
+    dispatch(setIsUpdating(true));
+
+    axios.get("/hours/special").then(async (res) => {
+      const specialDates = res.data.specialDates;
+
+      axios
+        .post(`/hours/special/${convertDateToStr(date)}`, {
+          specialDates,
+          newSpecialDates: {
+            id: convertDateToStr(date),
+            date,
+            dateLabel,
+            isClosed,
+            isOpen24Hours,
+            lastUpdated: new Date(),
+            ranges: JSON.stringify(ranges),
+          },
+        })
+        .then((res) => {
+          dispatch(
+            setSpecialHours({
+              ranges: { 0: [null, null] },
+              isClosed: false,
+              isOpen24Hours: false,
+            })
+          );
+          dispatch(setIsUpdating(false));
+          dispatch(setLastUpdated(new Date().getTime()));
+          handleClose();
+        })
+        .catch((err) => {
+          dispatch(setIsUpdating(false));
+          console.error(err);
+        });
+    });
+  };
 
   return (
     <Box sx={modalStyle}>
@@ -109,6 +163,8 @@ export default function SpecialHoursModal({ handleClose }) {
                     : ""
                 }
                 size="small"
+                value={dateLabel}
+                onChange={(e) => setDateLabel(e.target.value)}
                 variant="filled"
                 sx={{ width: "15em" }}
               />
@@ -337,7 +393,9 @@ export default function SpecialHoursModal({ handleClose }) {
           </Box>
 
           <Box sx={{ m: "0 auto" }}>
-            <CustomButton variant="contained">Save</CustomButton>
+            <CustomButton variant="contained" onClick={handleSubmit}>
+              Save
+            </CustomButton>
           </Box>
         </Box>
       </Paper>
