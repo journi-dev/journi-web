@@ -24,7 +24,9 @@ export default function SpecialHours() {
       {/* Special Hours */}
       <Box className="flex-col-start hover-container" sx={{ mt: 2 }}>
         <Box className="flex-row-start" sx={{ mb: 1, alignItems: "center" }}>
-          <Typography sx={{ mr: 1 }}>Special Hours</Typography>
+          <Typography variant="subtitle1" sx={{ mr: 1 }}>
+            Special Hours
+          </Typography>
           <IconButton
             className="icon-button"
             disabled={isLoading || isUpdating}

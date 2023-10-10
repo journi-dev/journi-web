@@ -4,7 +4,7 @@
  * @param {*} target
  * @returns a sorted array including the target if it was not already in the array or excluding the target if it was already in the array
  */
-export const updateArray = (arr, target) => {
+export const updateArray = (arr, target, sort = false) => {
   let set = new Set();
   let allElements = [...arr, target];
   for (const element of allElements) {
@@ -17,7 +17,7 @@ export const updateArray = (arr, target) => {
     result.push(value);
   }
 
-  return result.sort();
+  return sort ? result.sort() : result;
 };
 
 export const fillEmptyValues = (rows, placeholderValue, expectedRowCount) => {
@@ -91,6 +91,10 @@ export const convertObjToArr = (obj) => {
   });
   return result;
 };
+
+export function truncateText(str, length) {
+  return str.length <= length ? str : `${str.substring(0, length + 1)} ...`;
+}
 
 export function sortArrOfObjs(arr, key) {
   const result = [];

@@ -189,7 +189,7 @@ export default function MenuItemAddForm({ onClose }) {
               />
 
               <Typography variant="caption">
-                {descLength}/{maxLength} characters
+                {descLength} / {maxLength}
               </Typography>
             </Box>
 

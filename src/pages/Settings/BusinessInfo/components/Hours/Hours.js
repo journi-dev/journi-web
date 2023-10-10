@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import format from "date-fns/format";
 import EditHoursModal from "./EditHoursModal";
 import SpecialHours from "./SpecialHours";
+import { truncateText } from "../../../../../utils/Helpers";
 
 export default function Hours() {
   const [openBusinessHours, setOpenBusinessHours] = useState(false);
@@ -120,10 +121,6 @@ export default function Hours() {
     return isAllNullValues ? ["Hours not set"] : result;
   }
 
-  function truncateText(str, length) {
-    return str.length <= length ? str : `${str.substring(0, length + 1)} ...`;
-  }
-
   return (
     <div>
       <Box className="flex-col-start">
@@ -145,7 +142,9 @@ export default function Hours() {
                   className="flex-row-start"
                   sx={{ mb: 1, alignItems: "center" }}
                 >
-                  <Typography>Business Hours</Typography>
+                  <Typography variant="subtitle1" sx={{ mr: 1 }}>
+                    Business Hours
+                  </Typography>
                   <IconButton
                     size="small"
                     className="icon-button"
@@ -184,10 +183,12 @@ export default function Hours() {
                 ))}
               </Box>
               <Box sx={{ m: "0 auto", mt: 0.5 }}>
-                <Link onClick={() => {}} underline="hover">
-                  <Typography color="text.secondary" variant="caption">
-                    Add Temporary Hours
-                  </Typography>
+                <Link
+                  color="text.secondary"
+                  onClick={() => {}}
+                  underline="hover"
+                >
+                  <Typography variant="caption">Add Temporary Hours</Typography>
                 </Link>
               </Box>
             </Box>
@@ -205,7 +206,9 @@ export default function Hours() {
                   className="flex-row-start"
                   sx={{ mb: 1, alignItems: "center" }}
                 >
-                  <Typography>Support Hours</Typography>
+                  <Typography variant="subtitle1" sx={{ mr: 1 }}>
+                    Support Hours
+                  </Typography>
                   <IconButton
                     size="small"
                     className="icon-button"
@@ -242,10 +245,12 @@ export default function Hours() {
                 ))}
               </Box>
               <Box sx={{ m: "0 auto", mt: 0.5 }}>
-                <Link onClick={() => {}} underline="hover">
-                  <Typography color="text.secondary" variant="caption">
-                    Add Temporary Hours
-                  </Typography>
+                <Link
+                  color="text.secondary"
+                  onClick={() => {}}
+                  underline="hover"
+                >
+                  <Typography variant="caption">Add Temporary Hours</Typography>
                 </Link>
               </Box>
             </Box>

@@ -4,7 +4,8 @@ import { useState } from "react";
 import { CustomButton } from "../../../components/ui/CustomComponents";
 import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
 import LegalAndContactInfo from "./components/Hours/LegalAndContactInfo";
-import Hours from "./components/Hours/Hours"
+import Hours from "./components/Hours/Hours";
+import About from "./components/About/About";
 
 export default function BusinessInfo() {
   WattsnTabTitle("Business Info Settings");
@@ -28,17 +29,17 @@ export default function BusinessInfo() {
       </Box>
 
       <Grid container>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={6} md={3.5}>
           <Paper sx={{ m: 2, p: 2 }}>
             <LegalAndContactInfo isEditActive={isEditActive} />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={6} md={3.5}>
           <Paper sx={{ m: 2, p: 2 }}>
-            <Typography variant="h6">About</Typography>
+            <About />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={6} md={5}>
           <Paper sx={{ m: 2, p: 2 }}>
             <Hours />
           </Paper>
