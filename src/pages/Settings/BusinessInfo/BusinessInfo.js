@@ -3,9 +3,9 @@ import { Box, Grid, Paper, Typography } from "@mui/material";
 import { useState } from "react";
 import { CustomButton } from "../../../components/ui/CustomComponents";
 import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
-import LegalAndContactInfo from "./components/Hours/LegalAndContactInfo";
 import Hours from "./components/Hours/Hours";
 import About from "./components/About/About";
+import LegalAndContactInfo from "./components/LegalAndContactInfo";
 
 export default function BusinessInfo() {
   WattsnTabTitle("Business Info Settings");
