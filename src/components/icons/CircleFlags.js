@@ -1,4 +1,3 @@
-import React from "react";
 import { CircleFlag } from "react-circle-flags";
 
 export const AmericanFlag = () => <CircleFlag countryCode="us" height="20" />;

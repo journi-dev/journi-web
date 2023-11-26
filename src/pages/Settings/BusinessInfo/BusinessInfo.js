@@ -6,6 +6,7 @@ import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
 import Hours from "./components/Hours/Hours";
 import About from "./components/About/About";
 import LegalAndContactInfo from "./components/LegalAndContactInfo";
+import Platforms from "./components/Platforms";
 
 export default function BusinessInfo() {
   WattsnTabTitle("Business Info Settings");
@@ -29,44 +30,39 @@ export default function BusinessInfo() {
       </Box>
 
       <Grid container>
-        <Grid item xs={12} sm={6} md={3.5}>
+        <Grid item xs={12} sm={6} md={4}>
           <Paper sx={{ m: 2, p: 2 }}>
             <LegalAndContactInfo isEditActive={isEditActive} />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} md={3.5}>
+        <Grid item xs={12} sm={6} md={4}>
           <Paper sx={{ m: 2, p: 2 }}>
             <About />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} md={5}>
+        <Grid item xs={12} sm={6} md={4}>
+          <Paper sx={{ m: 2, p: 2 }}>
+            <Platforms />
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
           <Paper sx={{ m: 2, p: 2 }}>
             <Hours />
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={6} md={6}>
           <Paper sx={{ m: 2, p: 2 }}>
             <Typography variant="h6">Delivery & Shipping</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Paper sx={{ m: 2, p: 2 }}>
-            <Typography variant="h6">Social Platforms</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Paper sx={{ m: 2, p: 2 }}>
-            <Typography variant="h6">Team</Typography>
+            <Typography>Delivery Settings</Typography>
+            <Typography>Enable delivery chekbox</Typography>
+            <Typography>
+              Set delivery territory by dropdown - radius, zip code,
+              neighborhood, city, draw
+            </Typography>
+            <Typography>show mapbox map of delivery territory</Typography>
           </Paper>
         </Grid>
       </Grid>
-
-      <Typography>Delivery Settings</Typography>
-      <Typography>Enable delivery chekbox</Typography>
-      <Typography>
-        Set delivery territory by dropdown - radius, zip code, neighborhood,
-        city, draw
-      </Typography>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { Box, SvgIcon } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
-import { ReactComponent as GoogleIcon } from "../../assets/images/icons/Google.svg";
+import { ReactComponent as FacebookIcon } from "../../assets/images/icons/facebook.svg";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -12,12 +12,13 @@ const useStyles = makeStyles()((theme) => {
   };
 });
 
-export default function GoogleLogo() {
+export default function Facebook({ width, height }) {
   const { classes } = useStyles();
+
   return (
-    <Box className={classes.svgWrapper}>
-      <SvgIcon>
-        <GoogleIcon />
+    <Box className={classes.svgWrapper} sx={{ width, height }}>
+      <SvgIcon sx={{ width: "inherit", height: "inherit" }}>
+        <FacebookIcon />
       </SvgIcon>
     </Box>
   );

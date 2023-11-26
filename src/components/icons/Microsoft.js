@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, SvgIcon } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 import { ReactComponent as MicrosoftIcon } from "../../assets/images/icons/Microsoft.svg";
