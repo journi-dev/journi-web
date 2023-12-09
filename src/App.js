@@ -16,7 +16,6 @@ import Products from "./pages/Products/Products";
 import Pricing from "./pages/Pricing/Pricing";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import LogIn from "./pages/LogIn/LogIn";
-import SignUp from "./pages/SignUp/SignUp";
 import Demo from "./pages/Demo/Demo";
 import Layout from "./components/ui/Layout";
 import { setAuthenticated } from "./context/features/User";
@@ -232,7 +231,6 @@ function App() {
                 <Route path="pricing" element={<Pricing />} />
                 <Route path="about" element={<AboutUs />} />
                 <Route path="login" element={<LogIn />} />
-                <Route path="signup" element={<SignUp />} />
                 <Route path="demo" element={<Demo />} />
 
                 {/* Protected Routes */}

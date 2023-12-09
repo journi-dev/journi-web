@@ -150,6 +150,7 @@ export default function LoggedOutLayout() {
             color={"appBarButtonColor"}
             disableElevation
             onClick={() => navigate("/login")}
+            sx={{ mr: 2 }}
           >
             <Typography
               variant="caption"
@@ -169,31 +170,6 @@ export default function LoggedOutLayout() {
           </CustomButton>
 
           <CustomButton
-            variant={location.pathname === "/signup" ? "contained" : "outlined"}
-            className={`${classes.button}`}
-            color={"appBarButtonColor"}
-            disableElevation
-            onClick={() => navigate("/signup")}
-            sx={{ mx: 2 }}
-          >
-            <Typography
-              variant="caption"
-              fontWeight="bold"
-              color={
-                location.pathname === "/signup"
-                  ? isDark
-                    ? "black"
-                    : "white"
-                  : isDark
-                  ? "white"
-                  : "black"
-              }
-            >
-              {t("getStarted")}
-            </Typography>
-          </CustomButton>
-
-          <CustomButton
             variant={location.pathname === "/demo" ? "contained" : "outlined"}
             className={classes.button}
             color={
@@ -205,7 +181,7 @@ export default function LoggedOutLayout() {
             onClick={() => navigate("/demo")}
           >
             <Typography variant="caption" fontWeight="bold">
-              {t("demo")}
+              {t("getStarted")}
             </Typography>
           </CustomButton>
         </Toolbar>

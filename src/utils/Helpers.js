@@ -92,6 +92,15 @@ export const convertObjToArr = (obj) => {
   return result;
 };
 
+export const isEmail = (string) => {
+  const emailRegEx =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  return Boolean(string.toLowerCase().match(emailRegEx));
+};
+
+export const setDelay = (n) => new Promise((r) => setTimeout(r, n * 1000));
+
 export function truncateText(str, length) {
   return str.length <= length ? str : `${str.substring(0, length + 1)} ...`;
 }
@@ -111,6 +120,137 @@ export function sortArrOfObjs(arr, key) {
   return result; // Return the result array
 }
 
+export function generateTempPassword() {
+  let result = "";
+  const allChars = {
+    upperLetters: [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z",
+    ],
+    lowerLetters: [
+      "a",
+      "b",
+      "c",
+      "d",
+      "e",
+      "f",
+      "g",
+      "h",
+      "i",
+      "j",
+      "k",
+      "l",
+      "m",
+      "n",
+      "o",
+      "p",
+      "q",
+      "r",
+      "s",
+      "t",
+      "u",
+      "v",
+      "w",
+      "x",
+      "y",
+      "z",
+    ],
+    digits: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    specialChars: [
+      "~",
+      "`",
+      "!",
+      "@",
+      "#",
+      "$",
+      "%",
+      "^",
+      "&",
+      "*",
+      "(",
+      ")",
+      "-",
+      "_",
+      "+",
+      "=",
+      "{",
+      "}",
+      "[",
+      "]",
+      "|",
+      ";",
+      ":",
+      "<",
+      ">",
+      ",",
+      ".",
+      "/",
+      "?",
+    ],
+  };
+  const pwdChars = [];
+
+  Object.keys(allChars).forEach((charType) => {
+    const randInt = Math.floor(Math.random() * 3) + 2; // Random integer between 2 and 4.
+    for (let i = 0; i < randInt; i++) {
+      const randChar =
+        allChars[charType][
+          Math.floor(Math.random() * allChars[charType].length)
+        ];
+      pwdChars.push(randChar);
+    }
+  });
+
+  result = joinInRandOrder(pwdChars);
+  return result;
+
+  function joinInRandOrder(arr) {
+    let str = "";
+    while (arr.length > 0) {
+      const randIdx = Math.floor(Math.random() * arr.length);
+      const randChar = arr[randIdx];
+
+      // Password must start with an alphanumeric character.
+      if (
+        str.length === 0 &&
+        allChars.digits.indexOf(randChar) === -1 &&
+        allChars.lowerLetters.indexOf(randChar) === -1 &&
+        allChars.upperLetters.indexOf(randChar) === -1
+      ) {
+        continue;
+      } else {
+        str += randChar;
+        arr = arr.slice(0, randIdx).concat(arr.slice(randIdx + 1));
+      }
+    }
+    return str;
+  }
+}
+
 export const usdFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
@@ -121,3 +261,11 @@ export const usdWholeDollarFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
   maximumFractionDigits: 0,
 });
+
+export const modalStyle = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  boxShadow: 24,
+};

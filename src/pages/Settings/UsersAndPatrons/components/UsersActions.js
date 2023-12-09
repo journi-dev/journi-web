@@ -1,7 +1,7 @@
 import { Check, Save } from "@mui/icons-material";
 import { Box, CircularProgress, Fab } from "@mui/material";
 import axios from "axios";
-import { /* useEffect, */ useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function UsersActions({ params, rowId, setRowId }) {
   const [loading, setLoading] = useState(false);
@@ -27,9 +27,10 @@ export default function UsersActions({ params, rowId, setRowId }) {
     }, 1000);
   };
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (rowId === params.id && success) setSuccess(false);
-  }, [rowId]); */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rowId]);
 
   return (
     <Box sx={{ m: 1, position: "relative" }}>

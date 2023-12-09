@@ -1,7 +1,7 @@
 import { Box, Divider, IconButton, Paper, Typography } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 import HourEditComponent from "./HourEditComponent";
-import { capitalizeString } from "../../../../../utils/Helpers";
+import { capitalizeString, modalStyle } from "../../../../../utils/Helpers";
 import {
   setFriday as setFridayBusiness,
   setIsUpdating as setIsUpdatingBusiness,
@@ -132,14 +132,6 @@ export default function EditHoursModal({ hoursType, handleClose }) {
         else dispatch(setIsUpdatingBusiness(false));
         console.error(err);
       });
-  };
-
-  const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    boxShadow: 24,
   };
 
   return (

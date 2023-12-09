@@ -32,14 +32,7 @@ import axios from "axios";
 import NoItemsPlaceholder from "./components/NoItemsPlaceholder";
 import { makeStyles } from "tss-react/mui";
 import MenuItemAddForm from "./components/MenuItemAddForm";
-
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  boxShadow: 24,
-};
+import { modalStyle } from "../../../utils/Helpers";
 
 const useStyles = makeStyles()((theme) => {
   return {

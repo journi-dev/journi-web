@@ -14,7 +14,7 @@ import { makeStyles } from "tss-react/mui";
 import { CustomButton } from "../../../../../components/ui/CustomComponents";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import { useState } from "react";
-import { convertObjToArr } from "../../../../../utils/Helpers";
+import { convertObjToArr, modalStyle } from "../../../../../utils/Helpers";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setIsUpdating,
@@ -33,13 +33,6 @@ const useStyles = makeStyles()((theme) => {
 
 export default function SpecialHoursModal({ handleClose }) {
   const { classes } = useStyles();
-  const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    boxShadow: 24,
-  };
 
   const specialHoursExamples = [
     "Martin Luther King Jr. Day",

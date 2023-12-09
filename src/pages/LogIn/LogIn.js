@@ -173,13 +173,6 @@ export default function LogIn() {
                 Sign in with Microsoft
               </CustomButton>
             </Box>
-            <Link to="/signup" className={classes.link}>
-              <Box className={classes.linkContainer}>
-                <Typography variant="caption" display="block">
-                  Don't have an account? Sign up!
-                </Typography>
-              </Box>
-            </Link>
             <Link to="/forgot-password" className={classes.link}>
               <Box className={classes.linkContainer} sx={{ mt: 1 }}>
                 <Typography variant="caption" display="block">

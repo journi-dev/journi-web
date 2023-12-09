@@ -6,6 +6,7 @@ const initialState = {
   isLoading: false,
   authenticated: false,
   errors: {},
+  lastUpdated: 0,
 };
 
 export const userSlice = createSlice({
@@ -24,24 +25,31 @@ export const userSlice = createSlice({
     setErrors: (state, action) => {
       state.errors = action.payload;
     },
+    setLastUpdated: (state, action) => {
+      state.lastUpdated = action.payload;
+    },
   },
 });
 
-export const { reset, setIsLoading, setAuthenticated, setErrors } =
-  userSlice.actions;
+export const {
+  reset,
+  setIsLoading,
+  setAuthenticated,
+  setErrors,
+  setLastUpdated,
+} = userSlice.actions;
 export default userSlice.reducer;
 
-export const signUpUser = (newUserData, navigate) => (dispatch) => {
+export const signUpUser = (newUserData) => (dispatch) => {
   dispatch(setIsLoading(true));
 
   axios
-    .post("/signup", newUserData)
+    .post("/createUser", newUserData)
     .then((response) => {
-      console.log(response);
-      setAuthorizationHeader(response.data.token);
+      // setAuthorizationHeader(response.data.token);
       dispatch(setIsLoading(false));
-      dispatch(setAuthenticated(true));
-      navigate("/");
+      dispatch(setLastUpdated(new Date().getTime()));
+      // dispatch(setAuthenticated(true));
     })
     .catch((err) => {
       console.error(err);

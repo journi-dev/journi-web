@@ -2,8 +2,7 @@ const { initializeApp } = require("firebase/app");
 const {
   getAuth,
   signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
+  sendEmailVerification,
 } = require("firebase/auth");
 const { adminAuth, db, admin } = require("../util/admin");
 const config = require("../util/config");
@@ -14,6 +13,7 @@ const {
 } = require("../util/validators");
 const firebaseApp = initializeApp(config);
 const firebaseAuth = getAuth(firebaseApp);
+const ejs = require("ejs");
 
 const generateSequence = (length) => {
   let string = "";
@@ -110,14 +110,17 @@ exports.logInWithCredentials = (req, res) => {
     });
 };
 
-exports.signUp = (req, res) => {
+exports.createUser = (req, res) => {
   const newUser = {
+    accessLevel: req.body.accessLevel,
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
+    jobTitle: req.body.jobTitle,
     username: req.body.username,
+    redirectUrl: req.body.redirectUrl,
     // phoneNumber: req.body.phoneNumber,
   };
 
@@ -149,9 +152,9 @@ exports.signUp = (req, res) => {
     })
     .then((user) => {
       const userCredentials = {
-        accessLevel: "Employee",
+        accessLevel: newUser.accessLevel,
         appearancePreference: "light",
-        createdAt: user.metadata.creationTime,
+        createdAt: new Date(user.metadata.creationTime),
         disabled: user.disabled,
         displayName: user.displayName,
         email: user.email,
@@ -159,6 +162,7 @@ exports.signUp = (req, res) => {
         userImage: `https://firebasestorage.googleapis.com/v0/b/${config.storageBucket}/o/${noImg}?alt=media`,
         firstName: newUser.firstName,
         lastName: newUser.lastName,
+        jobTitle: newUser.jobTitle,
         username: user.uid,
         // phoneNumber: user.phoneNumber,
       };
@@ -173,8 +177,31 @@ exports.signUp = (req, res) => {
         newUser.password
       );
     })
-    .then((data) => {
-      return data.user.getIdToken();
+    .then(async (data) => {
+      const actionCodeSettings = {
+        url: newUser.redirectUrl, // URL you want to be redirected to after email verification
+      };
+
+      try {
+        const actionLink = await firebaseAuth.generateEmailVerificationLink(
+          newUser.email,
+          actionCodeSettings
+        );
+        const template = await ejs.renderFile("../html/verifyEmail.ejs", {
+          actionLink,
+          randomNumber: Math.random(),
+        });
+        sendEmailVerification(data.user);
+        res.status(200).json({ message: "Email successfully sent" });
+        return data.user.getIdToken();
+      } catch (error) {
+        const message = error.message;
+        if (error.code === "auth/user-not-found")
+          return res.status(404).json({ message });
+        if (error.code === "auth/invalid-continue-uri")
+          return res.status(401).json({ message });
+        res.status(500).json({ message });
+      }
     })
     .then((token) => {
       return res.status(201).json({ token });

@@ -23,6 +23,7 @@ import { CustomButton } from "../../components/ui/CustomComponents";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "tss-react/mui";
 import PromotionCards from "./components/PromotionCards";
+import { modalStyle } from "../../utils/Helpers";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -38,14 +39,6 @@ const useStyles = makeStyles()((theme) => {
     },
   };
 });
-
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  boxShadow: 24,
-};
 
 export default function Updates() {
   WattsnTabTitle("updates");

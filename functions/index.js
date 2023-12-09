@@ -8,7 +8,6 @@ const {
   deletePromotion,
 } = require("./handlers/promotions");
 const {
-  signUp,
   uploadImage,
   addUserDetails,
   getAuthenticatedUser,
@@ -18,6 +17,7 @@ const {
   updateUser,
   logInWithGoogle,
   logInWithCredentials,
+  createUser,
 } = require("./handlers/users");
 const handleFirebaseAuth = require("./util/handleFirebaseAuth");
 const { db } = require("./util/admin");
@@ -42,7 +42,7 @@ app.get("/promotion/:promotionId/unpin", handleFirebaseAuth, unpinPromotion);
 
 // "Users" Routes
 app.post("/login/email", logInWithCredentials);
-app.post("/signup", signUp);
+app.post("/createUser", createUser);
 app.post("/user", handleFirebaseAuth, addUserDetails);
 app.post("/user/avatar", handleFirebaseAuth, uploadImage);
 app.get("/user", handleFirebaseAuth, getAuthenticatedUser);
