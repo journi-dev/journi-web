@@ -330,7 +330,7 @@ export default function LoggedInLayout() {
       <AppBar
         enableColorOnDark
         className={isDrawerExpanded ? classes.appBarOpen : classes.appBarClose}
-        color="welcomeAppBar"
+        color="appBar"
         elevation={0}
       >
         <Toolbar>

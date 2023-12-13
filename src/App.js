@@ -34,30 +34,57 @@ import { useEffect } from "react";
 import { changeAppearance, toggleDrawer } from "./context/features/Appearance";
 import RequireAuth from "./components/ui/RequireAuth";
 
+const sharedPalette = {
+  primary: {
+    main: "#fc6",
+  },
+  secondary: {
+    main: "#001427",
+  },
+  tertiary: {
+    main: "#ef233c",
+  },
+  quaternary: {
+    main: "#7f95d1",
+  },
+};
+const sharedTypography = {
+  fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
+  h1: {
+    fontFamily: "'avenir_nextheavy', 'Arial', 'sans-serif'",
+  },
+  h2: {
+    fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+  },
+  h3: {
+    fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+  },
+  h4: {
+    fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
+  },
+  h5: {
+    fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+  },
+  h6: {
+    fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
+  },
+  subtitle1: {
+    fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+  },
+  caption: {
+    fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
+  },
+};
 const lightTheme = createTheme({
   palette: {
     mode: "light",
+    ...sharedPalette,
     background: {
-      default: "#f5f5f5",
+      default: "#fff",
       paper: "#fff",
     },
-    primary: {
-      main: "#fc6",
-      light: "#fc6",
-      dark: "#fc6",
-    },
-    secondary: {
-      // main: "#fe8a7e",
-      main: "#ffc1b2",
-    },
-    tertiary: {
-      main: "#c1554d",
-    },
-    welcomeAppBar: {
+    appBar: {
       main: "#fff",
-    },
-    customBackgroundColor: {
-      main: "#e7e7e7",
     },
     placeholderColor: {
       main: "#ffebd2",
@@ -68,71 +95,43 @@ const lightTheme = createTheme({
     sideDrawerIconColor: {
       main: "#121212",
     },
-    iconButton: {
-      main: "#ff0000",
+    button: {
+      main: "#000",
+    },
+    footer: {
+      main: "#f5f5f5",
     },
   },
   typography: {
-    fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    h1: {
-      fontFamily: "'avenir_nextheavy', 'Arial', 'sans-serif'",
-    },
-    h2: {
-      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
-    },
-    h3: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    h4: {
-      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
-    },
-    /* h5: {
-      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    },
-    h6: {
-      fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
-    }, */
-    h5: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    h6: {
-      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
-    },
-    subtitle1: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    caption: {
-      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    },
+    ...sharedTypography,
     appBarText: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
       color: "#000",
+    },
+    buttonText: {
+      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+      color: "#fff",
+    },
+    coloredText1: {
+      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+      color: sharedPalette.secondary.main,
+    },
+    coloredText2: {
+      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+      color: sharedPalette.tertiary.main,
     },
   },
 });
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
-    primary: {
-      main: "#fc6",
-      light: "#fc6",
-      dark: "#fc6",
+    ...sharedPalette,
+    background: {
+      default: sharedPalette.secondary.main,
+      // paper: "#fff",
     },
-    secondary: {
-      // main: "#fe8a7e",
-      main: "#ffc1b2",
-    },
-    tertiary: {
-      main: "#3399ff",
-    },
-    quaternary: {
-      main: "#c1554d",
-    },
-    welcomeAppBar: {
-      main: "#0d0d0d",
-    },
-    customBackgroundColor: {
-      main: "#2a2a2a",
+    appBar: {
+      main: sharedPalette.secondary.main,
     },
     placeholderColor: {
       main: "#2a2a2a",
@@ -143,75 +142,59 @@ const darkTheme = createTheme({
     sideDrawerIconColor: {
       main: "#fc6",
     },
-    iconButton: {
+    button: {
       main: "#fff",
+    },
+    footer: {
+      main: "#001122",
     },
   },
   typography: {
-    fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    h1: {
-      fontFamily: "'avenir_nextheavy', 'Arial', 'sans-serif'",
-    },
-    h2: {
-      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
-    },
-    h3: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    h4: {
-      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
-    },
-    /* h5: {
-      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    },
-    h6: {
-      fontFamily: "'avenir_nextultra_light', 'Arial', 'sans-serif'",
-    }, */
-    h5: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    h6: {
-      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
-    },
-    subtitle1: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
-    },
-    caption: {
-      fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
-    },
+    ...sharedTypography,
     appBarText: {
-      fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
+      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
+      color: "#fff",
+    },
+    buttonText: {
+      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
       color: "#000",
+    },
+    coloredText1: {
+      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+      color: "#fff",
+    },
+    coloredText2: {
+      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+      color: sharedPalette.primary.main,
     },
   },
 });
 
 function App() {
   let dispatch = useDispatch();
-  let authenticated = useSelector((state) => state.user.authenticated);
-  const token = localStorage.FBIdToken;
-  if (token) {
-    const decodedToken = jwtDecode(token);
-    if (decodedToken.exp * 1000 < Date.now()) {
-      // window.location.assign("/login"); // The token has expired.
-      // history.push("/login"); // The token has expired.
-      dispatch(setAuthenticated(false));
-    } else {
-      dispatch(setAuthenticated(true));
-    }
-  }
-
   const isDark = useSelector((state) => state.appearance.isDark);
   const theme = isDark ? darkTheme : lightTheme;
+  const authenticated = useSelector((state) => state.user.authenticated);
 
   useEffect(() => {
     const localAppearance = localStorage.getItem("Appearance");
     const localIsDrawerExpanded = localStorage.getItem("isDrawerExpanded");
+    const token = localStorage.FBIdToken;
     if (localAppearance)
       dispatch(changeAppearance(JSON.parse(localAppearance)));
     if (localIsDrawerExpanded)
       dispatch(toggleDrawer(JSON.parse(localIsDrawerExpanded)));
-  });
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      if (decodedToken.exp * 1000 < Date.now()) {
+        // window.location.assign("/login"); // The token has expired.
+        // history.push("/login"); // The token has expired.
+        dispatch(setAuthenticated(false));
+      } else {
+        dispatch(setAuthenticated(true));
+      }
+    }
+  }, [dispatch]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -226,7 +209,7 @@ function App() {
                 element={<Layout authenticated={authenticated} />}
               >
                 {/* Public Routes */}
-                <Route path="welcome" element={<Welcome />} />
+                <Route path="/" element={<Welcome />} />
                 <Route path="products" element={<Products />} />
                 <Route path="pricing" element={<Pricing />} />
                 <Route path="about" element={<AboutUs />} />

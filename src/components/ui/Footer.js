@@ -35,7 +35,6 @@ export default function Footer() {
   const { classes } = useStyles();
   const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
-  const isDark = useSelector((state) => state.appearance.isDark);
   const appearance = useSelector((state) => state.appearance.mode);
 
   const [anchorEl2, setAnchorEl2] = useState(null);
@@ -170,7 +169,7 @@ export default function Footer() {
       <Box
         className={classes.footer}
         elevation={0}
-        sx={{ mt: 1, py: 2, bgcolor: isDark ? "#1d1f24" : "white" }}
+        sx={{ mt: 1, py: 2, bgcolor: "footer.main" }}
       >
         {/* Footer Menu */}
         <Box className="flex-row" sx={{ mb: 1 }}>

@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar, Typography, Fab } from "@mui/material";
+import { AppBar, Box, Toolbar, Typography, Fab, Divider } from "@mui/material";
 import { makeStyles } from "tss-react/mui";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { QuestionMark } from "@mui/icons-material";
@@ -52,9 +52,6 @@ const useStyles = makeStyles()((theme) => {
                 if (note.category === 'work') return yellow[700]
             } */
     },
-    button: {
-      borderRadius: 50,
-    },
     menuLink: {
       textDecoration: "none",
     },
@@ -89,8 +86,8 @@ export default function LoggedOutLayout() {
       path: "/resources",
     },
     {
-      text: "company",
-      path: "/company",
+      text: "about us",
+      path: "/about",
     },
   ];
 
@@ -100,11 +97,12 @@ export default function LoggedOutLayout() {
       <AppBar
         enableColorOnDark
         className={classes.appBar}
-        color="welcomeAppBar"
+        color="appBar"
         elevation={0}
         sx={{ py: 0 }}
       >
         <Toolbar>
+          {/* Logo */}
           <Link className={classes.appBarLeft} to="/">
             <Box
               className={isDark ? "logo-expanded-dark" : "logo-expanded-light"}
@@ -112,6 +110,7 @@ export default function LoggedOutLayout() {
             />
           </Link>
 
+          {/* Toolbar Links */}
           <Box className={classes.appBarLeft} sx={{ display: "flex" }}>
             {appBarItems.map((item) => (
               <Link
@@ -136,7 +135,11 @@ export default function LoggedOutLayout() {
                   }`}
                   sx={{ mx: 2 }}
                 >
-                  <Typography color="action" sx={{ px: 2, pb: 1 }}>
+                  <Typography
+                    variant="appBarText"
+                    color="action"
+                    sx={{ px: 2, pb: 1 }}
+                  >
                     {t(item.text)}
                   </Typography>
                 </Box>
@@ -144,47 +147,49 @@ export default function LoggedOutLayout() {
             ))}
           </Box>
 
-          <CustomButton
-            variant={location.pathname === "/login" ? "contained" : "outlined"}
-            className={`${classes.button}`}
-            color={"appBarButtonColor"}
-            disableElevation
-            onClick={() => navigate("/login")}
-            sx={{ mr: 2 }}
+          {/* "Log in" button */}
+          <Link
+            className={classes.menuLink}
+            to={"/login"}
+            color={
+              location.pathname === "/login" ? "primary" : "appBarButtonColor"
+            }
           >
-            <Typography
-              variant="caption"
-              fontWeight="bold"
-              color={
+            <Box
+              className={`${classes.menuItem} ${
                 location.pathname === "/login"
                   ? isDark
-                    ? "black"
-                    : "white"
+                    ? "toolbar-button-dark-active"
+                    : "toolbar-button-light-active"
                   : isDark
-                  ? "white"
-                  : "black"
-              }
+                  ? "toolbar-button-dark"
+                  : "toolbar-button-light"
+              }`}
+              sx={{ mx: 2 }}
             >
-              {t("logIn")}
-            </Typography>
-          </CustomButton>
+              <Typography
+                variant="appBarText"
+                color="action"
+                sx={{ px: 2, pb: 1 }}
+              >
+                {t("logIn")}
+              </Typography>
+            </Box>
+          </Link>
 
+          {/* "Get started" button */}
           <CustomButton
-            variant={location.pathname === "/demo" ? "contained" : "outlined"}
-            className={classes.button}
-            color={
-              !isDark && location.pathname !== "/demo"
-                ? "appBarButtonColor"
-                : "primary"
-            }
+            variant={"contained"}
+            color={isDark ? "button" : "secondary"}
             disableElevation
             onClick={() => navigate("/demo")}
           >
-            <Typography variant="caption" fontWeight="bold">
+            <Typography variant="buttonText" sx={{ mx: 1 }}>
               {t("getStarted")}
             </Typography>
           </CustomButton>
         </Toolbar>
+        <Divider />
       </AppBar>
 
       {/* Page Content */}

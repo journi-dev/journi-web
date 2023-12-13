@@ -3,7 +3,7 @@ import { Button, styled, ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 export const CustomButton = styled(Button)({
   textTransform: "none",
-  borderRadius: 100,
+  borderRadius: 0,
 });
 
 export const CustomLoadingButton = styled(LoadingButton)({
