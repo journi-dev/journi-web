@@ -1,4 +1,4 @@
-import { WattsnTabTitle } from "../../utils/WattsnTabTitle";
+import { WatsonTabTitle } from "../../utils/WatsonTabTitle";
 import { Box, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import {
@@ -39,7 +39,7 @@ const useStyles = makeStyles()((theme) => {
 });
 
 export default function AllSettings() {
-  WattsnTabTitle("settings");
+  WatsonTabTitle("settings");
   const { t } = useTranslation();
   const { classes } = useStyles();
   const location = useLocation();
@@ -71,7 +71,7 @@ export default function AllSettings() {
       path: "/settings/integrations",
     },
     {
-      text: "Gift Cards",
+      text: "Rewards & Gift Cards",
       icon: <CardGiftcard fontSize="small" color="itemButton" />,
       path: "/settings/gift-cards",
     },

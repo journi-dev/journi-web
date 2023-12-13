@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { CustomButton } from "../../../components/ui/CustomComponents";
-import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
+import { WatsonTabTitle } from "../../../utils/WatsonTabTitle";
 import MenuAndRetailItems from "./components/MenuAndRetailItems";
 import { useDispatch, useSelector } from "react-redux";
 import MenuFileUploadForm from "./components/MenuFileUploadForm";
@@ -43,7 +43,7 @@ const useStyles = makeStyles()((theme) => {
 });
 
 export default function MenuAndRetail() {
-  WattsnTabTitle("Menu & Retail Settings");
+  WatsonTabTitle("Menu & Retail Settings");
   const { classes } = useStyles();
 
   const dispatch = useDispatch();

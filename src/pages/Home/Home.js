@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import Masonry from "react-masonry-css";
 import Orders from "./components/Orders";
 import { useTranslation } from "react-i18next";
-import { WattsnTabTitle } from "../../utils/WattsnTabTitle";
+import { WatsonTabTitle } from "../../utils/WatsonTabTitle";
 // import { makeStyles } from '@mui/material';
 
 // const useStyles = makeStyles({
@@ -17,7 +17,7 @@ const breakpoints = {
 };
 
 export default function Home() {
-  WattsnTabTitle("home");
+  WatsonTabTitle("home");
   const { t } = useTranslation();
 
   return (

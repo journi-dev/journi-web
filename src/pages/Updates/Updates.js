@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { WattsnTabTitle } from "../../utils/WattsnTabTitle";
+import { WatsonTabTitle } from "../../utils/WatsonTabTitle";
 import {
   Box,
   Container,
@@ -41,7 +41,7 @@ const useStyles = makeStyles()((theme) => {
 });
 
 export default function Updates() {
-  WattsnTabTitle("updates");
+  WatsonTabTitle("updates");
   const { classes } = useStyles();
   const { t } = useTranslation();
   const [openNewAnnouncement, setOpenNewAnnouncement] = useState(false);

@@ -29,7 +29,7 @@ import Billing from "./pages/Settings/Billing";
 import Developers from "./pages/Settings/Developers";
 import MyAccount from "./pages/Settings/MyAccount";
 import ComingSoon from "./pages/ComingSoon/ComingSoon";
-import WATTSNSettings from "./pages/Settings/WATTSNSettings";
+import WATSONSettings from "./pages/Settings/WATSONSettings";
 import { useEffect } from "react";
 import { changeAppearance, toggleDrawer } from "./context/features/Appearance";
 import RequireAuth from "./components/ui/RequireAuth";
@@ -237,7 +237,7 @@ function App() {
                     <Route path="my-account" element={<MyAccount />} />
                     <Route
                       path="platform-settings"
-                      element={<WATTSNSettings />}
+                      element={<WATSONSettings />}
                     />
                     <Route path="help" element={<ComingSoon />} />
                     <Route path="tasks" element={<ComingSoon />} />

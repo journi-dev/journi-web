@@ -26,7 +26,7 @@ export default function Pricing() {
           <ul>
             <li>A custom-built website with full content customization</li>
             <li>
-              Full access to Journi's WATTSN platform to track orders, patrons, and
+              Full access to Journi's WATSON platform to track orders, patrons, and
               more
             </li>
             <li>

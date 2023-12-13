@@ -25,7 +25,7 @@ export default function NoItemsPlaceholder() {
           </Typography>
         </div>
         <Typography textAlign="center">
-          You currently don't have any menu items. Thanks to WATTSN, you can
+          You currently don't have any menu items. Thanks to WATSON, you can
           create a menu to your liking and exact specifications. Your menu
           should be you on a plate! Not literally speaking.
         </Typography>

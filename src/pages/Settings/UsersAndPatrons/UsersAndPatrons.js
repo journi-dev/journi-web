@@ -14,7 +14,7 @@ import axios from "axios";
 import { format } from "date-fns";
 import { useEffect, useMemo, useState } from "react";
 import UsersActions from "./components/UsersActions";
-import { WattsnTabTitle } from "../../../utils/WattsnTabTitle";
+import { WatsonTabTitle } from "../../../utils/WatsonTabTitle";
 import ErrorPlaceholder from "../../../components/placeholders/ErrorPlaceholder";
 import { CustomButton } from "../../../components/ui/CustomComponents";
 import { Add, GroupAdd, PersonAddAltRounded } from "@mui/icons-material";
@@ -23,7 +23,7 @@ import { modalStyle } from "../../../utils/Helpers";
 import { useSelector } from "react-redux";
 
 export default function UsersAndPatrons() {
-  WattsnTabTitle("Users & Patrons Settings");
+  WatsonTabTitle("Users & Patrons Settings");
   const [anchorEl, setAnchorEl] = useState(null);
   const [openAddUserForm, setOpenAddUserForm] = useState(false);
 

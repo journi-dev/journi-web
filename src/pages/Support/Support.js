@@ -1,9 +1,9 @@
 import React from "react";
-import { WattsnTabTitle } from "../../utils/WattsnTabTitle";
+import { WatsonTabTitle } from "../../utils/WatsonTabTitle";
 import { useTranslation } from "react-i18next";
 
 export default function Support() {
-  WattsnTabTitle("support");
+  WatsonTabTitle("support");
   const { t } = useTranslation();
 
   return <div>{t("support")}</div>;
