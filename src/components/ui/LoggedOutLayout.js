@@ -184,9 +184,7 @@ export default function LoggedOutLayout() {
             disableElevation
             onClick={() => navigate("/demo")}
           >
-            <Typography variant="buttonText" sx={{ mx: 1 }}>
-              {t("getStarted")}
-            </Typography>
+            <Typography variant="buttonText">{t("getStarted")}</Typography>
           </CustomButton>
         </Toolbar>
         <Divider />

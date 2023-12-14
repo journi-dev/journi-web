@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { ExpandMore } from "@mui/icons-material";
+import AnimatedNumber from "react-animated-numbers";
 
 export default function Welcome() {
   JourniTabTitle("Welcome");
@@ -76,9 +77,100 @@ export default function Welcome() {
 
         <Lottie animationData={animationData} />
       </Box>
+
+      <Typography variant="h4" sx={{ m: "0 auto" }}>
+        What can Journi do?
+      </Typography>
+
+      <Box className="flex-row-space" sx={{ width: "80%", m: "0 auto" }}>
+        <Box className="flex-col">
+          <Typography
+            fontSize={72}
+            fontWeight="bold"
+            display="inline-flex"
+            gap={1}
+            mb={-1}
+          >
+            +
+            <AnimatedNumber
+              includeComma
+              animateToNumber={123}
+              transitions={(index) => ({
+                type: "spring",
+                duration: index + 0.3,
+              })}
+              fontStyle={{
+                fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+                fontSize: 72,
+              }}
+            />
+            %
+          </Typography>
+          <Typography fontWeight="bold" m="0 auto">
+            increase in reach, year over year
+          </Typography>
+        </Box>
+        <Box className="flex-col">
+          <Typography
+            fontSize={72}
+            fontWeight="bold"
+            display="inline-flex"
+            gap={1}
+            mb={-1}
+          >
+            +
+            <AnimatedNumber
+              includeComma
+              animateToNumber={123}
+              transitions={(index) => ({
+                type: "spring",
+                duration: index + 0.3,
+              })}
+              fontStyle={{
+                fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+                fontSize: 72,
+              }}
+            />
+            %
+          </Typography>
+          <Typography fontWeight="bold" m="0 auto">
+            increase in reach, year over year
+          </Typography>
+        </Box>
+        <Box className="flex-col">
+          <Typography
+            fontSize={72}
+            fontWeight="bold"
+            display="inline-flex"
+            gap={1}
+            mb={-1}
+          >
+            +
+            <AnimatedNumber
+              includeComma
+              animateToNumber={123}
+              transitions={(index) => ({
+                type: "spring",
+                duration: index + 0.3,
+              })}
+              fontStyle={{
+                fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+                fontSize: 72,
+              }}
+            />
+            %
+          </Typography>
+          <Typography fontWeight="bold" m="0 auto">
+            increase in reach, year over year
+          </Typography>
+        </Box>
+      </Box>
+
       <Typography variant="h4" sx={{ margin: "0 auto" }}>
         Why use Journi?
       </Typography>
+
+      {/* Accordion */}
       <Box width="50%" sx={{ mt: 2 }}>
         <Divider />
         {accordions.map((accordion, i) => (
@@ -101,6 +193,17 @@ export default function Welcome() {
         ))}
         <Divider />
       </Box>
+
+      <Typography variant="h4" sx={{ margin: "0 auto" }}>
+        Brands that trust Journi
+      </Typography>
+      <Typography>North Side Notables</Typography>
+      <Typography>East Side Excellence</Typography>
+      <Typography>West Side Wonders</Typography>
+      <Typography>South Side Staples</Typography>
+      <Typography variant="h4" sx={{ margin: "0 auto" }}>
+        What people are saying about Journi
+      </Typography>
     </Box>
   );
 }

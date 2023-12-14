@@ -375,6 +375,7 @@ export default function LoggedInLayout() {
           </Tooltip>
           {/* <Navbar /> */}
         </Toolbar>
+        <Divider />
       </AppBar>
 
       {/* Profile Menu */}

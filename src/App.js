@@ -51,7 +51,7 @@ const sharedPalette = {
 const sharedTypography = {
   fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
   h1: {
-    fontFamily: "'avenir_nextheavy', 'Arial', 'sans-serif'",
+    fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
   },
   h2: {
     fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
@@ -60,7 +60,7 @@ const sharedTypography = {
     fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
   },
   h4: {
-    fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
+    fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
   },
   h5: {
     fontFamily: "'avenir_nextdemi_bold', 'Arial', 'sans-serif'",
@@ -81,7 +81,7 @@ const lightTheme = createTheme({
     ...sharedPalette,
     background: {
       default: "#fff",
-      paper: "#fff",
+      paper: "#f5f5f5",
     },
     appBar: {
       main: "#fff",

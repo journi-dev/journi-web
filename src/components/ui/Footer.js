@@ -28,6 +28,11 @@ const useStyles = makeStyles()(() => {
       flexDirection: "column",
       justifyContent: "center",
     },
+    footerButton: {
+      padding: 0,
+      marginLeft: 10,
+      marginRight: 10,
+    },
   };
 });
 
@@ -173,19 +178,23 @@ export default function Footer() {
       >
         {/* Footer Menu */}
         <Box className="flex-row" sx={{ mb: 1 }}>
-          <CustomButton size="small">
+          <CustomButton size="small" className={classes.footerButton}>
             <Typography variant="caption" color="text.primary">
               {t("termsOfService")}
             </Typography>
           </CustomButton>
           <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-          <CustomButton size="small">
+          <CustomButton size="small" className={classes.footerButton}>
             <Typography variant="caption" color="text.primary">
               {t("privacyPolicy")}
             </Typography>
           </CustomButton>
           <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-          <CustomButton startIcon={<BugReport color="action" />} size="small">
+          <CustomButton
+            startIcon={<BugReport color="action" />}
+            size="small"
+            className={classes.footerButton}
+          >
             <Typography variant="caption" color="text.primary">
               {t("reportABug")}
             </Typography>
@@ -195,6 +204,7 @@ export default function Footer() {
             onClick={handleClick2}
             size="small"
             startIcon={languages[localStorage.getItem("i18nextLng")].icon}
+            className={classes.footerButton}
           >
             <Typography variant="caption" color="text.primary">
               {t("language")}:{" "}
@@ -206,6 +216,7 @@ export default function Footer() {
             onClick={handleClick3}
             size="small"
             startIcon={appearances[appearance].icon}
+            className={classes.footerButton}
           >
             <Typography variant="caption" color="text.primary">
               {t("appearance")}: {t(appearance)}
