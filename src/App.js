@@ -47,6 +47,9 @@ const sharedPalette = {
   quaternary: {
     main: "#7f95d1",
   },
+  buttonStatic: {
+    main: "#000",
+  },
 };
 const sharedTypography = {
   fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
@@ -73,6 +76,14 @@ const sharedTypography = {
   },
   caption: {
     fontFamily: "'avenir_nextregular', 'Arial', 'sans-serif'",
+  },
+  buttonTextLight: {
+    fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+    color: "#fff",
+  },
+  buttonTextDark: {
+    fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+    color: "#000",
   },
 };
 const lightTheme = createTheme({

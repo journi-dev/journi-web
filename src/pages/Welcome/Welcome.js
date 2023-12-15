@@ -1,4 +1,3 @@
-import React from "react";
 import { JourniTabTitle } from "../../utils/JourniTabTitle";
 import {
   Accordion,
@@ -8,21 +7,42 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
-import Lottie from "lottie-react";
-import animationData from "../../assets/motion-graphics/25992-hand-scrolls-the-messages-on-the-phone.json";
-import { CustomButton } from "../../components/ui/CustomComponents";
-import { useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import { ExpandMore } from "@mui/icons-material";
-import AnimatedNumber from "react-animated-numbers";
+import Section1 from "./components/Section1";
+import Section2 from "./components/Section2";
+import Section4 from "./components/Section4";
+import { makeStyles } from "tss-react/mui";
+
+const useStyles = makeStyles()((theme) => {
+  return {
+    container: {
+      padding: theme.spacing(5),
+    },
+    topSection: {
+      paddingTop: theme.spacing(5),
+      paddingRight: theme.spacing(5),
+      paddingBottom: theme.spacing(0),
+      paddingLeft: theme.spacing(5),
+    },
+    midSection: {
+      paddingTop: theme.spacing(0),
+      paddingRight: theme.spacing(5),
+      paddingBottom: theme.spacing(0),
+      paddingLeft: theme.spacing(5),
+    },
+    bottomSection: {
+      paddingTop: theme.spacing(0),
+      paddingRight: theme.spacing(5),
+      paddingBottom: theme.spacing(5),
+      paddingLeft: theme.spacing(5),
+    },
+  };
+});
 
 export default function Welcome() {
   JourniTabTitle("Welcome");
 
-  const navigate = useNavigate();
-  const { t } = useTranslation();
-  const isDark = useSelector((state) => state.appearance.isDark);
+  const { classes } = useStyles();
   const accordions = [
     "💰 More sales",
     "🗣️ More reach",
@@ -33,138 +53,8 @@ export default function Welcome() {
 
   return (
     <Box className="flex-col">
-      <Box
-        className="flex-row"
-        sx={{ width: "100%", height: "70vh", alignItems: "center" }}
-      >
-        <Box className="flex-col">
-          {/* Text */}
-          <Box>
-            <Typography variant="coloredText1" fontSize={50} component="div">
-              Build a fully customizable, production-grade{" "}
-              <Typography variant="coloredText2" fontSize={50}>
-                app
-              </Typography>{" "}
-              and{" "}
-              <Typography variant="coloredText2" fontSize={50}>
-                website
-              </Typography>{" "}
-              for your business.{" "}
-              <Typography
-                variant="coloredText2"
-                fontSize={50}
-                display={"inline-block"}
-              >
-                All with Journi
-              </Typography>
-              .
-            </Typography>
-          </Box>
-          {/* "Get started" button */}
-          <Box sx={{ mt: 2 }}>
-            <CustomButton
-              variant={"contained"}
-              color={isDark ? "button" : "secondary"}
-              disableElevation
-              onClick={() => navigate("/demo")}
-            >
-              <Typography variant="buttonText" fontSize={20} sx={{ mx: 2 }}>
-                {t("getStarted")}
-              </Typography>
-            </CustomButton>
-          </Box>
-        </Box>
-
-        <Lottie animationData={animationData} />
-      </Box>
-
-      <Typography variant="h4" sx={{ m: "0 auto" }}>
-        What can Journi do?
-      </Typography>
-
-      <Box className="flex-row-space" sx={{ width: "80%", m: "0 auto" }}>
-        <Box className="flex-col">
-          <Typography
-            fontSize={72}
-            fontWeight="bold"
-            display="inline-flex"
-            gap={1}
-            mb={-1}
-          >
-            +
-            <AnimatedNumber
-              includeComma
-              animateToNumber={123}
-              transitions={(index) => ({
-                type: "spring",
-                duration: index + 0.3,
-              })}
-              fontStyle={{
-                fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
-                fontSize: 72,
-              }}
-            />
-            %
-          </Typography>
-          <Typography fontWeight="bold" m="0 auto">
-            increase in reach, year over year
-          </Typography>
-        </Box>
-        <Box className="flex-col">
-          <Typography
-            fontSize={72}
-            fontWeight="bold"
-            display="inline-flex"
-            gap={1}
-            mb={-1}
-          >
-            +
-            <AnimatedNumber
-              includeComma
-              animateToNumber={123}
-              transitions={(index) => ({
-                type: "spring",
-                duration: index + 0.3,
-              })}
-              fontStyle={{
-                fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
-                fontSize: 72,
-              }}
-            />
-            %
-          </Typography>
-          <Typography fontWeight="bold" m="0 auto">
-            increase in reach, year over year
-          </Typography>
-        </Box>
-        <Box className="flex-col">
-          <Typography
-            fontSize={72}
-            fontWeight="bold"
-            display="inline-flex"
-            gap={1}
-            mb={-1}
-          >
-            +
-            <AnimatedNumber
-              includeComma
-              animateToNumber={123}
-              transitions={(index) => ({
-                type: "spring",
-                duration: index + 0.3,
-              })}
-              fontStyle={{
-                fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
-                fontSize: 72,
-              }}
-            />
-            %
-          </Typography>
-          <Typography fontWeight="bold" m="0 auto">
-            increase in reach, year over year
-          </Typography>
-        </Box>
-      </Box>
+      <Section1 classes={classes.topSection} />
+      <Section2 classes={classes.midSection} />
 
       <Typography variant="h4" sx={{ margin: "0 auto" }}>
         Why use Journi?
@@ -201,6 +91,9 @@ export default function Welcome() {
       <Typography>East Side Excellence</Typography>
       <Typography>West Side Wonders</Typography>
       <Typography>South Side Staples</Typography>
+
+      <Section4 classes={classes.container} />
+
       <Typography variant="h4" sx={{ margin: "0 auto" }}>
         What people are saying about Journi
       </Typography>

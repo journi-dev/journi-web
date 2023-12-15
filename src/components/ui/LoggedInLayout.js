@@ -95,7 +95,7 @@ const useStyles = makeStyles()((theme) => {
       minHeight: "100vh",
     },
     pageContent: {
-      padding: theme.spacing(3),
+      padding: theme.spacing(5),
       flex: "1 1 auto",
       height: "auto",
     },
