@@ -109,6 +109,9 @@ const lightTheme = createTheme({
     button: {
       main: "#000",
     },
+    buttonTextColor: {
+      main: "#fff",
+    },
     footer: {
       main: "#f5f5f5",
     },
@@ -122,6 +125,10 @@ const lightTheme = createTheme({
     buttonText: {
       fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
       color: "#fff",
+    },
+    buttonTextOutlined: {
+      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+      color: "#000",
     },
     coloredText1: {
       fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
@@ -156,6 +163,9 @@ const darkTheme = createTheme({
     button: {
       main: "#fff",
     },
+    buttonTextColor: {
+      main: "#000",
+    },
     footer: {
       main: "#001122",
     },
@@ -169,6 +179,10 @@ const darkTheme = createTheme({
     buttonText: {
       fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
       color: "#000",
+    },
+    buttonTextOutlined: {
+      fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+      color: "#fff",
     },
     coloredText1: {
       fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",

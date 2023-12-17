@@ -19,10 +19,10 @@ export const languages = {
   // "cn": { code: "cn", name: "chinese", nativeName: "Chinese", icon: <ChineseFlag /> },
 };
 export const appearances = {
-  light: { name: "light", icon: <LightMode color="action" /> },
-  dark: { name: "dark", icon: <DarkMode color="action" /> },
+  light: { name: "light", icon: <LightMode color="buttonTextColor" /> },
+  dark: { name: "dark", icon: <DarkMode color="buttonTextColor" /> },
   system: {
     name: "system",
-    icon: <SettingsBrightness color="action" />,
+    icon: <SettingsBrightness color="buttonTextColor" />,
   },
 };

@@ -7,8 +7,6 @@ import { CustomButton } from "./CustomComponents";
 import { useSelector } from "react-redux";
 import Footer from "./Footer";
 
-const footerHeight = 100;
-
 const useStyles = makeStyles()((theme) => {
   return {
     pageContainer: {
@@ -69,6 +67,7 @@ export default function LoggedOutLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const isDark = useSelector((state) => state.appearance.isDark);
+  // const footerHeight = 100;
 
   const { t } = useTranslation();
 
@@ -199,16 +198,16 @@ export default function LoggedOutLayout() {
           <Fab
             color="primary"
             sx={{
-              position: "absolute",
-              bottom: footerHeight + 25,
-              right: 25,
+              borderRadius: 2,
+              position: "fixed",
+              bottom: 30,
+              right: 30,
             }}
           >
             <QuestionMark />
           </Fab>
         </div>
 
-        {/* Footer */}
         <Footer />
       </div>
     </div>

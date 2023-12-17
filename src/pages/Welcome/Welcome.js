@@ -1,17 +1,15 @@
 import { JourniTabTitle } from "../../utils/JourniTabTitle";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Divider,
-  Typography,
-} from "@mui/material";
-import { ExpandMore } from "@mui/icons-material";
+import { Box } from "@mui/material";
+import { makeStyles } from "tss-react/mui";
 import Section1 from "./components/Section1";
 import Section2 from "./components/Section2";
+import Section3 from "./components/Section3";
 import Section4 from "./components/Section4";
-import { makeStyles } from "tss-react/mui";
+import Section5 from "./components/Section5";
+import Section6 from "./components/Section6";
+import Section7 from "./components/Section7";
+import Section8 from "./components/Section8";
+import Section11 from "./components/Section11";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -43,60 +41,24 @@ export default function Welcome() {
   JourniTabTitle("Welcome");
 
   const { classes } = useStyles();
-  const accordions = [
-    "💰 More sales",
-    "🗣️ More reach",
-    "🕹️ More control",
-    "🤝 More support",
-    "🧠 Less work",
-  ];
 
   return (
-    <Box className="flex-col">
+    <Box className="flex-col-start">
       <Section1 classes={classes.topSection} />
       <Section2 classes={classes.midSection} />
-
-      <Typography variant="h4" sx={{ margin: "0 auto" }}>
-        Why use Journi?
-      </Typography>
-
-      {/* Accordion */}
-      <Box width="50%" sx={{ mt: 2 }}>
-        <Divider />
-        {accordions.map((accordion, i) => (
-          <Accordion
-            key={i}
-            elevation={0}
-            sx={{ bgcolor: "background.default" }}
-          >
-            <AccordionSummary expandIcon={<ExpandMore />}>
-              <Typography variant="h5">{accordion}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                eget.
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        ))}
-        <Divider />
-      </Box>
-
-      <Typography variant="h4" sx={{ margin: "0 auto" }}>
-        Brands that trust Journi
-      </Typography>
-      <Typography>North Side Notables</Typography>
-      <Typography>East Side Excellence</Typography>
-      <Typography>West Side Wonders</Typography>
-      <Typography>South Side Staples</Typography>
-
+      <Section3 classes={classes.container} />
       <Section4 classes={classes.container} />
-
+      <Section5 classes={classes.container} />
+      <Section6 classes={classes.container} />
+      <Section7 classes={classes.container} />
+      <Section8 classes={classes.container} />
+      {/* (Reviews) <Section9 classes={classes.container} />
       <Typography variant="h4" sx={{ margin: "0 auto" }}>
-        What people are saying about Journi
+      What people are saying about Journi
       </Typography>
+    < (Social feed) Section10 classes={classes.container} /> */}
+
+      <Section11 classes={classes.container} />
     </Box>
   );
 }

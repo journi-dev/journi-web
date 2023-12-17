@@ -1,13 +1,25 @@
 import {
   Box,
   Divider,
+  IconButton,
   ListItemIcon,
   Menu,
   MenuItem,
   Typography,
 } from "@mui/material";
 import { CustomButton } from "./CustomComponents";
-import { BugReport, Code, Favorite } from "@mui/icons-material";
+import {
+  Accessibility,
+  Cookie,
+  Facebook,
+  Gavel,
+  Instagram,
+  KeyboardArrowDown,
+  LinkedIn,
+  Policy,
+  Twitter,
+  YouTube,
+} from "@mui/icons-material";
 import format from "date-fns/format";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +28,7 @@ import { appearances, languages } from "../../utils/UIObjects";
 import { useState } from "react";
 import { changeAppearance } from "../../context/features/Appearance";
 import { setLanguage } from "../../context/features/Language";
+import { Image } from "mui-image";
 
 const footerHeight = 100;
 
@@ -30,8 +43,17 @@ const useStyles = makeStyles()(() => {
     },
     footerButton: {
       padding: 0,
-      marginLeft: 10,
-      marginRight: 10,
+      margin: 0,
+    },
+    uiButton: {
+      paddingLeft: 10,
+      paddingRight: 10,
+    },
+    imgContainer: {
+      objectFit: "contain",
+    },
+    img: {
+      maxWidth: "100%",
     },
   };
 });
@@ -174,67 +196,152 @@ export default function Footer() {
       <Box
         className={classes.footer}
         elevation={0}
-        sx={{ mt: 1, py: 2, bgcolor: "footer.main" }}
+        sx={{ px: 5, pt: 3, pb: 5, bgcolor: "footer.main", gap: 1 }}
       >
-        {/* Footer Menu */}
-        <Box className="flex-row" sx={{ mb: 1 }}>
-          <CustomButton size="small" className={classes.footerButton}>
-            <Typography variant="caption" color="text.primary">
-              {t("termsOfService")}
-            </Typography>
-          </CustomButton>
-          <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-          <CustomButton size="small" className={classes.footerButton}>
-            <Typography variant="caption" color="text.primary">
-              {t("privacyPolicy")}
-            </Typography>
-          </CustomButton>
-          <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-          <CustomButton
-            startIcon={<BugReport color="action" />}
-            size="small"
-            className={classes.footerButton}
-          >
-            <Typography variant="caption" color="text.primary">
-              {t("reportABug")}
-            </Typography>
-          </CustomButton>
-          <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-          <CustomButton
-            onClick={handleClick2}
-            size="small"
-            startIcon={languages[localStorage.getItem("i18nextLng")].icon}
-            className={classes.footerButton}
-          >
-            <Typography variant="caption" color="text.primary">
-              {t("language")}:{" "}
-              {t(languages[localStorage.getItem("i18nextLng")].name)}
-            </Typography>
-          </CustomButton>
-          <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
-          <CustomButton
-            onClick={handleClick3}
-            size="small"
-            startIcon={appearances[appearance].icon}
-            className={classes.footerButton}
-          >
-            <Typography variant="caption" color="text.primary">
-              {t("appearance")}: {t(appearance)}
-            </Typography>
-          </CustomButton>
-        </Box>
+        <Box className="flex-row-space" sx={{ alignItems: "flex-start" }}>
+          {/* Menus & Company Details */}
+          <Box className="flex-col" gap={1.5}>
+            {/* UI Menu */}
+            <Box className="flex-row-start" gap={1}>
+              <CustomButton
+                variant="contained"
+                color="button"
+                disableElevation
+                onClick={handleClick2}
+                size="small"
+                startIcon={languages[localStorage.getItem("i18nextLng")].icon}
+                endIcon={<KeyboardArrowDown color="buttonTextColor" />}
+                className={classes.uiButton}
+              >
+                <Typography variant="buttonText">
+                  {t("language")}:{" "}
+                  {t(languages[localStorage.getItem("i18nextLng")].name)}
+                </Typography>
+              </CustomButton>
+              <CustomButton
+                variant="contained"
+                color="button"
+                disableElevation
+                onClick={handleClick3}
+                size="small"
+                startIcon={appearances[appearance].icon}
+                endIcon={<KeyboardArrowDown color="buttonTextColor" />}
+                className={classes.uiButton}
+              >
+                <Typography variant="buttonText">
+                  {t("appearance")}: {t(appearance)}
+                </Typography>
+              </CustomButton>
+            </Box>
 
-        {/* Company Details */}
-        <Box className="flex-row" sx={{ userSelect: "none", mb: 1 }}>
-          <Typography variant="caption" sx={{ mr: 1 }}>
-            &#169; {format(new Date(), "yyyy")} Journi R&D
-          </Typography>
-          {/* <Divider orientation="vertical" flexItem sx={{ mx: 1 }} /> */}
-          <Code fontSize="small" sx={{ ml: 1 }} />
-          <Typography variant="caption" sx={{ mx: 1 }}>
-            {t("with")}
-          </Typography>
-          <Favorite fontSize="small" />
+            {/* Company Details */}
+            <Box className="flex-row-start" sx={{ userSelect: "none", gap: 3 }}>
+              <Typography fontSize={14} fontWeight="bold">
+                &#169; {format(new Date(), "yyyy")} Journi R&D LLC. All Rights
+                Reserved.
+              </Typography>
+            </Box>
+
+            {/* Footer Menu */}
+            <Box className="flex-row-start" sx={{ mb: 1 }}>
+              <CustomButton
+                startIcon={<Gavel color="action" />}
+                size="small"
+                className={classes.footerButton}
+              >
+                <Typography variant="caption" color="text.primary">
+                  Legal
+                </Typography>
+              </CustomButton>
+              <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
+              <CustomButton
+                startIcon={<Policy color="action" />}
+                size="small"
+                className={classes.footerButton}
+              >
+                <Typography variant="caption" color="text.primary">
+                  Trust & Privacy
+                </Typography>
+              </CustomButton>
+              <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
+              <CustomButton
+                startIcon={<Cookie color="action" />}
+                size="small"
+                className={classes.footerButton}
+              >
+                <Typography variant="caption" color="text.primary">
+                  Cookie Preferences
+                </Typography>
+              </CustomButton>
+              <Divider orientation="vertical" flexItem sx={{ mx: 1 }} />
+              <CustomButton
+                startIcon={<Accessibility color="action" />}
+                size="small"
+                className={classes.footerButton}
+              >
+                <Typography variant="caption" color="text.primary">
+                  Accessibility
+                </Typography>
+              </CustomButton>
+            </Box>
+          </Box>
+
+          {/* Badges */}
+          <Box className="flex-row" gap={5}>
+            {/* App Store Badge */}
+            <Box className="imgContainer">
+              <Image
+                src="https://firebasestorage.googleapis.com/v0/b/journi-dev.appspot.com/o/projectFiles%2Fapp-store-badge.png?alt=media&token=1717a95c-0de5-4232-8236-df891f76a8c3"
+                className={classes.img}
+                shift="top"
+                distance={footerHeight * 2}
+                height={40}
+              />
+            </Box>
+            {/* Google Play Store Badge */}
+            <Box className="imgContainer">
+              <Image
+                src="https://firebasestorage.googleapis.com/v0/b/journi-dev.appspot.com/o/projectFiles%2Fgoogle-play-badge.png?alt=media&token=f0befc11-0bc4-42a9-8019-5140bc6cf14b"
+                className={classes.img}
+                shift="top"
+                distance={footerHeight * 2}
+                height={40}
+              />
+            </Box>
+          </Box>
+
+          {/* Platforms */}
+          <Box className="flex-row" gap={1}>
+            <Box>
+              <IconButton size="large">
+                <Facebook fontSize="inherit" />
+              </IconButton>
+            </Box>
+
+            <Box>
+              <IconButton size="large">
+                <Instagram fontSize="inherit" />
+              </IconButton>
+            </Box>
+
+            <Box>
+              <IconButton size="large">
+                <Twitter fontSize="inherit" />
+              </IconButton>
+            </Box>
+
+            <Box>
+              <IconButton size="large">
+                <YouTube fontSize="inherit" />
+              </IconButton>
+            </Box>
+
+            <Box>
+              <IconButton size="large">
+                <LinkedIn fontSize="inherit" />
+              </IconButton>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </div>

@@ -4,7 +4,7 @@ import AnimatedNumber from "react-animated-numbers";
 export default function Section2({ classes }) {
   return (
     <Box className={`${classes}`}>
-      <Typography variant="h4" sx={{ m: "0 auto" }}>
+      <Typography variant="h4" align="center">
         What can Journi do?
       </Typography>
 
@@ -33,7 +33,7 @@ export default function Section2({ classes }) {
             %
           </Typography>
           <Typography fontWeight="bold" m="0 auto">
-            increase in reach, year over year
+            lorem ipsum dolor sit amet
           </Typography>
         </Box>
         <Box className="flex-col">
@@ -60,7 +60,7 @@ export default function Section2({ classes }) {
             %
           </Typography>
           <Typography fontWeight="bold" m="0 auto">
-            increase in reach, year over year
+            lorem ipsum dolor sit amet
           </Typography>
         </Box>
         <Box className="flex-col">
@@ -87,7 +87,7 @@ export default function Section2({ classes }) {
             %
           </Typography>
           <Typography fontWeight="bold" m="0 auto">
-            increase in reach, year over year
+            lorem ipsum dolor sit amet
           </Typography>
         </Box>
       </Box>

@@ -1,56 +1,48 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
-import { CustomLargeButton } from "../../../components/ui/CustomComponents";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import NewsTile from "./NewsTile";
 
 export default function Section4({ classes }) {
-  const navigate = useNavigate();
-  const { t } = useTranslation();
+  const [activeTile, setActiveTile] = useState(null);
 
   return (
-    <Box className={classes} sx={{ width: "100%", bgcolor: "#fc6" }}>
-      <Box className="flex-row-space">
-        <Box className="flex-col" sx={{ width: "50%", gap: 2 }}>
-          <Typography variant="h4" color="black">
-            An app and website just for you.
-          </Typography>
-          <Typography color="black">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Scelerisque felis imperdiet proin fermentum leo vel orci. Neque
-            egestas congue quisque egestas.
-          </Typography>
-          <Box className="flex-row-start" gap={3}>
-            <CustomLargeButton
-              variant="contained"
-              color="buttonStatic"
-              disableElevation
-              onClick={() => navigate("/demo")}
-            >
-              <Typography
-                variant="buttonTextLight"
-                fontSize={20}
-                sx={{ mx: 2 }}
-              >
-                {t("getStarted")}
-              </Typography>
-            </CustomLargeButton>
-            <CustomLargeButton
-              variant="outlined"
-              color="buttonStatic"
-              sx={{ border: "1.5px solid" }}
-              disableElevation
-              onClick={() => {}}
-            >
-              <Typography variant="buttonTextDark" fontSize={20} sx={{ mx: 2 }}>
-                Learn more
-              </Typography>
-            </CustomLargeButton>
-          </Box>
-        </Box>
-
-        <Box sx={{ bgcolor: "wheat", width: 500, height: 500 }} />
+    <Box className={`${classes}`}>
+      <Typography variant="h4" align="center" pb={2}>
+        Our local business NEWSreel
+      </Typography>
+      <Box className="flex-row-start">
+        <NewsTile
+          letter="N"
+          label="North Side Notables"
+          tileColor="footer"
+          activeTile={activeTile}
+          setActiveTile={setActiveTile}
+          position="left"
+          borderRadius={50}
+        />
+        <NewsTile
+          letter="E"
+          label="East Side Excellence"
+          tileColor="primary"
+          activeTile={activeTile}
+          setActiveTile={setActiveTile}
+        />
+        <NewsTile
+          letter="W"
+          label="West Side Wonders"
+          tileColor="footer"
+          activeTile={activeTile}
+          setActiveTile={setActiveTile}
+        />
+        <NewsTile
+          letter="S"
+          label="South Side Staples"
+          tileColor="primary"
+          activeTile={activeTile}
+          setActiveTile={setActiveTile}
+          position="right"
+          borderRadius={50}
+        />
       </Box>
     </Box>
   );
