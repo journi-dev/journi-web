@@ -69,5 +69,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://us-central1-journi-dev.cloudfunctions.net/api"
+  "proxy": "https://us-central1-journi-dev.cloudfunctions.net/api",
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  }
 }
