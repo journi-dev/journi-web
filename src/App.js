@@ -39,7 +39,7 @@ const sharedPalette = {
     main: "#fc6",
   },
   secondary: {
-    main: "#001427",
+    main: "#121212",
   },
   tertiary: {
     main: "#ef233c",
@@ -126,6 +126,10 @@ const lightTheme = createTheme({
       fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
       color: "#fff",
     },
+    buttonTextRegular: {
+      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
+      color: "#fff",
+    },
     buttonTextOutlined: {
       fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
       color: "#000",
@@ -146,7 +150,7 @@ const darkTheme = createTheme({
     ...sharedPalette,
     background: {
       default: sharedPalette.secondary.main,
-      // paper: "#fff",
+      paper: "#001122",
     },
     appBar: {
       main: sharedPalette.secondary.main,
@@ -167,7 +171,7 @@ const darkTheme = createTheme({
       main: "#000",
     },
     footer: {
-      main: "#001122",
+      main: "#000",
     },
   },
   typography: {
@@ -178,6 +182,10 @@ const darkTheme = createTheme({
     },
     buttonText: {
       fontFamily: "'avenir_nextbold', 'Arial', 'sans-serif'",
+      color: "#000",
+    },
+    buttonTextRegular: {
+      fontFamily: "'avenir_nextmedium', 'Arial', 'sans-serif'",
       color: "#000",
     },
     buttonTextOutlined: {
@@ -260,10 +268,7 @@ function App() {
                     <Route path="billing" element={<Billing />} />
                     <Route path="develop" element={<Developers />} />
                     <Route path="my-account" element={<MyAccount />} />
-                    <Route
-                      path="platform-settings"
-                      element={<WATSONSettings />}
-                    />
+                    <Route path="platform" element={<WATSONSettings />} />
                     <Route path="help" element={<ComingSoon />} />
                     <Route path="tasks" element={<ComingSoon />} />
                   </Route>

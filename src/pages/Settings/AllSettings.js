@@ -1,5 +1,5 @@
 import { WatsonTabTitle } from "../../utils/WatsonTabTitle";
-import { Box, Typography } from "@mui/material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import {
   AccountCircle,
@@ -11,7 +11,7 @@ import {
   // IntegrationInstructions,
   MenuBook,
   People,
-  Power,
+  // Power,
   Storefront,
   // TaskAlt,
 } from "@mui/icons-material";
@@ -47,70 +47,112 @@ export default function AllSettings() {
   const settingsMenu = [
     {
       text: "Business Info",
-      icon: <Storefront fontSize="small" color="itemButton" />,
+      icon: <Storefront fontSize="inherit" color="itemButton" />,
       path: "/settings/business-info",
+      keywords: [
+        "Business info",
+        "contact info",
+        "external accounts",
+        "business hours",
+        "delivery & shipping",
+      ],
     },
     {
       text: "Menu & Retail",
-      icon: <MenuBook fontSize="small" color="itemButton" />,
+      icon: <MenuBook fontSize="inherit" color="itemButton" />,
       path: "/settings/menu",
+      keywords: [""],
     },
     {
       text: "Users & Patrons",
-      icon: <People fontSize="small" color="itemButton" />,
+      icon: <People fontSize="inherit" color="itemButton" />,
       path: "/settings/users",
+      keywords: [""],
     },
     {
       text: "App & Website",
-      icon: <Devices fontSize="small" color="itemButton" />,
+      icon: <Devices fontSize="inherit" color="itemButton" />,
       path: "/settings/my-app",
+      keywords: [""],
     },
-    {
-      text: "Integrations 🚧",
-      icon: <Power fontSize="small" color="itemButton" />,
-      path: "/settings/integrations",
-    },
+    // {
+    //   text: "Integrations 🚧",
+    //   icon: <Power fontSize="inherit" color="itemButton" />,
+    //   path: "/settings/integrations",
+    //   keywords: [""],
+    // },
     {
       text: "Rewards & Gift Cards",
-      icon: <CardGiftcard fontSize="small" color="itemButton" />,
+      icon: <CardGiftcard fontSize="inherit" color="itemButton" />,
       path: "/settings/gift-cards",
+      keywords: [""],
     },
     {
       text: "Billing",
-      icon: <CreditCard fontSize="small" color="itemButton" />,
+      icon: <CreditCard fontSize="inherit" color="itemButton" />,
       path: "/settings/billing",
+      keywords: [""],
     },
-    /* {
-      text: "Developers 🚧",
-      icon: <IntegrationInstructions fontSize="small" color="itemButton" />,
-      path: "/settings/develop",
-    }, */
+    // {
+    //   text: "Developers 🚧",
+    //   icon: <IntegrationInstructions fontSize="inherit" color="itemButton" />,
+    //   path: "/settings/develop",
+    //   keywords: [""],
+    // },
     {
       text: "Platform Settings",
-      icon: <DisplaySettings fontSize="small" color="itemButton" />,
-      path: "/settings/platform-settings",
+      icon: <DisplaySettings fontSize="inherit" color="itemButton" />,
+      path: "/settings/platform",
+      keywords: [""],
     },
-    /* {
-      text: "Get Support 🚧",
-      icon: <Help fontSize="small" color="itemButton" />,
-      path: "/settings/help",
-    }, */
-    /* {
-      text: "Tasks 🚧",
-      icon: <TaskAlt fontSize="small" color="itemButton" />,
-      path: "/settings/tasks",
-    }, */
+    // {
+    //   text: "Get Support 🚧",
+    //   icon: <Help fontSize="inherit" color="itemButton" />,
+    //   path: "/settings/help",
+    //   keywords: [""],
+    // },
+    // {
+    //   text: "Tasks 🚧",
+    //   icon: <TaskAlt fontSize="inherit" color="itemButton" />,
+    //   path: "/settings/tasks",
+    //   keywords: [""],
+    // },
     {
       text: "My Account",
-      icon: <AccountCircle fontSize="small" color="itemButton" />,
+      icon: <AccountCircle fontSize="inherit" color="itemButton" />,
       path: "/settings/my-account",
+      keywords: [""],
     },
   ];
 
   return (
     <Box className="flex-row-space">
       <Box className={classes.root}>
-        <Outlet />
+        {location.pathname === "/settings" ? (
+          <Box>
+            <Typography variant="h4" pb={2}>
+              Settings
+            </Typography>
+            <Box className="flex-row">
+              <Grid container spacing={3}>
+                {settingsMenu.map((item, i) => (
+                  <Grid key={i} item xs={12} sm={6} md={3}>
+                    <Link to={item.path} className={classes.menuLink}>
+                      <Paper sx={{ p: 2, height: 150 }}>
+                        <Typography variant="h5" pb={1}>
+                          {item.icon} {item.text}
+                        </Typography>
+                        <Typography color="text.secondary">{item.keywords.join(", ")}</Typography>
+                      </Paper>
+                    </Link>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </Box>
+        ) : (
+          <Outlet />
+        )}
       </Box>
       <Box className="menu" sx={{ mx: 2, width: 150 }}>
         <StickyBox offsetTop={75}>
@@ -123,7 +165,7 @@ export default function AllSettings() {
             {t("settings")}
           </Typography>
           {settingsMenu.map((item) => (
-            <Link to={item.path} className={classes.menuLink}>
+            <Link key={item.path} to={item.path} className={classes.menuLink}>
               <Box
                 className={`flex-row-start ${
                   location.pathname === item.path

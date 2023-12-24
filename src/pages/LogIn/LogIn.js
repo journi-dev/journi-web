@@ -91,7 +91,7 @@ export default function LogIn() {
   };
 
   return (
-    <div className={classes.root}>
+    <Box p={5} className={classes.root}>
       <Paper className={classes.marginAutoItem} sx={{ width: 500, m: 2, p: 2 }}>
         <Typography variant="h5" sx={{ my: 2 }}>
           {t("logIn")}
@@ -99,6 +99,7 @@ export default function LogIn() {
         <form noValidate onSubmit={handleEmailLogin}>
           <Box className="flex-col">
             <TextField
+              variant="outlined"
               id="email"
               name="email"
               type="email"
@@ -113,6 +114,7 @@ export default function LogIn() {
               autoCapitalize="off"
             />
             <TextField
+              variant="outlined"
               id="password"
               name="password"
               type="password"
@@ -133,44 +135,49 @@ export default function LogIn() {
             <CustomLoadingButton
               type="submit"
               variant="contained"
+              color="button"
               disableElevation
               loading={isLoading}
-              sx={{ borderRadius: 25, my: 2, width: 100, mx: "auto" }}
+              sx={{ my: 2, width: 100, mx: "auto" }}
               disabled={email === "" || password === ""}
             >
-              {t("logIn")}
+              <Typography variant="buttonText">{t("logIn")}</Typography>
             </CustomLoadingButton>
 
             <Divider>
               <Typography>or</Typography>
             </Divider>
-            <Box className="flex-row" sx={{ my: 2 }}>
+            <Box className="flex-row" sx={{ gap: 2, my: 2 }}>
               <CustomButton
+                variant="contained"
+                color="button"
+                disableElevation
                 onClick={handleGoogleLogin}
                 sx={{
-                  bgcolor: "background.default",
-                  color: "text.primary",
-                  mr: 1,
                   py: 1,
                   px: 2,
                 }}
                 startIcon={<GoogleLogo />}
               >
-                Sign in with Google
+                <Typography variant="buttonTextRegular">
+                  Sign in with Google
+                </Typography>
               </CustomButton>
 
               <CustomButton
+                variant="contained"
+                color="button"
+                disableElevation
                 // onClick={handleGoogleLogin}
                 sx={{
-                  bgcolor: "background.default",
-                  color: "text.primary",
-                  ml: 1,
                   py: 1,
                   px: 2,
                 }}
                 startIcon={<MicrosoftLogo />}
               >
-                Sign in with Microsoft
+                <Typography variant="buttonTextRegular">
+                  Sign in with Microsoft
+                </Typography>
               </CustomButton>
             </Box>
             <Link to="/forgot-password" className={classes.link}>
@@ -183,6 +190,6 @@ export default function LogIn() {
           </Box>
         </form>
       </Paper>
-    </div>
+    </Box>
   );
 }

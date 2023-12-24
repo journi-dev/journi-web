@@ -1,9 +1,5 @@
 const { initializeApp } = require("firebase/app");
-const {
-  getAuth,
-  signInWithEmailAndPassword,
-  sendEmailVerification,
-} = require("firebase/auth");
+const { getAuth, signInWithEmailAndPassword } = require("firebase/auth");
 const { adminAuth, db, admin } = require("../util/admin");
 const config = require("../util/config");
 const {
@@ -13,7 +9,7 @@ const {
 } = require("../util/validators");
 const firebaseApp = initializeApp(config);
 const firebaseAuth = getAuth(firebaseApp);
-const ejs = require("ejs");
+const postmark = require("postmark");
 
 const generateSequence = (length) => {
   let string = "";
@@ -177,33 +173,20 @@ exports.createUser = (req, res) => {
         newUser.password
       );
     })
-    .then(async (data) => {
-      const actionCodeSettings = {
-        url: newUser.redirectUrl, // URL you want to be redirected to after email verification
-      };
-
-      try {
-        const actionLink = await firebaseAuth.generateEmailVerificationLink(
-          newUser.email,
-          actionCodeSettings
-        );
-        const template = await ejs.renderFile("../html/verifyEmail.ejs", {
-          actionLink,
-          randomNumber: Math.random(),
-        });
-        sendEmailVerification(data.user);
-        res.status(200).json({ message: "Email successfully sent" });
-        return data.user.getIdToken();
-      } catch (error) {
-        const message = error.message;
-        if (error.code === "auth/user-not-found")
-          return res.status(404).json({ message });
-        if (error.code === "auth/invalid-continue-uri")
-          return res.status(401).json({ message });
-        res.status(500).json({ message });
-      }
-    })
     .then((token) => {
+      const client = new postmark.ServerClient(
+        "43939236-dc23-4859-b2b2-9a8ff052237a"
+      );
+
+      client.sendEmail({
+        From: "jamal@journi.dev",
+        To: "jamal@journi.dev",
+        Subject: "Hello from Postmark",
+        HtmlBody: "<strong>Hello</strong> dear Postmark user.",
+        TextBody: "Hello from Postmark!",
+        MessageStream: "outbound",
+      });
+
       return res.status(201).json({ token });
     })
     .catch((err) => {

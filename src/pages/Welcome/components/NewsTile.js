@@ -33,12 +33,7 @@ export default function NewsTile({
         <Typography variant="h1" align="center">
           {letter}
         </Typography>
-        {activeTile === letter && (
-          <Typography variant="h4" align="center">
-            {label}
-          </Typography>
-        )}
-        {!activeTile && (
+        {(activeTile === letter || !activeTile) && (
           <Typography variant="h5" align="center">
             {label}
           </Typography>
