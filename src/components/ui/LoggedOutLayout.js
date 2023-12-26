@@ -181,7 +181,7 @@ export default function LoggedOutLayout() {
             variant={"contained"}
             color={isDark ? "button" : "secondary"}
             disableElevation
-            onClick={() => navigate("/demo")}
+            onClick={() => navigate("/getting-started")}
           >
             <Typography variant="buttonText">{t("getStarted")}</Typography>
           </CustomButton>

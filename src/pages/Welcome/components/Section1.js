@@ -45,7 +45,7 @@ export default function Section1({ classes }) {
             variant={"contained"}
             color={isDark ? "button" : "secondary"}
             disableElevation
-            onClick={() => navigate("/demo")}
+            onClick={() => navigate("/getting-started")}
           >
             <Typography variant="buttonText" fontSize={20} sx={{ mx: 2 }}>
               {t("getStarted")}

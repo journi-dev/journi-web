@@ -16,7 +16,7 @@ import Products from "./pages/Products/Products";
 import Pricing from "./pages/Pricing/Pricing";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import LogIn from "./pages/LogIn/LogIn";
-import Demo from "./pages/Demo/Demo";
+import GetStarted from "./pages/GetStarted/GetStarted";
 import Layout from "./components/ui/Layout";
 import { setAuthenticated } from "./context/features/User";
 import BusinessInfo from "./pages/Settings/BusinessInfo/BusinessInfo";
@@ -247,7 +247,7 @@ function App() {
                 <Route path="pricing" element={<Pricing />} />
                 <Route path="about" element={<AboutUs />} />
                 <Route path="login" element={<LogIn />} />
-                <Route path="demo" element={<Demo />} />
+                <Route path="getting-started" element={<GetStarted />} />
 
                 {/* Protected Routes */}
                 <Route element={<RequireAuth />}>

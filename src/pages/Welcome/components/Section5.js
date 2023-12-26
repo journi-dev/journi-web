@@ -27,7 +27,7 @@ export default function Section5({ classes }) {
               variant="contained"
               color="buttonStatic"
               disableElevation
-              onClick={() => navigate("/demo")}
+              onClick={() => navigate("/getting-started")}
             >
               <Typography
                 variant="buttonTextLight"

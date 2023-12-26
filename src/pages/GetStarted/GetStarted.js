@@ -9,8 +9,8 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { isEmail } from "../../utils/Helpers";
 
-export default function Demo() {
-  JourniTabTitle("Demo");
+export default function GetStarted() {
+  JourniTabTitle("getStarted");
 
   const isLoading = useSelector((state) => state.user.isLoading);
   const isDark = useSelector((state) => state.appearance.isDark);
