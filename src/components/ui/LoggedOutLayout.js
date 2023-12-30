@@ -13,9 +13,9 @@ const useStyles = makeStyles()((theme) => {
       display: "flex",
       flexFlow: "column",
       width: "100%",
-      minHeight: "100vh",
     },
     pageContent: {
+      minHeight: "100vh",
       // padding: theme.spacing(5),
       flex: "1 1 auto",
       height: "auto",
