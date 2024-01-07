@@ -103,94 +103,99 @@ export const Step3 = () => {
         </FormControl>
       </Box>
       {/* Multi-unit Info */}
-      {/* Location Count */}
-      <Box className="flex-row-space" sx={{ gap: 2, alignItems: "center" }}>
-        <Typography>How many locations does your company have?</Typography>
-        <TextField
-          id="locations"
-          name="locations"
-          type="number"
-          label="Locations"
-          value={locationCount}
-          onChange={(e) => {
-            const val = parseInt(e.target.value);
-            setLocationCount(
-              Math.max(orgType === "Multi-unit restaurant/group" ? 2 : 1, val)
-            );
-          }}
-        />
-      </Box>
-      {/* App/website per location? */}
-      <Box className="flex-row-space" sx={{ gap: 2, alignItems: "center" }}>
-        <FormControl>
-          <FormLabel id="multi-unit-app-type-label">
-            Do you want an app/website per location?
-          </FormLabel>
-          <RadioGroup
-            aria-labelledby="multi-unit-app-type-label"
-            defaultValue="no"
-            name="multi-unit-app-type-buttons-group"
-          >
-            <FormControlLabel
-              value="no"
-              control={<Radio />}
-              label={
-                <Box className="flex-row" sx={{ gap: 2, alignItems: "center" }}>
-                  <Typography>
-                    No, I want a single app/website for all of my locations.
-                  </Typography>
-                  <Paper
-                    variant="outlined"
-                    sx={{
-                      bgcolor: isDark ? green["900"] : green["100"],
-                      px: 0.5,
-                    }}
+      <Box className="flex-col" sx={{ gap: 1 }}>
+        {/* Location Count */}
+        <Box className="flex-row-space" sx={{ gap: 2, alignItems: "center" }}>
+          <Typography>How many locations does your company have?</Typography>
+          <TextField
+            id="locations"
+            name="locations"
+            type="number"
+            label="Locations"
+            value={locationCount}
+            onChange={(e) => {
+              const val = parseInt(e.target.value);
+              setLocationCount(
+                Math.max(orgType === "Multi-unit restaurant/group" ? 2 : 1, val)
+              );
+            }}
+          />
+        </Box>
+        {/* App/website per location? */}
+        <Box className="flex-row-space" sx={{ gap: 2, alignItems: "center" }}>
+          <FormControl>
+            <FormLabel id="multi-unit-app-type-label">
+              Do you want an app/website per location?
+            </FormLabel>
+            <RadioGroup
+              aria-labelledby="multi-unit-app-type-label"
+              defaultValue="no"
+              name="multi-unit-app-type-buttons-group"
+            >
+              <FormControlLabel
+                value="no"
+                control={<Radio />}
+                label={
+                  <Box
+                    className="flex-row"
+                    sx={{ gap: 2, alignItems: "center" }}
                   >
-                    <Typography variant="caption">Recommended</Typography>
-                  </Paper>
-                </Box>
-              }
-            />
-            <FormControlLabel
-              value="yes"
-              control={<Radio />}
-              label={
-                <Box
-                  className="flex-row"
-                  sx={{
-                    gap: 2,
-                  }}
-                >
-                  <Typography>
-                    Yes, I want a standalone app/website for
-                    {locationCount === 1 ? "" : " each of"} my {locationCount}{" "}
-                    location{locationCount === 1 ? "" : "s"}.
-                  </Typography>
-                  <Box>
+                    <Typography>
+                      No, I want a single app/website for all of my locations.
+                    </Typography>
                     <Paper
                       variant="outlined"
-                      className="flex-row"
                       sx={{
-                        bgcolor: isDark ? grey["900"] : yellow["100"],
-                        borderColor: yellow["A700"],
-                        py: 0.5,
-                        gap: 1,
-                        width: "200px",
+                        bgcolor: isDark ? green["900"] : green["100"],
+                        px: 0.5,
                       }}
                     >
-                      <WarningRounded
-                        sx={{ color: yellow["A700"], fontSize: 18 }}
-                      />
-                      <Typography variant="caption">
-                        Note: This may affect pricing.
-                      </Typography>
+                      <Typography variant="caption">Recommended</Typography>
                     </Paper>
                   </Box>
-                </Box>
-              }
-            />
-          </RadioGroup>
-        </FormControl>
+                }
+              />
+              <FormControlLabel
+                value="yes"
+                control={<Radio />}
+                label={
+                  <Box
+                    className="flex-row"
+                    sx={{
+                      gap: 2,
+                    }}
+                  >
+                    <Typography>
+                      Yes, I want a standalone app/website for
+                      {locationCount === 1 ? "" : " each of"} my {locationCount}{" "}
+                      location{locationCount === 1 ? "" : "s"}.
+                    </Typography>
+                    <Box>
+                      <Paper
+                        variant="outlined"
+                        className="flex-row"
+                        sx={{
+                          bgcolor: isDark ? grey["900"] : yellow["100"],
+                          borderColor: yellow["A700"],
+                          py: 0.5,
+                          gap: 1,
+                          width: "200px",
+                        }}
+                      >
+                        <WarningRounded
+                          sx={{ color: yellow["A700"], fontSize: 18 }}
+                        />
+                        <Typography variant="caption">
+                          Note: This affects final pricing.
+                        </Typography>
+                      </Paper>
+                    </Box>
+                  </Box>
+                }
+              />
+            </RadioGroup>
+          </FormControl>
+        </Box>
       </Box>
       <Typography variant="caption" color="text.secondary">
         By clicking "Get started", you agree to receive recurring advertising
