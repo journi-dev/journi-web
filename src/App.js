@@ -150,7 +150,8 @@ const darkTheme = createTheme({
     ...sharedPalette,
     background: {
       default: sharedPalette.secondary.main,
-      paper: "#001122",
+      // paper: "#001122",
+      paper: "#121212",
     },
     appBar: {
       main: sharedPalette.secondary.main,

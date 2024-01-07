@@ -1,3 +1,26 @@
+import {
+  BakeryDining,
+  Business,
+  DinnerDining,
+  DirectionsCar,
+  Fastfood,
+  Flatware,
+  FoodBank,
+  Icecream,
+  Kitchen,
+  Liquor,
+  LocalCafe,
+  LocalDining,
+  LocalPizza,
+  LocalShipping,
+  Luggage,
+  LunchDining,
+  Nightlife,
+  RoomService,
+  SportsBar,
+  WineBar,
+} from "@mui/icons-material";
+
 /**
  *
  * @param {*} arr e
@@ -269,3 +292,26 @@ export const modalStyle = {
   transform: "translate(-50%, -50%)",
   boxShadow: 24,
 };
+
+export const businessCategories = [
+  { icon: <BakeryDining />, name: "Bakery" },
+  { icon: <Liquor />, name: "Bar" },
+  { icon: <SportsBar />, name: "Brewery" },
+  { icon: <Flatware />, name: "Buffet" },
+  { icon: <LocalCafe />, name: "Cafe" },
+  { icon: <Nightlife />, name: "Club & Nightlife" },
+  { icon: <Icecream />, name: "Dessert shop" },
+  { icon: <DirectionsCar />, name: "Drive-In" },
+  { icon: <LunchDining />, name: "Fast casual restaurant" },
+  { icon: <Fastfood />, name: "Fast food" },
+  { icon: <DinnerDining />, name: "Fine dining" },
+  { icon: <FoodBank />, name: "Food hall" },
+  { icon: <LocalShipping />, name: "Food truck" },
+  { icon: <Kitchen />, name: "Ghost kitchen" },
+  { icon: <Luggage />, name: "Hotel restaurant" },
+  { icon: <Business />, name: "Multi-unit restaurant/group" },
+  { icon: <LocalDining />, name: "Neighborhood spot" },
+  { icon: <LocalPizza />, name: "Pizzeria" },
+  { icon: <RoomService />, name: "Private chef" },
+  { icon: <WineBar />, name: "Winery" },
+];
