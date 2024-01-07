@@ -6,6 +6,7 @@ import { Step1 } from "./components/Step1";
 import { Step2 } from "./components/Step2";
 import { Step3 } from "./components/Step3";
 import Carousel from "./components/Carousel";
+import { useRef } from "react";
 
 export default function GetStarted() {
   JourniTabTitle("getStarted");
@@ -18,21 +19,32 @@ export default function GetStarted() {
   };
   const steps = [
     {
-      component: <Step1 />,
+      component: <Step1 disabled={step !== 0} />,
       icon: require("../../assets/images/svg/getting-started-step-1.svg"),
       alt: "",
+      height: 300,
     },
     {
-      component: <Step2 />,
+      component: <Step2 disabled={step !== 1} />,
       icon: require("../../assets/images/svg/getting-started-step-2.svg"),
       alt: "",
+      height: 300,
     },
     {
-      component: <Step3 />,
+      component: <Step3 disabled={step !== 2} />,
       icon: require("../../assets/images/svg/getting-started-step-3.svg"),
       alt: "",
+      height: 600,
+      // height: 400,
     },
   ];
+  const carousel = useRef(null);
+  const scrollToSection = (elementRef) => {
+    window.scrollTo({
+      top: elementRef.current.offsetTop - 85,
+      behavior: "smooth",
+    });
+  };
 
   // const cannotAddUser =
   //   firstName === "" ||
@@ -50,13 +62,15 @@ export default function GetStarted() {
         Complete 3 steps in 3 minutes.
       </Typography>
 
-      <Box className="flex-row" sx={{ gap: 5 }}>
+      <Box className="flex-row" sx={{ gap: 5, alignItems: "center" }}>
         <Box
           className="flex-col"
           sx={{ width: "50%", height: "100%", alignItems: "center", gap: 2 }}
         >
           {/* Carousel */}
-          <Carousel steps={steps} step={step} />
+          <div ref={carousel} style={{ width: "100%" }}>
+            <Carousel steps={steps} step={step} />
+          </div>
 
           {/* Buttons */}
           <Box
@@ -65,7 +79,12 @@ export default function GetStarted() {
           >
             {/* Left Arrow */}
             <Box>
-              <IconButton onClick={() => updateStep(step - 1)}>
+              <IconButton
+                onClick={() => {
+                  scrollToSection(carousel);
+                  updateStep(step - 1);
+                }}
+              >
                 <ChevronLeft fontSize="inherit" />
               </IconButton>
             </Box>
@@ -73,7 +92,13 @@ export default function GetStarted() {
             {/* Indicators */}
             <Box className="flex-row" gap={1}>
               {steps.map((_, i) => (
-                <ButtonBase key={i} onClick={() => updateStep(i)}>
+                <ButtonBase
+                  key={i}
+                  onClick={() => {
+                    scrollToSection(carousel);
+                    updateStep(i);
+                  }}
+                >
                   <Box
                     sx={{
                       width: i === step ? 25 : 7,
@@ -89,7 +114,12 @@ export default function GetStarted() {
 
             {/* Right Arrow */}
             <Box>
-              <IconButton onClick={() => updateStep(step + 1)}>
+              <IconButton
+                onClick={() => {
+                  scrollToSection(carousel);
+                  updateStep(step + 1);
+                }}
+              >
                 <ChevronRight fontSize="inherit" />
               </IconButton>
             </Box>
@@ -101,8 +131,10 @@ export default function GetStarted() {
           alt={steps[step].alt}
           style={{
             width: "50%",
+            height: `${steps[step].height}px`,
             objectFit: "contain",
             userSelect: "none",
+            transition: "height 0.5s ease-in-out",
           }}
         />
       </Box>

@@ -274,6 +274,14 @@ export function generateTempPassword() {
   }
 }
 
+export function findIndex(arr, key, value) {
+  for (let i = 0; i < arr.length; i++) {
+    const obj = arr[i];
+    if (obj[key] === value) return i;
+  }
+  return -1;
+}
+
 export const usdFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",

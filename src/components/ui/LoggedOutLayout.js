@@ -28,9 +28,6 @@ const useStyles = makeStyles()((theme) => {
       background: theme.palette.mode === "dark" ? "#574523" : "#FFF2D8",
       borderRadius: "10px",
     },
-    title: {
-      padding: theme.spacing(2),
-    },
     test: {
       border: (note) => {
         if (note.category === "work") return "1px solid red"; // In order to use this properly, do const { classes } = useStyles(note);
@@ -38,6 +35,7 @@ const useStyles = makeStyles()((theme) => {
     },
     appBar: {
       width: "100%",
+      // height: 25
       // flex: "0 1 auto",
     },
     toolbar: theme.mixins.toolbar,
@@ -98,9 +96,8 @@ export default function LoggedOutLayout() {
         className={classes.appBar}
         color="appBar"
         elevation={0}
-        sx={{ py: 0 }}
       >
-        <Toolbar>
+        <Toolbar variant="dense">
           {/* Logo */}
           <Link className={classes.appBarLeft} to="/">
             <Box

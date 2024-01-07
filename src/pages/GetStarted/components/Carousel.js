@@ -5,9 +5,7 @@ export default function Carousel({ steps, step }) {
     <Paper
       sx={{
         width: "100%",
-        height: "90%",
         overflowX: "hidden",
-        overflowY: "scroll",
       }}
     >
       <Box className="flex-col">
@@ -15,8 +13,9 @@ export default function Carousel({ steps, step }) {
           className="flex-row"
           sx={{
             width: `${100 * steps.length}%`,
+            height: `${steps[step].height}px`,
             transform: `translate(-${(step * 100) / 3}%)`,
-            transition: "transform 0.5s",
+            transition: "all 0.5s ease-in-out",
           }}
         >
           {steps.map((item) => item.component)}

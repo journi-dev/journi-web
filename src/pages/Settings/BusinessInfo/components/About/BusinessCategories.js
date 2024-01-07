@@ -11,7 +11,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { businessCategories, updateArray } from "../../../../../utils/Helpers";
+import {
+  businessCategories,
+  findIndex,
+  updateArray,
+} from "../../../../../utils/Helpers";
 
 export default function BusinessCategories() {
   const ITEM_HEIGHT = 48;
@@ -27,14 +31,6 @@ export default function BusinessCategories() {
 
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [isEditBCActive, setIsEditBCActive] = useState(false);
-
-  function findIndex(arr, key, value) {
-    for (let i = 0; i < arr.length; i++) {
-      const obj = arr[i];
-      if (obj[key] === value) return i;
-    }
-    return -1;
-  }
 
   function handleChange(e) {
     setSelectedCategories(

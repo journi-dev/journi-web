@@ -14,7 +14,7 @@ import axios from "axios";
 import { isEmail } from "../../../utils/Helpers";
 import { MuiTelInput } from "mui-tel-input";
 
-export const Step1 = () => {
+export const Step1 = ({ disabled }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("+1");
@@ -55,114 +55,128 @@ export const Step1 = () => {
   }, [email]);
 
   return (
-    <Box
-      className="flex-col"
-      sx={{ p: 2, gap: 2, width: "100%", height: "100%" }}
-    >
-      {/* Label */}
-      <Typography variant="h5" component="h3">
-        First, tell us about you.
-      </Typography>
+    <Box sx={{ width: "100%" }}>
+      {/* Container to hide elements if the user is not on that step. */}
+      {!disabled && (
+        <Box className="flex-col" sx={{ p: 2, gap: 2 }}>
+          {/* Label */}
+          <Typography variant="h5" component="h3">
+            First, tell us about you.
+          </Typography>
 
-      {/* First and Last Name */}
-      <Box className="flex-row" sx={{ gap: 2 }}>
-        <TextField
-          id="first-name"
-          name="first-name"
-          type="text"
-          label="First Name"
-          // helperText={errors.email || ""}
-          // error={Boolean(errors.email)}
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          fullWidth
-          autoComplete="given-name"
-          autoCapitalize="words"
-        />
-        <TextField
-          id="last-name"
-          name="last-name"
-          type="text"
-          label="Last Name"
-          // helperText={errors.email || ""}
-          // error={Boolean(errors.email)}
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          fullWidth
-          autoComplete="family-name"
-          autoCapitalize="words"
-        />
-      </Box>
+          {/* First and Last Name */}
+          <Box className="flex-row" sx={{ gap: 2 }}>
+            <TextField
+              id="first-name"
+              name="first-name"
+              type="text"
+              label="First Name"
+              // helperText={errors.email || ""}
+              // error={Boolean(errors.email)}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              fullWidth
+              autoComplete="given-name"
+              autoCapitalize="words"
+              required
+              disabled={disabled}
+            />
+            <TextField
+              id="last-name"
+              name="last-name"
+              type="text"
+              label="Last Name"
+              // helperText={errors.email || ""}
+              // error={Boolean(errors.email)}
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              fullWidth
+              autoComplete="family-name"
+              autoCapitalize="words"
+              required
+              disabled={disabled}
+            />
+          </Box>
 
-      {/* Phone & Email */}
-      <Box className="flex-row" sx={{ gap: 2 }}>
-        <MuiTelInput
-          id="phone"
-          name="phone"
-          label="Phone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          fullWidth
-          autoComplete="tel"
-        />
-        <TextField
-          id="email"
-          name="email"
-          type="email"
-          label="Email"
-          error={email !== "" && !isValidEmail}
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          fullWidth
-          autoComplete="email"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                {email !== "" && loadEmails && (
-                  <CheckCircle sx={{ opacity: 0 }} />
-                )}
-                {email !== "" && !loadEmails && isValidEmail && <CheckCircle />}
-                {email !== "" && !loadEmails && !isValidEmail && <Cancel />}
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
+          {/* Phone & Email */}
+          <Box className="flex-row" sx={{ gap: 2 }}>
+            <MuiTelInput
+              id="phone"
+              name="phone"
+              label="Phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              fullWidth
+              autoComplete="tel"
+              required
+              disabled={disabled}
+            />
+            <TextField
+              id="email"
+              name="email"
+              type="email"
+              label="Email"
+              error={email !== "" && !isValidEmail}
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              fullWidth
+              autoComplete="email"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {email !== "" && loadEmails && (
+                      <CheckCircle sx={{ opacity: 0 }} />
+                    )}
+                    {email !== "" && !loadEmails && isValidEmail && (
+                      <CheckCircle />
+                    )}
+                    {email !== "" && !loadEmails && !isValidEmail && <Cancel />}
+                  </InputAdornment>
+                ),
+              }}
+              required
+              disabled={disabled}
+            />
+          </Box>
 
-      {/* Title  & Lead Source */}
-      <Box className="flex-row" sx={{ gap: 2 }}>
-        <TextField
-          id="job-title"
-          name="job-title"
-          type="text"
-          label="Job Title"
-          value={jobTitle}
-          onChange={(e) => setJobTitle(e.target.value)}
-          fullWidth
-          autoComplete="organization-title"
-          autoCapitalize="words"
-        />
-        <FormControl fullWidth>
-          <InputLabel id="lead-source-label">
-            How did you hear about us?
-          </InputLabel>
-          <Select
-            labelId="lead-source-label"
-            id="lead-source"
-            value={leadSource}
-            label="How did you hear about us?"
-            onChange={(e) => setLeadSource(e.target.value)}
-          >
-            {leadSourceOptions.map((src) => (
-              <MenuItem key={src} value={src}>
-                {src}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
+          {/* Title  & Lead Source */}
+          <Box className="flex-row" sx={{ gap: 2 }}>
+            <TextField
+              id="job-title"
+              name="job-title"
+              type="text"
+              label="Job Title"
+              value={jobTitle}
+              onChange={(e) => setJobTitle(e.target.value)}
+              fullWidth
+              autoComplete="organization-title"
+              autoCapitalize="words"
+              required
+              disabled={disabled}
+            />
+            <FormControl fullWidth>
+              <InputLabel id="lead-source-label">
+                How did you hear about us?
+              </InputLabel>
+              <Select
+                labelId="lead-source-label"
+                id="lead-source"
+                value={leadSource}
+                label="How did you hear about us?"
+                onChange={(e) => setLeadSource(e.target.value)}
+              >
+                {leadSourceOptions.map((src) => (
+                  <MenuItem key={src} value={src}>
+                    {src}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };
