@@ -209,6 +209,11 @@ body {
   flex-direction: row;
   justify-content: space-between;
 }
+.flex-row-even {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
 
 .margin-auto-container {
   width: auto;
