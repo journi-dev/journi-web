@@ -14,7 +14,7 @@ export default function Carousel({ steps, step }) {
           sx={{
             width: `${100 * steps.length}%`,
             height: `${steps[step].height}px`,
-            transform: `translate(-${(step * 100) / 3}%)`,
+            transform: `translate(-${(step * 100) / steps.length}%)`,
             transition: "all 0.5s ease-in-out",
           }}
         >

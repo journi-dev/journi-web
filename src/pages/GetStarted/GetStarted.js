@@ -8,6 +8,7 @@ import { Step3 } from "./components/Step3";
 import Carousel from "./components/Carousel";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
+import { Step4 } from "./components/Step4";
 
 export default function GetStarted() {
   JourniTabTitle("getStarted");
@@ -37,6 +38,12 @@ export default function GetStarted() {
       alt: "",
       height: 600,
       // height: 400,
+    },
+    {
+      component: <Step4 disabled={step !== 3} />,
+      icon: require("../../assets/images/svg/getting-started-step-4.svg"),
+      alt: "",
+      height: 300,
     },
   ];
   const carousel = useRef(null);
@@ -127,6 +134,8 @@ export default function GetStarted() {
                     isStep1Complete &&
                     isStep2Complete
                   ) {
+                    updateStep(step + 1);
+                  } else {
                     updateStep(step + 1);
                   }
                 }}
