@@ -13,17 +13,27 @@ import {
 import axios from "axios";
 import { isEmail } from "../../../utils/Helpers";
 import { MuiTelInput } from "mui-tel-input";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setEmail,
+  setFirstName,
+  setIsStep1Complete,
+  setJobTitle,
+  setLastName,
+  setLeadSource,
+  setPhone,
+} from "../../../context/features/GetStarted";
 
 export const Step1 = ({ disabled }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("+1");
-  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+  const firstName = useSelector((state) => state.getStarted.firstName);
+  const lastName = useSelector((state) => state.getStarted.lastName);
+  const phone = useSelector((state) => state.getStarted.phone);
+  const email = useSelector((state) => state.getStarted.email);
   const [loadEmails, setLoadEmails] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(null);
-  const [jobTitle, setJobTitle] = useState("");
-  const [leadSource, setLeadSource] = useState("");
-
+  const jobTitle = useSelector((state) => state.getStarted.jobTitle);
+  const leadSource = useSelector((state) => state.getStarted.leadSource);
   const leadSourceOptions = [
     "Internet search",
     "Facebook",
@@ -37,6 +47,12 @@ export const Step1 = ({ disabled }) => {
     "YouTube",
     "Other",
   ];
+  const isStep1Complete =
+    firstName !== "" &&
+    lastName !== "" &&
+    phone.length === 15 &&
+    isValidEmail &&
+    jobTitle !== "";
 
   useEffect(() => {
     const checkCredentials = () => {
@@ -53,6 +69,10 @@ export const Step1 = ({ disabled }) => {
     const timeoutId = setTimeout(() => checkCredentials(), 1000);
     return () => clearTimeout(timeoutId);
   }, [email]);
+
+  useEffect(() => {
+    dispatch(setIsStep1Complete(isStep1Complete));
+  }, [dispatch, isStep1Complete]);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -71,10 +91,10 @@ export const Step1 = ({ disabled }) => {
               name="first-name"
               type="text"
               label="First Name"
-              // helperText={errors.email || ""}
-              // error={Boolean(errors.email)}
+              helperText={firstName === "" && "Please enter your first name."}
+              error={firstName === ""}
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={(e) => dispatch(setFirstName(e.target.value))}
               fullWidth
               autoComplete="given-name"
               autoCapitalize="words"
@@ -86,10 +106,10 @@ export const Step1 = ({ disabled }) => {
               name="last-name"
               type="text"
               label="Last Name"
-              // helperText={errors.email || ""}
-              // error={Boolean(errors.email)}
+              helperText={lastName === "" && "Please enter your last name."}
+              error={lastName === ""}
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) => dispatch(setLastName(e.target.value))}
               fullWidth
               autoComplete="family-name"
               autoCapitalize="words"
@@ -105,7 +125,7 @@ export const Step1 = ({ disabled }) => {
               name="phone"
               label="Phone"
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => dispatch(setPhone(e))}
               fullWidth
               autoComplete="tel"
               required
@@ -117,10 +137,11 @@ export const Step1 = ({ disabled }) => {
               type="email"
               label="Email"
               error={email !== "" && !isValidEmail}
+              helperText={
+                email !== "" && !isValidEmail && "Please enter a valid email."
+              }
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={(e) => dispatch(setEmail(e.target.value))}
               fullWidth
               autoComplete="email"
               InputProps={{
@@ -148,8 +169,10 @@ export const Step1 = ({ disabled }) => {
               name="job-title"
               type="text"
               label="Job Title"
+              helperText={jobTitle === "" && "Please enter your job title."}
+              error={jobTitle === ""}
               value={jobTitle}
-              onChange={(e) => setJobTitle(e.target.value)}
+              onChange={(e) => dispatch(setJobTitle(e.target.value))}
               fullWidth
               autoComplete="organization-title"
               autoCapitalize="words"
@@ -165,7 +188,7 @@ export const Step1 = ({ disabled }) => {
                 id="lead-source"
                 value={leadSource}
                 label="How did you hear about us?"
-                onChange={(e) => setLeadSource(e.target.value)}
+                onChange={(e) => dispatch(setLeadSource(e.target.value))}
               >
                 {leadSourceOptions.map((src) => (
                   <MenuItem key={src} value={src}>

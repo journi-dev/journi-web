@@ -7,6 +7,7 @@ import { Step2 } from "./components/Step2";
 import { Step3 } from "./components/Step3";
 import Carousel from "./components/Carousel";
 import { useRef } from "react";
+import { useSelector } from "react-redux";
 
 export default function GetStarted() {
   JourniTabTitle("getStarted");
@@ -46,14 +47,17 @@ export default function GetStarted() {
     });
   };
 
-  // const cannotAddUser =
-  //   firstName === "" ||
-  //   lastName === "" ||
-  //   loadEmails ||
-  //   !isValidEmail ||
-  //   org === "" ||
-  //   jobTitle === "" ||
-  //   isLoading;
+  const isStep1Complete = useSelector(
+    (state) => state.getStarted.isStep1Complete
+  );
+
+  const isStep2Complete = useSelector(
+    (state) => state.getStarted.isStep2Complete
+  );
+
+  const isStep3Complete = useSelector(
+    (state) => state.getStarted.isStep3Complete
+  );
 
   return (
     <Box className="flex-col" p={5}>
@@ -81,7 +85,6 @@ export default function GetStarted() {
             <Box>
               <IconButton
                 onClick={() => {
-                  scrollToSection(carousel);
                   updateStep(step - 1);
                 }}
               >
@@ -117,8 +120,25 @@ export default function GetStarted() {
               <IconButton
                 onClick={() => {
                   scrollToSection(carousel);
-                  updateStep(step + 1);
+                  if (step + 1 === 1 && isStep1Complete) {
+                    updateStep(step + 1);
+                  } else if (
+                    step + 1 === 2 &&
+                    isStep1Complete &&
+                    isStep2Complete
+                  ) {
+                    updateStep(step + 1);
+                  }
                 }}
+                disabled={
+                  step === 0
+                    ? !isStep1Complete
+                    : step === 1
+                    ? !isStep1Complete || !isStep2Complete
+                    : step === 2
+                    ? !isStep1Complete || !isStep2Complete || !isStep3Complete
+                    : false
+                }
               >
                 <ChevronRight fontSize="inherit" />
               </IconButton>

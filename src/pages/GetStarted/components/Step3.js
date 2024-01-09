@@ -2,36 +2,42 @@ import {
   Box,
   Chip,
   FormControl,
-  FormControlLabel,
-  FormLabel,
   InputLabel,
   MenuItem,
   OutlinedInput,
-  Paper,
-  Radio,
-  RadioGroup,
   Select,
   TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
 import { CustomLoadingButton } from "../../../components/ui/CustomComponents";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   businessCategories,
   findIndex,
   updateArray,
 } from "../../../utils/Helpers";
-import { green, grey, yellow } from "@mui/material/colors";
-import { Cancel, WarningRounded } from "@mui/icons-material";
+import { Cancel } from "@mui/icons-material";
+import {
+  setIsStep3Complete,
+  setLocationCount,
+  setOrgName,
+  setOrgSize,
+  setSelectedCategories,
+} from "../../../context/features/GetStarted";
+import { useEffect } from "react";
 
 export const Step3 = ({ disabled }) => {
+  const dispatch = useDispatch();
+  const firstName = useSelector((state) => state.getStarted.firstName);
   const isLoading = useSelector((state) => state.user.isLoading);
   const isDark = useSelector((state) => state.appearance.isDark);
-  const [org, setOrg] = useState("");
-  const [orgSize, setOrgSize] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [locationCount, setLocationCount] = useState(1);
+  const orgName = useSelector((state) => state.getStarted.orgName);
+  const orgSize = useSelector((state) => state.getStarted.orgSize);
+  const selectedCategories = useSelector(
+    (state) => state.getStarted.selectedCategories
+  );
+  const locationCount = useSelector((state) => state.getStarted.locationCount);
+
   const orgSizes = [
     "1-5 employees",
     "6-10 employees",
@@ -39,6 +45,13 @@ export const Step3 = ({ disabled }) => {
     "26-50 employees",
     "51+ employees",
   ];
+
+  const isStep3Complete =
+    orgName !== "" && orgSize !== "" && selectedCategories.length > 0;
+
+  useEffect(() => {
+    dispatch(setIsStep3Complete(isStep3Complete));
+  }, [dispatch, isStep3Complete]);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -56,8 +69,8 @@ export const Step3 = ({ disabled }) => {
               name="organization"
               type="text"
               label="Company Name"
-              value={org}
-              onChange={(e) => setOrg(e.target.value)}
+              value={orgName}
+              onChange={(e) => dispatch(setOrgName(e.target.value))}
               fullWidth
               autoComplete="organization"
               autoCapitalize="words"
@@ -71,7 +84,7 @@ export const Step3 = ({ disabled }) => {
                 id="org-size"
                 value={orgSize}
                 label="Company Size"
-                onChange={(e) => setOrgSize(e.target.value)}
+                onChange={(e) => dispatch(setOrgSize(e.target.value))}
               >
                 {orgSizes.map((range) => (
                   <MenuItem key={range} value={range}>
@@ -103,9 +116,9 @@ export const Step3 = ({ disabled }) => {
                       ? e.target.value.split(",")
                       : e.target.value;
 
-                  setSelectedCategories(val);
+                  dispatch(setSelectedCategories(val));
                   if (val.indexOf("Multi-unit restaurant/group") > -1) {
-                    setLocationCount(2);
+                    dispatch(setLocationCount(2));
                   }
                 }}
                 input={
@@ -128,8 +141,10 @@ export const Step3 = ({ disabled }) => {
                           <Cancel onMouseDown={(e) => e.stopPropagation()} />
                         }
                         onDelete={() => {
-                          setSelectedCategories(
-                            updateArray(selectedCategories, value)
+                          dispatch(
+                            setSelectedCategories(
+                              updateArray(selectedCategories, value)
+                            )
                           );
                         }}
                       />
@@ -165,14 +180,16 @@ export const Step3 = ({ disabled }) => {
                   value={locationCount}
                   onChange={(e) => {
                     const val = parseInt(e.target.value);
-                    setLocationCount(
-                      Math.max(
-                        selectedCategories.indexOf(
-                          "Multi-unit restaurant/group"
-                        ) > -1
-                          ? 2
-                          : 1,
-                        val
+                    dispatch(
+                      setLocationCount(
+                        Math.max(
+                          selectedCategories.indexOf(
+                            "Multi-unit restaurant/group"
+                          ) > -1
+                            ? 2
+                            : 1,
+                          val
+                        )
                       )
                     );
                   }}
@@ -182,94 +199,6 @@ export const Step3 = ({ disabled }) => {
                   }
                   disabled={disabled}
                 />
-              </Box>
-              {/* App/website per location? */}
-              <Box
-                className="flex-row-space"
-                sx={{ gap: 2, alignItems: "center" }}
-              >
-                <FormControl
-                  required={
-                    selectedCategories.indexOf("Multi-unit restaurant/group") >
-                    -1
-                  }
-                  disabled={disabled}
-                >
-                  <FormLabel id="multi-unit-app-type-label">
-                    Do you want an app/website per location?
-                  </FormLabel>
-                  <RadioGroup
-                    aria-labelledby="multi-unit-app-type-label"
-                    defaultValue="no"
-                    name="multi-unit-app-type-buttons-group"
-                  >
-                    <FormControlLabel
-                      value="no"
-                      control={<Radio />}
-                      label={
-                        <Box
-                          className="flex-row"
-                          sx={{ gap: 2, alignItems: "center" }}
-                        >
-                          <Typography>
-                            No, I want a single app/website for all of my
-                            locations.
-                          </Typography>
-                          <Paper
-                            variant="outlined"
-                            sx={{
-                              bgcolor: isDark ? green["900"] : green["100"],
-                              px: 0.5,
-                            }}
-                          >
-                            <Typography variant="caption">
-                              Recommended
-                            </Typography>
-                          </Paper>
-                        </Box>
-                      }
-                    />
-                    <FormControlLabel
-                      value="yes"
-                      control={<Radio />}
-                      label={
-                        <Box
-                          className="flex-row"
-                          sx={{
-                            gap: 2,
-                          }}
-                        >
-                          <Typography>
-                            Yes, I want a standalone app/website for
-                            {locationCount === 1 ? "" : " each of"} my{" "}
-                            {locationCount} location
-                            {locationCount === 1 ? "" : "s"}.
-                          </Typography>
-                          <Box>
-                            <Paper
-                              variant="outlined"
-                              className="flex-row"
-                              sx={{
-                                bgcolor: isDark ? grey["900"] : yellow["100"],
-                                borderColor: yellow["A700"],
-                                py: 0.5,
-                                gap: 1,
-                                width: "200px",
-                              }}
-                            >
-                              <WarningRounded
-                                sx={{ color: yellow["A700"], fontSize: 18 }}
-                              />
-                              <Typography variant="caption">
-                                Note: This affects final pricing.
-                              </Typography>
-                            </Paper>
-                          </Box>
-                        </Box>
-                      }
-                    />
-                  </RadioGroup>
-                </FormControl>
               </Box>
             </Box>
           )}
@@ -289,12 +218,11 @@ export const Step3 = ({ disabled }) => {
               color={isDark ? "button" : "secondary"}
               disableElevation
               onClick={() => {}}
-              // disabled={cannotAddUser}
+              disabled={!isStep3Complete}
               loading={isLoading}
             >
               <Typography variant="buttonText">
-                Get started
-                {/* Get started{cannotAddUser ? "" : `, ${firstName}`} */}
+                Get started{!isStep3Complete ? "" : `, ${firstName}.`}
               </Typography>
             </CustomLoadingButton>
           </Box>

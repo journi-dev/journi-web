@@ -8,14 +8,33 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
 import { CustomButton } from "../../../components/ui/CustomComponents";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setHasApp,
+  setHasWeb,
+  setIsRequestingMarketing,
+  setIsStep2Complete,
+  setSelectedPlatforms,
+} from "../../../context/features/GetStarted";
+import { useEffect } from "react";
 
 export const Step2 = ({ disabled }) => {
-  const [selectedPlatforms, setSelectedPlatforms] = useState([]);
-  const [hasApp, setHasApp] = useState(null);
-  const [hasWeb, setHasWeb] = useState(null);
-  const [isRequestingMarketing, setIsRequestingMarketing] = useState(null);
+  const dispatch = useDispatch();
+  const selectedPlatforms = useSelector(
+    (state) => state.getStarted.selectedPlatforms
+  );
+  const hasApp = useSelector((state) => state.getStarted.hasApp);
+  const hasWeb = useSelector((state) => state.getStarted.hasWeb);
+  const isRequestingMarketing = useSelector(
+    (state) => state.getStarted.isRequestingMarketing
+  );
+
+  const isStep2Complete =
+    selectedPlatforms.length > 0 &&
+    hasApp !== "" &&
+    hasWeb !== "" &&
+    isRequestingMarketing !== "";
 
   const platforms = ["App", "Website"];
   const yesOrNo = ["Yes", "No"];
@@ -24,7 +43,7 @@ export const Step2 = ({ disabled }) => {
       <CustomButton
         key={option}
         variant={hasApp === option ? "contained" : "outlined"}
-        onClick={() => setHasApp(option)}
+        onClick={() => dispatch(setHasApp(option))}
       >
         {option}
       </CustomButton>
@@ -35,7 +54,7 @@ export const Step2 = ({ disabled }) => {
       <CustomButton
         key={option}
         variant={hasWeb === option ? "contained" : "outlined"}
-        onClick={() => setHasWeb(option)}
+        onClick={() => dispatch(setHasWeb(option))}
       >
         {option}
       </CustomButton>
@@ -46,12 +65,16 @@ export const Step2 = ({ disabled }) => {
       <CustomButton
         key={option}
         variant={isRequestingMarketing === option ? "contained" : "outlined"}
-        onClick={() => setIsRequestingMarketing(option)}
+        onClick={() => dispatch(setIsRequestingMarketing(option))}
       >
         {option}
       </CustomButton>
     )),
   ];
+
+  useEffect(() => {
+    dispatch(setIsStep2Complete(isStep2Complete));
+  }, [dispatch, isStep2Complete]);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -88,10 +111,12 @@ export const Step2 = ({ disabled }) => {
                 multiple
                 value={selectedPlatforms}
                 onChange={(e) =>
-                  setSelectedPlatforms(
-                    typeof e.target.value === "string"
-                      ? e.target.value.split(",")
-                      : e.target.value
+                  dispatch(
+                    setSelectedPlatforms(
+                      typeof e.target.value === "string"
+                        ? e.target.value.split(",")
+                        : e.target.value
+                    )
                   )
                 }
                 renderValue={(selected) => selected.join(" and ").toLowerCase()}

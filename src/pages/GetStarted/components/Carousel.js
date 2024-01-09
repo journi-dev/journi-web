@@ -25,8 +25,9 @@ export default function Carousel({ steps, step }) {
         <Box
           bgcolor="primary.main"
           sx={{
-            borderRadius: step / steps.length === 1 ? "0" : "0 10px 10px 0",
-            width: `${Math.round((step / steps.length) * 100)}%`,
+            borderRadius:
+              step / (steps.length - 1) === 1 ? "0" : "0 10px 10px 0",
+            width: `${Math.round((step / (steps.length - 1)) * 100)}%`,
             height: "7px",
             transition: "width 0.5s",
           }}
