@@ -10,6 +10,7 @@ const {
 const firebaseApp = initializeApp(config);
 const firebaseAuth = getAuth(firebaseApp);
 const postmark = require("postmark");
+const ejs = require("ejs");
 
 const generateSequence = (length) => {
   let string = "";
@@ -178,14 +179,24 @@ exports.createUser = (req, res) => {
         "43939236-dc23-4859-b2b2-9a8ff052237a"
       );
 
-      client.sendEmail({
-        From: "jamal@journi.dev",
-        To: "jamal@journi.dev",
-        Subject: "Hello from Postmark",
-        HtmlBody: "<strong>Hello</strong> dear Postmark user.",
-        TextBody: "Hello from Postmark!",
-        MessageStream: "outbound",
-      });
+      const HtmlBody = ejs.render(
+        // "../emails/verifyEmail.ejs",
+        '<html><body width="100%">Hi <%= firstName %>.</body></html>',
+        {
+          firstName: newUser.firstName,
+        }
+      );
+
+      client
+        .sendEmail({
+          From: "account@journi.dev",
+          To: newUser.email,
+          Subject: "Set up your Journi account",
+          HtmlBody,
+          MessageStream: "outbound",
+        })
+        .then(() => console.log("Verification email successfully sent."))
+        .catch((err) => console.error("Verification email unsuccessful.", err));
 
       return res.status(201).json({ token });
     })
