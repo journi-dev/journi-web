@@ -18,6 +18,8 @@ import {
 } from "../../../utils/Helpers";
 import { Cancel } from "@mui/icons-material";
 import {
+  setErrors,
+  setIsLoading,
   setIsStep3Complete,
   setLocationCount,
   setOrgName,
@@ -25,18 +27,36 @@ import {
   setSelectedCategories,
 } from "../../../context/features/GetStarted";
 import { useEffect } from "react";
+import axios from "axios";
 
 export const Step3 = ({ disabled }) => {
   const dispatch = useDispatch();
+
   const firstName = useSelector((state) => state.getStarted.firstName);
-  const isLoading = useSelector((state) => state.user.isLoading);
-  const isDark = useSelector((state) => state.appearance.isDark);
+  const lastName = useSelector((state) => state.getStarted.lastName);
+  const phone = useSelector((state) => state.getStarted.phone);
+  const email = useSelector((state) => state.getStarted.email);
+  const jobTitle = useSelector((state) => state.getStarted.jobTitle);
+  const leadSource = useSelector((state) => state.getStarted.leadSource);
+
+  const selectedPlatforms = useSelector(
+    (state) => state.getStarted.selectedPlatforms
+  );
+  const hasApp = useSelector((state) => state.getStarted.hasApp);
+  const hasWeb = useSelector((state) => state.getStarted.hasWeb);
+  const isRequestingMarketing = useSelector(
+    (state) => state.getStarted.isRequestingMarketing
+  );
+
   const orgName = useSelector((state) => state.getStarted.orgName);
   const orgSize = useSelector((state) => state.getStarted.orgSize);
   const selectedCategories = useSelector(
     (state) => state.getStarted.selectedCategories
   );
   const locationCount = useSelector((state) => state.getStarted.locationCount);
+
+  const isLoading = useSelector((state) => state.user.isLoading);
+  const isDark = useSelector((state) => state.appearance.isDark);
 
   const orgSizes = [
     "1-5 employees",
@@ -48,6 +68,37 @@ export const Step3 = ({ disabled }) => {
 
   const isStep3Complete =
     orgName !== "" && orgSize !== "" && selectedCategories.length > 0;
+
+  function handleSubmit() {
+    dispatch(setIsLoading(true));
+    const data = {
+      firstName,
+      lastName,
+      phone,
+      email,
+      jobTitle,
+      leadSource,
+      selectedPlatforms,
+      hasApp,
+      hasWeb,
+      isRequestingMarketing,
+      orgName,
+      orgSize,
+      selectedCategories,
+      locationCount,
+    };
+
+    axios
+      .post("/createLead", data)
+      .then(() => {
+        dispatch(setIsLoading(false));
+      })
+      .catch((err) => {
+        console.error(err);
+        dispatch(setErrors(err.response.data.errors));
+        dispatch(setIsLoading(false));
+      });
+  }
 
   useEffect(() => {
     dispatch(setIsStep3Complete(isStep3Complete));
@@ -217,8 +268,8 @@ export const Step3 = ({ disabled }) => {
               variant={"contained"}
               color={isDark ? "button" : "secondary"}
               disableElevation
-              onClick={() => {}}
-              disabled={!isStep3Complete}
+              onClick={handleSubmit}
+              disabled={isLoading || !isStep3Complete}
               loading={isLoading}
             >
               <Typography variant="buttonText">

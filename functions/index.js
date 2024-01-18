@@ -15,9 +15,9 @@ const {
   markNotificationsRead,
   getUsers,
   updateUser,
-  logInWithGoogle,
   logInWithCredentials,
   createUser,
+  createLead,
 } = require("./handlers/users");
 const handleFirebaseAuth = require("./util/handleFirebaseAuth");
 const { db } = require("./util/admin");
@@ -31,6 +31,9 @@ const {
 } = require("./handlers/menu");
 const { updateHours, getHours, addSpecialHours } = require("./handlers/hours");
 const app = require("express")();
+
+// "Leads" Routes
+app.post("/createLead", createLead);
 
 // "Promotions" Routes
 app.post("/promotion", handleFirebaseAuth, createPromotion);

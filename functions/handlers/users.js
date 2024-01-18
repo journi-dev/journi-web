@@ -107,6 +107,98 @@ exports.logInWithCredentials = (req, res) => {
     });
 };
 
+exports.createLead = (req, res) => {
+  const newLead = {
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    phone: req.body.phone,
+    email: req.body.email,
+    jobTitle: req.body.jobTitle,
+    leadSource: req.body.leadSource,
+    selectedPlatforms: req.body.selectedPlatforms,
+    hasApp: req.body.hasApp,
+    hasWeb: req.body.hasWeb,
+    isRequestingMarketing: req.body.isRequestingMarketing,
+    orgName: req.body.orgName,
+    orgSize: req.body.orgSize,
+    selectedCategories: req.body.selectedCategories,
+    locationCount: req.body.locationCount,
+  };
+
+  db.doc(`/organizations/uncle-johns/leads/${newLead.email}`)
+    .get()
+    .then(async (doc) => {
+      if (doc.exists) {
+        // The lead is already in the system.
+        return res.status(400).json({
+          message: "This lead is already in the system.",
+        });
+      } else {
+        const client = new postmark.ServerClient(
+          "43939236-dc23-4859-b2b2-9a8ff052237a"
+        );
+        const dirUrl = `${__dirname}/emails/leadEmail.ejs`;
+        const data = {
+          firstName: newLead.firstName,
+          orgName: newLead.orgName,
+          selectedPlatforms: newLead.selectedPlatforms
+            .join(" and ")
+            .toLowerCase(),
+        };
+
+        const HtmlBody = await ejs
+          .renderFile(dirUrl, data)
+          .then((output) => output);
+        console.log(HtmlBody);
+
+        client
+          .sendEmail({
+            From: "hello@journi.dev",
+            To: newLead.email,
+            Subject: `A(n) ${newLead.selectedPlatforms
+              .join(" and ")
+              .toLowerCase()} just for ${newLead.orgName}`,
+            HtmlBody,
+            MessageStream: "outbound",
+          })
+          .then(() => console.log("Lead email successfully sent."))
+          .catch((err) => console.error("Lead email unsuccessful.", err));
+
+        const timestamp = new Date();
+        const leadData = {
+          createdAt: timestamp,
+          lastUpdated: timestamp,
+          firstName: newLead.firstName,
+          lastName: newLead.lastName,
+          phone: newLead.phone,
+          email: newLead.email,
+          jobTitle: newLead.jobTitle,
+          leadSource: newLead.leadSource,
+          selectedPlatforms: newLead.selectedPlatforms,
+          hasApp: newLead.hasApp,
+          hasWeb: newLead.hasWeb,
+          isRequestingMarketing: newLead.isRequestingMarketing,
+          orgName: newLead.orgName,
+          orgSize: newLead.orgSize,
+          selectedCategories: newLead.selectedCategories,
+          locationCount: newLead.locationCount,
+        };
+
+        return db
+          .doc(`/organizations/uncle-johns/leads/${newLead.email}`)
+          .set(leadData);
+      }
+    })
+    .then(() => {
+      return res
+        .status(200)
+        .json({ message: "Lead successfully created and emailed." });
+    })
+    .catch((err) => {
+      return res.status(500).json({ message: err.message });
+    });
+};
+
 exports.createUser = (req, res) => {
   const newUser = {
     accessLevel: req.body.accessLevel,
@@ -174,18 +266,17 @@ exports.createUser = (req, res) => {
         newUser.password
       );
     })
-    .then((token) => {
+    .then(async (token) => {
       const client = new postmark.ServerClient(
         "43939236-dc23-4859-b2b2-9a8ff052237a"
       );
+      const dirUrl = `${__dirname}/emails/test.ejs`;
+      const data = { firstName: newUser.firstName };
 
-      const HtmlBody = ejs.render(
-        // "../emails/verifyEmail.ejs",
-        '<html><body width="100%">Hi <%= firstName %>.</body></html>',
-        {
-          firstName: newUser.firstName,
-        }
-      );
+      const HtmlBody = await ejs
+        .renderFile(dirUrl, data)
+        .then((output) => output);
+      console.log(HtmlBody);
 
       client
         .sendEmail({

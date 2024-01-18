@@ -57,6 +57,7 @@ export default function GetStarted() {
   const isStep1Complete = useSelector(
     (state) => state.getStarted.isStep1Complete
   );
+  const isLoading = useSelector((state) => state.getStarted.isLoading);
 
   const isStep2Complete = useSelector(
     (state) => state.getStarted.isStep2Complete
@@ -94,6 +95,7 @@ export default function GetStarted() {
                 onClick={() => {
                   updateStep(step - 1);
                 }}
+                disabled={isLoading}
               >
                 <ChevronLeft fontSize="inherit" />
               </IconButton>
@@ -108,6 +110,7 @@ export default function GetStarted() {
                     scrollToSection(carousel);
                     updateStep(i);
                   }}
+                  disabled={isLoading}
                 >
                   <Box
                     sx={{
@@ -140,13 +143,14 @@ export default function GetStarted() {
                   }
                 }}
                 disabled={
-                  step === 0
+                  isLoading ||
+                  (step === 0
                     ? !isStep1Complete
                     : step === 1
                     ? !isStep1Complete || !isStep2Complete
                     : step === 2
                     ? !isStep1Complete || !isStep2Complete || !isStep3Complete
-                    : false
+                    : false)
                 }
               >
                 <ChevronRight fontSize="inherit" />

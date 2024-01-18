@@ -1,6 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  isLoading: false,
+  errors: {},
+  // -------------------- //
   firstName: null,
   lastName: null,
   phone: "+1",
@@ -30,6 +33,13 @@ export const getStartedSlice = createSlice({
     reset: (state) => {
       state = initialState;
     },
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
+    setErrors: (state, action) => {
+      state.errors = action.payload;
+    },
+    // ------------------------------ //
     setFirstName: (state, action) => {
       state.firstName = action.payload;
     },
@@ -89,6 +99,8 @@ export const getStartedSlice = createSlice({
 
 export const {
   reset,
+  setIsLoading,
+  setErrors,
   setFirstName,
   setLastName,
   setPhone,
