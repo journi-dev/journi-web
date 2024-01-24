@@ -15,6 +15,7 @@ import {
   businessCategories,
   findIndex,
   updateArray,
+  usdWholeDollarFormatter,
 } from "../../../utils/Helpers";
 import { Cancel } from "@mui/icons-material";
 import {
@@ -28,8 +29,10 @@ import {
 } from "../../../context/features/GetStarted";
 import { useEffect } from "react";
 import axios from "axios";
+import { priceInfo } from "../../../utils/PriceInfo";
+import { format } from "date-fns";
 
-export const Step3 = ({ disabled }) => {
+export const Step3 = ({ disabled, updateStep, nextStep }) => {
   const dispatch = useDispatch();
 
   const firstName = useSelector((state) => state.getStarted.firstName);
@@ -54,6 +57,12 @@ export const Step3 = ({ disabled }) => {
     (state) => state.getStarted.selectedCategories
   );
   const locationCount = useSelector((state) => state.getStarted.locationCount);
+  const plan =
+    isRequestingMarketing === "Yes"
+      ? "Max"
+      : selectedPlatforms.indexOf("App") > -1
+      ? "Plus"
+      : "Base";
 
   const isLoading = useSelector((state) => state.user.isLoading);
   const isDark = useSelector((state) => state.appearance.isDark);
@@ -71,6 +80,22 @@ export const Step3 = ({ disabled }) => {
 
   function handleSubmit() {
     dispatch(setIsLoading(true));
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const endOfThisMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      0
+    );
+    const endOfNextMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      0
+    );
+    const msToDays = (num) => num / (1000 * 60 * 60 * 24);
+    const daysUntilEOM = msToDays(endOfThisMonth - today);
+
     const data = {
       firstName,
       lastName,
@@ -86,12 +111,23 @@ export const Step3 = ({ disabled }) => {
       orgSize,
       selectedCategories,
       locationCount,
+      plan,
+      deadline:
+        daysUntilEOM >= 7
+          ? format(endOfThisMonth, "MMMM d, yyyy")
+          : format(endOfNextMonth, "MMMM d, yyyy"),
+      discountMinMonthlyCharge: priceInfo.get(plan).discountMinMonthlyCharge,
+      discountRate: priceInfo.get(plan).discountRate,
+      standardMinMonthlyCharge: priceInfo.get(plan).standardMinMonthlyCharge,
+      standardRate: priceInfo.get(plan).standardRate,
+      startupFee: priceInfo.get(plan).startupFee,
     };
 
     axios
       .post("/createLead", data)
       .then(() => {
         dispatch(setIsLoading(false));
+        updateStep(nextStep);
       })
       .catch((err) => {
         console.error(err);

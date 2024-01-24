@@ -33,7 +33,7 @@ export default function GetStarted() {
       height: 300,
     },
     {
-      component: <Step3 disabled={step !== 2} />,
+      component: <Step3 disabled={step !== 2} updateStep={updateStep} nextStep={3} />,
       icon: require("../../assets/images/svg/getting-started-step-3.svg"),
       alt: "",
       height: 600,

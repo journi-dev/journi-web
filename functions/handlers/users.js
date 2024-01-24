@@ -123,6 +123,13 @@ exports.createLead = (req, res) => {
     orgSize: req.body.orgSize,
     selectedCategories: req.body.selectedCategories,
     locationCount: req.body.locationCount,
+    plan: req.body.plan,
+    deadline: req.body.deadline,
+    discountMinMonthlyCharge: req.body.discountMinMonthlyCharge,
+    discountRate: req.body.discountRate,
+    standardMinMonthlyCharge: req.body.standardMinMonthlyCharge,
+    standardRate: req.body.standardRate,
+    startupFee: req.body.startupFee,
   };
 
   db.doc(`/organizations/uncle-johns/leads/${newLead.email}`)
@@ -138,12 +145,20 @@ exports.createLead = (req, res) => {
           "43939236-dc23-4859-b2b2-9a8ff052237a"
         );
         const dirUrl = `${__dirname}/emails/leadEmail.ejs`;
+        const selectedPlatformsStr = newLead.selectedPlatforms
+          .join(" and ")
+          .toLowerCase();
         const data = {
           firstName: newLead.firstName,
           orgName: newLead.orgName,
-          selectedPlatforms: newLead.selectedPlatforms
-            .join(" and ")
-            .toLowerCase(),
+          selectedPlatforms: selectedPlatformsStr,
+          plan: newLead.plan,
+          deadline: newLead.deadline,
+          discountMinMonthlyCharge: newLead.discountMinMonthlyCharge,
+          discountRate: newLead.discountRate,
+          standardMinMonthlyCharge: newLead.standardMinMonthlyCharge,
+          standardRate: newLead.standardRate,
+          startupFee: newLead.startupFee,
         };
 
         const HtmlBody = await ejs
@@ -155,9 +170,15 @@ exports.createLead = (req, res) => {
           .sendEmail({
             From: "hello@journi.dev",
             To: newLead.email,
-            Subject: `A(n) ${newLead.selectedPlatforms
-              .join(" and ")
-              .toLowerCase()} just for ${newLead.orgName}`,
+            Subject: `A${
+              selectedPlatformsStr[0] === "a" ||
+              selectedPlatformsStr[0] === "e" ||
+              selectedPlatformsStr[0] === "i" ||
+              selectedPlatformsStr[0] === "o" ||
+              selectedPlatformsStr[0] === "u"
+                ? "n"
+                : ""
+            } ${selectedPlatformsStr} just for ${newLead.orgName}`,
             HtmlBody,
             MessageStream: "outbound",
           })

@@ -293,6 +293,20 @@ export const usdWholeDollarFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 0,
 });
 
+export const percentFormatter = (num) => {
+  Number(num).toLocaleString(undefined, {
+    style: "percent",
+    minimumFractionDigits: 2,
+  });
+};
+
+export const wholePercentFormatter = (num) => {
+  Number(num).toLocaleString(undefined, {
+    style: "percent",
+    minimumFractionDigits: 0,
+  });
+};
+
 export const modalStyle = {
   position: "absolute",
   top: "50%",
