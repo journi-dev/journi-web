@@ -59,11 +59,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { addDoc, collection } from "firebase/firestore";
 import { auth, db } from "../../../utils/Firebase";
-import {
-  updateArray,
-  usdFormatter,
-  usdWholeDollarFormatter,
-} from "../../../utils/Helpers";
+import { formatUSD, updateArray } from "../../../utils/Helpers";
 
 const useStyles = makeStyles()((theme) => {
   return {
@@ -247,11 +243,9 @@ export default function NewPromo({ onSubmit, onClose }) {
       `Get ${
         discountType === "discount"
           ? (discountUnit === "dollar"
-              ? Number.isInteger(Number(discountAmt))
-                ? usdWholeDollarFormatter.format(Number(discountAmt))
-                : usdFormatter.format(discountAmt)
+              ? formatUSD(discountAmt)
               : discountAmt + "%") + " off your order"
-          : "the entire order for " + usdFormatter.format(discountAmt)
+          : "the entire order for " + formatUSD(discountAmt)
       }${promoCode.length >= 3 ? " with the promo code " + promoCode : ""}!`
     );
   };

@@ -130,6 +130,7 @@ exports.createLead = (req, res) => {
     standardMinMonthlyCharge: req.body.standardMinMonthlyCharge,
     standardRate: req.body.standardRate,
     startupFee: req.body.startupFee,
+    features: req.body.features,
   };
 
   db.doc(`/organizations/uncle-johns/leads/${newLead.email}`)
@@ -159,6 +160,7 @@ exports.createLead = (req, res) => {
           standardMinMonthlyCharge: newLead.standardMinMonthlyCharge,
           standardRate: newLead.standardRate,
           startupFee: newLead.startupFee,
+          features: newLead.features,
         };
 
         const HtmlBody = await ejs
@@ -178,7 +180,7 @@ exports.createLead = (req, res) => {
               selectedPlatformsStr[0] === "u"
                 ? "n"
                 : ""
-            } ${selectedPlatformsStr} just for ${newLead.orgName}`,
+            } ${selectedPlatformsStr} just for ${newLead.orgName} 🧑‍💻`,
             HtmlBody,
             MessageStream: "outbound",
           })

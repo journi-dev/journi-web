@@ -14,8 +14,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   businessCategories,
   findIndex,
+  formatPercentage,
+  formatUSD,
   updateArray,
-  usdWholeDollarFormatter,
 } from "../../../utils/Helpers";
 import { Cancel } from "@mui/icons-material";
 import {
@@ -116,11 +117,16 @@ export const Step3 = ({ disabled, updateStep, nextStep }) => {
         daysUntilEOM >= 7
           ? format(endOfThisMonth, "MMMM d, yyyy")
           : format(endOfNextMonth, "MMMM d, yyyy"),
-      discountMinMonthlyCharge: priceInfo.get(plan).discountMinMonthlyCharge,
-      discountRate: priceInfo.get(plan).discountRate,
-      standardMinMonthlyCharge: priceInfo.get(plan).standardMinMonthlyCharge,
-      standardRate: priceInfo.get(plan).standardRate,
-      startupFee: priceInfo.get(plan).startupFee,
+      discountMinMonthlyCharge: formatUSD(
+        priceInfo.get(plan).discountMinMonthlyCharge
+      ),
+      discountRate: formatPercentage(priceInfo.get(plan).discountRate),
+      standardMinMonthlyCharge: formatUSD(
+        priceInfo.get(plan).standardMinMonthlyCharge
+      ),
+      standardRate: formatPercentage(priceInfo.get(plan).standardRate),
+      startupFee: formatUSD(priceInfo.get(plan).startupFee),
+      features: priceInfo.get(plan).features,
     };
 
     axios

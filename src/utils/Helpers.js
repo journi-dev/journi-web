@@ -282,30 +282,20 @@ export function findIndex(arr, key, value) {
   return -1;
 }
 
-export const usdFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
+export function formatUSD(num) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: Number.isInteger(num) ? 0 : 2,
+  }).format(num);
+}
 
-export const usdWholeDollarFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-  maximumFractionDigits: 0,
-});
-
-export const percentFormatter = (num) => {
-  Number(num).toLocaleString(undefined, {
+export function formatPercentage(num) {
+  return new Intl.NumberFormat("default", {
     style: "percent",
-    minimumFractionDigits: 2,
-  });
-};
-
-export const wholePercentFormatter = (num) => {
-  Number(num).toLocaleString(undefined, {
-    style: "percent",
-    minimumFractionDigits: 0,
-  });
-};
+    maximumFractionDigits: Number.isInteger(num) ? 0 : 2,
+  }).format(num / 100);
+}
 
 export const modalStyle = {
   position: "absolute",

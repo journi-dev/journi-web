@@ -1,7 +1,10 @@
 <html>
 
 <body width="100%">
-    <p>Hi <%=firstName%>,</p>
+    <span class="preheader"
+        style="display: none !important; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">Get started with Journi today.</span>
+
+    <p>Hi <%= firstName %>,</p>
     <p>
         I’m Jamal, the owner and founder of Journi, and it’s a pleasure to be speaking with you! Thanks for your
         interest in our services.
@@ -17,42 +20,57 @@
         Here at Journi, we create fully customizable, production-grade apps and websites for small, minority-owned
         businesses along with platform analytics and business metrics. You handle the content. We take care of the
         code.
-        When you work with us, we will create the exact platform you want for <%=orgName%> down to the pixel. To
+        When you work with us, we will create the exact platform you want for <%= orgName %> down to the pixel. To
             learn
             more about what we do and how we can help, click here.
     </p>
-    <h3>… and here’s how we can help <%=orgName%>.</h3>
+    <h3>… and here’s how we can help <%= orgName %>.</h3>
     <p>
-        Since you’re interested in Journi creating a(n) <%=selectedPlatforms%> for <%=orgName%>, let’s map out the next
-                steps.
-                <ol>
-                    <li>Demo and walkthrough</li>
-                    <li>Price and plan review</li>
-                    <li>
-                        <%=selectedPlatforms%> design with our development team
-                    </li>
-                    <li>
-                        <%=selectedPlatforms%> development
-                    </li>
-                    <li>Product launch</li>
-                </ol>
+        Since you’re interested in Journi creating a<%= selectedPlatforms[0]==="a" || selectedPlatforms[0]==="e" ||
+            selectedPlatforms[0]==="i" || selectedPlatforms[0]==="o" || selectedPlatforms[0]==="u" ? "n" : "" %>
+            <%= selectedPlatforms %> for <%= orgName %>, let’s map out the
+                    next
+                    steps.
+                    <ol>
+                        <li>Demo and walkthrough</li>
+                        <li>Price and plan review</li>
+                        <li>
+                            <%= selectedPlatforms %> design with our development team
+                        </li>
+                        <li>
+                            <%= selectedPlatforms %> development
+                        </li>
+                        <li>Product launch</li>
+                    </ol>
     </p>
 
     <h3>Let’s talk pricing.</h3>
     <p>
-        Based on your information, we think the <a href="https://journi.dev/pricing"><%=plan%> plan</a> would be the best. Here are the top features covered in your
+        Based on your information, we think the <a href="https://journi.dev/pricing">
+            <%= plan %> plan
+        </a> would be the best. Here are the top features covered in your
         plan:
     </p>
-    <p>INSERT_PLAN_FEATURES</p>
+    <ul>
+        <% for (let i=0; i < features.length; i++) { %>
+            <li>
+                <%= features[i] %>
+            </li>
+            <% } %>
+    </ul>
     <p>
-        A startup fee of <%=startupFee%> covers platform development and production release. We’ll code your
-            <%=selectedPlatforms%>, connect it to your domain, and upload your app to their respective app stores.
+        A startup fee of <%= startupFee %> covers platform development and production release. We’ll code your
+            <%= selectedPlatforms %>, connect it to your domain, and upload your app to their respective app stores.
     </p>
     <p>
-        Once your <%=selectedPlatforms%> <%=selectedPlatforms.indexOf(" and ") > -1 ? "are" : "is"%> live, we take <%=standardRate%> of <%=selectedPlatforms%> transactions
-                    (with a minimum monthly charge of $<%=standardMinMonthlyCharge%>). But if you sign up by
-                        <%=deadline%>, the first 6 months will be <%=discountRate%> (with a minimum monthly charge of
-                                <%=discountMinMonthlyCharge%>)!
+        Once your <%= selectedPlatforms %>
+            <%= selectedPlatforms.indexOf(" and ") > -1 ? " are" : "is" %> live, we take <%= standardRate %> of
+                    <%= selectedPlatforms %> transactions
+                        (with a minimum monthly charge of <%= standardMinMonthlyCharge %>). But if you sign up by
+                            <%= deadline %>, the first 6 months will be <%= discountRate %> (with a minimum monthly
+                                    charge
+                                    of
+                                    <%= discountMinMonthlyCharge %>)!
     </p>
 
     <p>
@@ -61,7 +79,15 @@
         We handle the platform to ensure you can spend your time doing what you do best — running your business!
     </p>
 
-    <p>Sincerely,</p><br />
+    <h3>Any questions?</h3>
+    <p>Let’s schedule a demo some time this or next week. We can schedule a time as early as later today, and you can
+        schedule a demo by clicking here.</p>
+    <p>For any other questions or concerns, don’t hesitate to reply to this email or give us a call! We are available
+        Monday-Friday from 9 AM - 6 PM. Thanks for your time and interest, and I look forward to connecting with you
+        soon!</p>
+
+    <br />
+    <p>Sincerely,</p>
     <p>Jamal, Owner</p>
     <p>Journi</p>
 </body>

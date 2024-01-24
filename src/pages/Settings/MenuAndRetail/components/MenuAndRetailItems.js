@@ -24,7 +24,7 @@ import axios from "axios";
 import { useState } from "react";
 import Masonry from "react-masonry-css";
 import ErrorPlaceholder from "../../../../components/placeholders/ErrorPlaceholder";
-import { updateArray, usdFormatter } from "../../../../utils/Helpers";
+import { formatUSD, updateArray } from "../../../../utils/Helpers";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setActiveCategory,
@@ -380,7 +380,7 @@ export default function MenuAndRetailItems() {
                                 {menuItem.size1Price > 0 && (
                                   <Box sx={{ textAlign: "center", ml: 3 }}>
                                     <Typography fontSize={14}>
-                                      {usdFormatter.format(menuItem.size1Price)}
+                                      {formatUSD(menuItem.size1Price)}
                                     </Typography>
                                     <Typography variant="caption">
                                       Small
@@ -391,7 +391,7 @@ export default function MenuAndRetailItems() {
                                 {menuItem.size2Price > 0 && (
                                   <Box sx={{ textAlign: "center", ml: 3 }}>
                                     <Typography fontSize={14}>
-                                      {usdFormatter.format(menuItem.size2Price)}
+                                      {formatUSD(menuItem.size2Price)}
                                     </Typography>
                                     <Typography variant="caption">
                                       Medium
@@ -402,7 +402,7 @@ export default function MenuAndRetailItems() {
                                 {menuItem.size3Price > 0 && (
                                   <Box sx={{ textAlign: "center", ml: 3 }}>
                                     <Typography fontSize={14}>
-                                      {usdFormatter.format(menuItem.size3Price)}
+                                      {formatUSD(menuItem.size3Price)}
                                     </Typography>
                                     <Typography variant="caption">
                                       Large
@@ -413,7 +413,7 @@ export default function MenuAndRetailItems() {
                                 {menuItem.size4Price > 0 && (
                                   <Box sx={{ textAlign: "center", ml: 3 }}>
                                     <Typography fontSize={14}>
-                                      {usdFormatter.format(menuItem.size4Price)}
+                                      {formatUSD(menuItem.size4Price)}
                                     </Typography>
                                     <Typography variant="caption">
                                       Jumbo
@@ -425,7 +425,7 @@ export default function MenuAndRetailItems() {
 
                             {menuItem.singleSizePrice > 0 && (
                               <Typography fontSize={14}>
-                                {usdFormatter.format(menuItem.singleSizePrice)}
+                                {formatUSD(menuItem.singleSizePrice)}
                               </Typography>
                             )}
                           </Box>
