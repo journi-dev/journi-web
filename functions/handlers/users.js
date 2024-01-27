@@ -222,6 +222,40 @@ exports.createLead = (req, res) => {
     });
 };
 
+exports.getLeads = (req, res) => {
+  db.collection("organizations/uncle-johns/leads")
+    .orderBy("createdAt", "desc")
+    .get()
+    .then((data) => {
+      const leads = [];
+      data.forEach((doc) => {
+        leads.push({
+          id: doc.id,
+          createdAt: doc.data().createdAt,
+          email: doc.data().email,
+          firstName: doc.data().firstName,
+          hasApp: doc.data().hasApp,
+          hasWeb: doc.data().hasWeb,
+          isRequestingMarketing: doc.data().isRequestingMarketing,
+          jobTitle: doc.data().jobTitle,
+          lastName: doc.data().lastName,
+          lastUpdated: doc.data().lastUpdated,
+          leadSource: doc.data().leadSource,
+          locationCount: doc.data().locationCount,
+          orgName: doc.data().orgName,
+          orgSize: doc.data().orgSize,
+          phone: doc.data().phone,
+          selectedCategories: doc.data().selectedCategories,
+          selectedPlatforms: doc.data().selectedPlatforms,
+        });
+      });
+      return res.json(leads);
+    })
+    .catch((err) => {
+      return res.status(500).json({ code: err.code });
+    });
+};
+
 exports.createUser = (req, res) => {
   const newUser = {
     accessLevel: req.body.accessLevel,

@@ -18,6 +18,7 @@ const {
   logInWithCredentials,
   createUser,
   createLead,
+  getLeads,
 } = require("./handlers/users");
 const handleFirebaseAuth = require("./util/handleFirebaseAuth");
 const { db } = require("./util/admin");
@@ -34,6 +35,7 @@ const app = require("express")();
 
 // "Leads" Routes
 app.post("/createLead", createLead);
+app.get("/leads", getLeads);
 
 // "Promotions" Routes
 app.post("/promotion", handleFirebaseAuth, createPromotion);

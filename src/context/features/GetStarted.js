@@ -4,11 +4,11 @@ const initialState = {
   isLoading: false,
   errors: {},
   // -------------------- //
-  firstName: null,
-  lastName: null,
+  firstName: "",
+  lastName: "",
   phone: "+1",
   email: "",
-  jobTitle: null,
+  jobTitle: "",
   leadSource: "",
   // -------------------- //
   selectedPlatforms: [],

@@ -58,11 +58,11 @@ export const Step1 = ({ disabled }) => {
     const checkCredentials = () => {
       setLoadEmails(true);
 
-      axios.get("/users").then((res) => {
-        const takenUsers = [];
-        for (const obj of res.data) takenUsers.push(obj["email"]);
+      axios.get("/leads").then((res) => {
+        const takenEmails = [];
+        for (const obj of res.data) takenEmails.push(obj["email"]);
         setLoadEmails(false);
-        setIsValidEmail(takenUsers.indexOf(email) === -1 && isEmail(email));
+        setIsValidEmail(takenEmails.indexOf(email) === -1 && isEmail(email));
       });
     };
 
