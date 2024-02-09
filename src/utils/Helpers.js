@@ -20,6 +20,7 @@ import {
   SportsBar,
   WineBar,
 } from "@mui/icons-material";
+import { SUBDOMAINS } from "./Subdomains";
 
 /**
  *
@@ -295,6 +296,21 @@ export function formatPercentage(num) {
     style: "percent",
     maximumFractionDigits: Number.isInteger(num) ? 0 : 2,
   }).format(num / 100);
+}
+
+export function getSubdomain() {
+  return window.location.hostname.split(".")[0];
+}
+
+export function getApp() {
+  const subdomain = getSubdomain();
+  if (
+    subdomain === "localhost" ||
+    subdomain === "journi" ||
+    !SUBDOMAINS.has(subdomain)
+  ) {
+    return SUBDOMAINS.get("default").app;
+  } else return SUBDOMAINS.get(subdomain).app;
 }
 
 export const modalStyle = {

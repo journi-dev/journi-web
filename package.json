@@ -49,6 +49,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -71,6 +72,7 @@
   },
   "proxy": "https://us-central1-journi-dev.cloudfunctions.net/api",
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "webpack": "^5.90.0"
   }
 }
