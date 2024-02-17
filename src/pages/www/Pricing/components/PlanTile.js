@@ -12,10 +12,10 @@ import {
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { CustomButton } from "../../../components/ui/CustomComponents";
+import { CustomButton } from "../../../../components/ui/CustomComponents";
 import { green } from "@mui/material/colors";
 
-export const PlanTile = ({ svgArr, index }) => {
+const PlanTile = ({ svgArr, index, plan }) => {
   const navigate = useNavigate();
   const isDark = useSelector((state) => state.appearance.isDark);
   const { t } = useTranslation();
@@ -53,51 +53,36 @@ export const PlanTile = ({ svgArr, index }) => {
 
         {/* Name & Description */}
         <Box className="flex-col">
-          <Typography variant="h4">Plus</Typography>
-          <Typography variant="caption">
-            All the basics, plus a little more. Expand your patron base with
-            higher discoverability and more digital mediums.
-          </Typography>
+          <Typography variant="h4">{plan.name}</Typography>
+          <Typography variant="caption">{plan.description}</Typography>
         </Box>
 
         <Typography variant="subtitle1">What you pay...</Typography>
         <Paper variant="outlined">
           <Box className="flex-row-even" textAlign={"center"}>
             <Box className="flex-col" width={"40%"}>
-              <Typography variant="h6">$750</Typography>
+              <Typography variant="h6">${plan.startupFee}</Typography>
               <Typography>setup fee</Typography>
             </Box>
             <Divider orientation="vertical" variant="middle" flexItem />
             <Box className="flex-col" width={"40%"}>
-              <Typography variant="h6">5% fee</Typography>
-              <Typography>on app & web orders</Typography>
+              <Typography variant="h6">{plan.standardRate}% fee</Typography>
+              <Typography>on {plan.feeCoverage}</Typography>
             </Box>
           </Box>
         </Paper>
 
-        <Typography variant="subtitle1">What you also get...</Typography>
+        <Typography variant="subtitle1">What you get...</Typography>
 
         <List dense={true}>
-          <ListItem disablePadding>
-            <ListItemIcon>
-              <Check />
-            </ListItemIcon>
-            <ListItemText primary="A custom-built, companion iOS and Android app, also with full content customization." />
-          </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemIcon>
-              <Check />
-            </ListItemIcon>
-            <ListItemText primary="Integrations with other business and social media platforms to manage your business storefront and social presence, all from one place." />
-          </ListItem>
-
-          <ListItem disablePadding>
-            <ListItemIcon>
-              <Check />
-            </ListItemIcon>
-            <ListItemText primary="Support for both your team and your patrons during your business hours." />
-          </ListItem>
+          {plan.features.map((listItem) => (
+            <ListItem disablePadding>
+              <ListItemIcon>
+                <Check />
+              </ListItemIcon>
+              <ListItemText primary={listItem} />
+            </ListItem>
+          ))}
         </List>
       </Box>
 
@@ -119,7 +104,12 @@ export const PlanTile = ({ svgArr, index }) => {
   );
 };
 
-export const PlanTileWithBanner = ({ svgArr, index = 1 }) => {
+export const PlanTileWithBanner = ({
+  svgArr,
+  index,
+  plan,
+  isBannerShowing,
+}) => {
   return (
     <Paper
       variant="outlined"
@@ -128,23 +118,25 @@ export const PlanTileWithBanner = ({ svgArr, index = 1 }) => {
         width: "30%",
         borderRadius: 3,
         overflow: "hidden",
-        borderColor: green["A400"],
+        borderColor: isBannerShowing ? green["A400"] : "",
       }}
     >
       {/* Most popular */}
-      <Box sx={{ bgcolor: green["A400"], height: "40px" }}>
-        <Typography
-          variant="subtitle1"
-          sx={{
-            py: 1,
-            textAlign: "center",
-            color: "black",
-          }}
-        >
-          Most popular
-        </Typography>
-      </Box>
-      <PlusPlan svgArr={svgArr} index={index} />
+      {isBannerShowing && (
+        <Box sx={{ bgcolor: green["A400"], height: "40px" }}>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              py: 1,
+              textAlign: "center",
+              color: "black",
+            }}
+          >
+            Most popular
+          </Typography>
+        </Box>
+      )}
+      <PlanTile svgArr={svgArr} index={index} plan={plan} />
     </Paper>
   );
 };

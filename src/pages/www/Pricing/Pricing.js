@@ -1,8 +1,7 @@
 import { JourniTabTitle } from "../../../utils/JourniTabTitle";
 import { Box, Typography } from "@mui/material";
-import { BasePlan } from "./components/BasePlan";
-import { PlusPlanWithBanner } from "./components/PlusPlan";
-import { MaxPlan } from "./components/MaxPlan";
+import { PRICE_INFO } from "../../../utils/PriceInfo";
+import { PlanTileWithBanner } from "./components/PlanTile";
 
 export default function Pricing() {
   JourniTabTitle("Pricing");
@@ -27,9 +26,14 @@ export default function Pricing() {
       </Typography>
 
       <Box className="flex-row-even" alignItems={"flex-end"}>
-        <BasePlan svgArr={svgArr} index={0} />
-        <PlusPlanWithBanner svgArr={svgArr} />
-        <MaxPlan svgArr={svgArr} index={2} />
+        {PRICE_INFO.map((plan, i) => (
+          <PlanTileWithBanner
+            svgArr={svgArr}
+            index={i}
+            plan={plan}
+            isBannerShowing={plan.isFeatured}
+          />
+        ))}
       </Box>
     </Box>
   );

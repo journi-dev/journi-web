@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Step4 } from "./components/Step4";
 import { format } from "date-fns";
 import { formatPercentage, formatUSD } from "../../../utils/Helpers";
-import { priceInfo } from "../../../utils/PriceInfo";
+import { PRICE_INFO } from "../../../utils/PriceInfo";
 import axios from "axios";
 import { setErrors, setIsLoading } from "../../../context/features/GetStarted";
 
@@ -148,15 +148,15 @@ export default function GetStarted() {
           ? format(endOfThisMonth, "MMMM d, yyyy")
           : format(endOfNextMonth, "MMMM d, yyyy"),
       discountMinMonthlyCharge: formatUSD(
-        priceInfo.get(plan).discountMinMonthlyCharge
+        PRICE_INFO.get(plan).discountMinMonthlyCharge
       ),
-      discountRate: formatPercentage(priceInfo.get(plan).discountRate),
+      discountRate: formatPercentage(PRICE_INFO.get(plan).discountRate),
       standardMinMonthlyCharge: formatUSD(
-        priceInfo.get(plan).standardMinMonthlyCharge
+        PRICE_INFO.get(plan).standardMinMonthlyCharge
       ),
-      standardRate: formatPercentage(priceInfo.get(plan).standardRate),
-      startupFee: formatUSD(priceInfo.get(plan).startupFee),
-      features: priceInfo.get(plan).features,
+      standardRate: formatPercentage(PRICE_INFO.get(plan).standardRate),
+      startupFee: formatUSD(PRICE_INFO.get(plan).startupFee),
+      features: PRICE_INFO.get(plan).features,
     };
 
     axios
