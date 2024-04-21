@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { CustomButton } from "../../../../components/ui/CustomComponents";
 import { green } from "@mui/material/colors";
+import { motion } from "framer-motion";
 
 const PlanTile = ({ svgArr, index, plan }) => {
   const navigate = useNavigate();
@@ -91,14 +92,16 @@ const PlanTile = ({ svgArr, index, plan }) => {
         className="flex-row"
         sx={{ width: "100%", justifyContent: "center", mb: 3 }}
       >
-        <CustomButton
-          variant={"contained"}
-          color={isDark ? "button" : "secondary"}
-          disableElevation
-          onClick={() => navigate("/getting-started")}
-        >
-          <Typography variant="buttonText">{t("getStarted")}</Typography>
-        </CustomButton>
+        <motion.div whileHover={{ scale: 1.2 }}>
+          <CustomButton
+            variant={"contained"}
+            color={isDark ? "button" : "secondary"}
+            disableElevation
+            onClick={() => navigate("/getting-started")}
+          >
+            <Typography variant="buttonText">{t("getStarted")}</Typography>
+          </CustomButton>
+        </motion.div>
       </Box>
     </Box>
   );
